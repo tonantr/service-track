@@ -1,11 +1,12 @@
 from app.admin_menu_handler import AdminMenuHandler
 from app.login_module import LoginModule
 from app.menu import Menu
+from app.file_handler import FileHandler
 
 
 class ConsoleApp:
     def __init__(self):
-        self.login_module = LoginModule()
+        self.login_module = LoginModule(FileHandler())
         self.admin_menu_handler = AdminMenuHandler(self.login_module)
 
     def run(self):
