@@ -23,9 +23,11 @@ class AdminMenuHandler:
         print('-' * 30)
 
         for username, password in self.login_module.users.items():
-            print(f"{username:<15} {'*' * len(password):<15}")
+            print(f"{username:<15} {password:<15}")
         
         print()
+
+        input("\nPress Enter to go back to the Menu.\n")
     
     def handle_exit(self):
         confirm_exit = input('Are you sure? (y/n): ').strip().lower()
