@@ -9,9 +9,9 @@ class ConsoleApp:
     def __init__(self):
         # self.login_module = LoginModule(FileHandler())
         self.db_handler = DatabaseHandler(
-            host="localhost", 
+            host="192.168.2.234", 
             user="root", 
-            password="12345678", 
+            password="P@ssw0rd123", 
             database="service_track"
         )
         self.login_module = LoginModule(self.db_handler)
