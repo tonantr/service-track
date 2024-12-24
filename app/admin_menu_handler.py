@@ -21,8 +21,8 @@ class AdminMenuHandler:
         print(f"{'Username':<15} {'Password':<15}")
         print("-" * 30)
 
-        for username, password in self.login_module.users.items():
-            print(f"{username:<15} {password:<15}")
+        for username, _ in self.login_module.users.items():
+            print(f"{username:<15} {"********":<15}")
 
         print()
 

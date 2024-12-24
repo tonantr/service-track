@@ -1,12 +1,20 @@
 from app.admin_menu_handler import AdminMenuHandler
+from app.database_handler import DatabaseHandler
 from app.login_module import LoginModule
 from app.menu import Menu
-from app.file_handler import FileHandler
+# from app.file_handler import FileHandler
 
 
 class ConsoleApp:
     def __init__(self):
-        self.login_module = LoginModule(FileHandler())
+        # self.login_module = LoginModule(FileHandler())
+        self.db_handler = DatabaseHandler(
+            host="localhost", 
+            user="root", 
+            password="12345678", 
+            database="service_track"
+        )
+        self.login_module = LoginModule(self.db_handler)
         self.admin_menu_handler = AdminMenuHandler(self.login_module)
 
     def run(self):

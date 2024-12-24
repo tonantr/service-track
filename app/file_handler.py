@@ -20,3 +20,4 @@ class FileHandler:
     def save_users(self, users):
         with open(self.filepath, "w") as f:
             json.dump(users, f, indent=4)
+
