@@ -1,0 +1,14 @@
+{
+    "windows": {
+        "host": "192.168.2.16",
+        "user": "root",
+        "password": "P@ssw0rd123",
+        "database": "service_track"
+    },
+    "macos": {
+        "host": "192.168.2.234",
+        "user": "root",
+        "password": "P@ssw0rd123",
+        "database": "service_track"
+    }
+}

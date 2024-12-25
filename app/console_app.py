@@ -1,3 +1,4 @@
+import json
 from app.admin_menu_handler import AdminMenuHandler
 from app.database_handler import DatabaseHandler
 from app.login_module import LoginModule
@@ -6,13 +7,20 @@ from app.menu import Menu
 
 
 class ConsoleApp:
-    def __init__(self):
+    def __init__(self, target_server="windows", config_path="app/config.json"):
+        with open(config_path, "r") as file:
+            self.config = json.load(file)
+        
+        if target_server not in self.config:
+            raise ValueError("Invalid target server.")
+        db_config = self.config[target_server]
+
         # self.login_module = LoginModule(FileHandler())
         self.db_handler = DatabaseHandler(
-            host="192.168.2.234", 
-            user="root", 
-            password="P@ssw0rd123", 
-            database="service_track"
+            host=db_config["host"], 
+            user=db_config["user"], 
+            password=db_config["password"], 
+            database=db_config["database"]
         )
         self.login_module = LoginModule(self.db_handler)
         self.admin_menu_handler = AdminMenuHandler(self.login_module)
