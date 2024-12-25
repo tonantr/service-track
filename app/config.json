@@ -10,11 +10,5 @@
         "user": "root",
         "password": "P@ssw0rd123",
         "database": "service_track"
-    },
-    "localhost": {
-        "host": "localhost",
-        "user": "root",
-        "password": "P@ssw0rd123",
-        "database": "service_track"
     }
 }
