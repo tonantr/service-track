@@ -3,6 +3,11 @@ class AdminMenuHandler:
         self.login_module = login_module
 
     def handle_add_user(self):
+        cancel = input("\nAdd new user? (y/n): ").strip().lower()
+        if cancel == "n":
+            self.handle_list_users()
+            return
+        
         username = input("\nEnter new username: ").strip()
         password = input("Enter new password: ").strip()
 

@@ -7,7 +7,7 @@ from app.menu import Menu
 
 
 class ConsoleApp:
-    def __init__(self, target_server="windows", config_path="app/config.json"):
+    def __init__(self, target_server="macos", config_path="config.json"):
         with open(config_path, "r") as file:
             self.config = json.load(file)
         
