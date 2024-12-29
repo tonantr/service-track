@@ -17,7 +17,14 @@ class DatabaseHandler:
     def load_users(self):
         query = "SELECT * FROM users"
         self.cursor.execute(query)
-        return {row["username"]: row["password"] for row in self.cursor.fetchall()}
+        return {
+            row["username"]: {
+                "email": row["email"],
+                "password": row["password"],
+                "role": row["role"]
+        }
+        for row in self.cursor.fetchall()
+        }
 
     def save_users(self, username, password):
         try:

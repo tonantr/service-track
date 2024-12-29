@@ -18,20 +18,15 @@ class LoginModule:
     #     self.users[username] = password
     #     self.file_handler.save_users(self.users)
 
-    def add_user(self, username, password):
+    def add_user(self, username, password, email, role):
         hashed_password = hash_password(password)
-        self.db_handler.save_users(username, hashed_password)
+        self.db_handler.save_users(username, hashed_password, email, role)
         self.users = self.db_handler.load_users()
 
     def authenticate(self, username, password):
-        stored_password = self.users.get(username)
-        if stored_password:
-            if stored_password == password:
-                hashed_password = hash_password(password)
-                self.db_handler.update_password(username, hashed_password)
-                self.users[username] = hashed_password
-                return True
-        
+        user = self.users.get(username)
+        if user:
+            stored_password = user["password"]
             return verify_password(password, stored_password)
         return False
 
