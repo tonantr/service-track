@@ -26,13 +26,13 @@ class DatabaseHandler:
         for row in self.cursor.fetchall()
         }
 
-    def save_users(self, username, password):
+    def save_users(self, username, password, email, role):
         try:
-            query = "INSERT INTO users (username, password) VALUES (%s, %s)"
-            self.cursor.execute(query, (username, password))
+            query = "INSERT INTO users (username, password, email, role) VALUES (%s, %s, %s, %s)"
+            self.cursor.execute(query, (username, password, email, role))
             self.connection.commit()
-        except mysql.connector.IntegrityError:
-            print(f"Error: User {username} already exists.")
+        except mysql.connector.IntegrityError as e:
+            print(f"Error: {str(e)}")
     
     def update_password(self, username, hashed_password):
         query = "UPDATE users SET password = %s WHERE username = %s"

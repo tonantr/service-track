@@ -5,8 +5,7 @@ class AdminMenuHandler:
         self.login_module = login_module
 
     def handle_add_user(self):
-        cancel = input("\nAdd new user? (y/n): ").strip().lower()
-        if cancel == "n":
+        if not Menu.confirm_action("add a new user? (y/n): "):
             self.handle_list_users()
             return
 
@@ -26,7 +25,7 @@ class AdminMenuHandler:
 
         if username in self.login_module.users:
             print(f"Error: username already exists.\n")
-        elif any(user[email] == email for user in self.login_module.users.values()):
+        elif any(user["email"] == email for user in self.login_module.users.values()):
             print(f"Error: email already exists.\n")
         else:
             self.login_module.add_user(username, password, email, role)

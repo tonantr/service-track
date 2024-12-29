@@ -54,11 +54,15 @@ class Menu:
             print("Invalid role number.\n")
             return None
 
-        if role == "1":
+        if role == 1:
             return "admin"
-        elif role == "2":
+        elif role == 2:
             return "user"
         else:
             print("Invalid role number.\n")
             return None
+    
+    @staticmethod
+    def confirm_action(message="Are you sure? (y/n): "):
+        return input(message).strip().lower() == "y"
 
