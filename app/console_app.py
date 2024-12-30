@@ -24,7 +24,7 @@ class ConsoleApp:
             database=db_config["database"],
         )
         self.login_module = LoginModule(self.db_handler)
-        self.admin_menu_handler = AdminMenuHandler(self.login_module)
+        self.admin_menu_handler = AdminMenuHandler(self.db_handler)
 
     def run(self):
         print("*** SERVICE TRACK ***\n")

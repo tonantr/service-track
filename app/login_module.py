@@ -1,5 +1,5 @@
 import getpass
-from app.password_hashing import hash_password, verify_password
+from app.password_hashing import verify_password
 
 
 class LoginModule:
@@ -17,11 +17,6 @@ class LoginModule:
     # def add_user(self, username, password):
     #     self.users[username] = password
     #     self.file_handler.save_users(self.users)
-
-    def add_user(self, username, password, email, role):
-        hashed_password = hash_password(password)
-        self.db_handler.save_users(username, hashed_password, email, role)
-        self.users = self.db_handler.load_users()
 
     def authenticate(self, username, password):
         user = self.users.get(username)

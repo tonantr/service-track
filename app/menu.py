@@ -21,11 +21,11 @@ class Menu:
         print("1. List Users")
         print("2. Logout\n")
         return input("Enter your choice: ")
-    
+
     @staticmethod
     def handle_invalid_input():
         print("Invalid input, please enter a number.\n")
-    
+
     @staticmethod
     def get_username():
         username = input("\nEnter new username: ").strip()
@@ -41,7 +41,7 @@ class Menu:
             print("Error: Email cannot be empty.\n")
             return None
         return email
-    
+
     @staticmethod
     def get_role():
         print("\nSelect role for the new user:")
@@ -61,8 +61,7 @@ class Menu:
         else:
             print("Invalid role number.\n")
             return None
-    
+
     @staticmethod
     def confirm_action(message="Are you sure? (y/n): "):
         return input(message).strip().lower() == "y"
-
