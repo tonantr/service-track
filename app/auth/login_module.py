@@ -1,5 +1,5 @@
 import getpass
-from app.password_hashing import verify_password
+from app.auth.password_hashing import verify_password
 
 
 class LoginModule:

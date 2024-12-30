@@ -1,5 +1,5 @@
 import mysql.connector
-from app.password_hashing import hash_password
+from app.auth.password_hashing import hash_password
 
 class DatabaseHandler:
     def __init__(
