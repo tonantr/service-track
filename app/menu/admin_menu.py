@@ -103,4 +103,4 @@ class AdminMenu:
 
     def logout(self):
         self.is_logged_out = True
-        print("Logging out...")
+        print("\nLogging out...")

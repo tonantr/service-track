@@ -26,9 +26,9 @@ class AdminActions:
         users = self.db_handler.load_users()
 
         if username in users:
-            print(f"Error: username already exists.\n")
+            print(f"\nError: username already exists.\n")
         elif any(user["email"] == email for user in users.values()):
-            print(f"Error: email already exists.\n")
+            print(f"\nError: email already exists.\n")
         else:
             self.db_handler.add_user(username, password, email, role)
             self.list_users()
