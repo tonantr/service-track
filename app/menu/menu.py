@@ -7,20 +7,20 @@ class Menu:
         print("2. Exit\n")
         return input("Enter your choice: ")
     
-    # @staticmethod
-    # def display_menu(menu_options):
-    #     print("\nMenu:")
-    #     for key, value in menu_options.items():
-    #         print(f"{key}. {value}")
-    #     return input("Enter your choice: ")
-
     @staticmethod
-    def display_admin_menu():
-        print("\nAdmin Menu:")
-        print("1. Add User")
-        print("2. List Users")
-        print("3. Logout\n")
+    def display_menu(menu_options):
+        print("\nMenu:")
+        for key, value in menu_options.items():
+            print(f"{key}. {value}")
         return input("Enter your choice: ")
+
+    # @staticmethod
+    # def display_admin_menu():
+    #     print("\nAdmin Menu:")
+    #     print("1. Add User")
+    #     print("2. List Users")
+    #     print("3. Logout\n")
+    #     return input("Enter your choice: ")
 
     @staticmethod
     def display_user_menu():
