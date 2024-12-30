@@ -72,9 +72,10 @@ class ConsoleApp:
 
     def run_admin_menu(self):
         while True:
-            self.admin_menu.display_admin_menu()
+            result = self.admin_menu.display_admin_menu()
 
-            if self.admin_menu.is_logged_out:
+            if result == "logout":
+                print("\nLogging out...")
                 break
 
     def run_user_menu(self):

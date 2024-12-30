@@ -11,7 +11,6 @@ class AdminMenu:
             "3": "Service Management",
             "4": "Logout",
         }
-        self.is_logged_out = False
 
     def display_admin_menu(self):
         try:
@@ -27,7 +26,7 @@ class AdminMenu:
         elif choice == 3:
             print("Service Management coming soon.")
         elif choice == 4:
-            self.logout()
+            return "logout"
 
 
     def display_user_management_menu(self):
@@ -101,6 +100,3 @@ class AdminMenu:
     #     else:
     #         print("Invalid choice, please try again.\n")
 
-    def logout(self):
-        self.is_logged_out = True
-        print("\nLogging out...")
