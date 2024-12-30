@@ -2,7 +2,7 @@ import json
 from app.admin_menu_handler import AdminMenuHandler
 from app.database_handler import DatabaseHandler
 from app.login_module import LoginModule
-from app.menu import Menu
+from app.menu.menu import Menu
 
 # from app.file_handler import FileHandler
 

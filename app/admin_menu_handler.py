@@ -1,4 +1,4 @@
-from app.menu import Menu
+from app.menu.menu import Menu
 
 class AdminMenuHandler:
     def __init__(self, db_handler):
