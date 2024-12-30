@@ -1,12 +1,12 @@
 from app.menu.menu import Menu
 
-class AdminMenuHandler:
+class AdminActions:
     def __init__(self, db_handler):
         self.db_handler = db_handler
 
-    def handle_add_user(self):
+    def add_user(self):
         if not Menu.confirm_action("add a new user? (y/n): "):
-            self.handle_list_users()
+            self.list_users()
             return
 
         username = Menu.get_username()
@@ -31,9 +31,9 @@ class AdminMenuHandler:
             print(f"Error: email already exists.\n")
         else:
             self.db_handler.add_user(username, password, email, role)
-            self.handle_list_users()
+            self.list_users()
 
-    def handle_list_users(self):
+    def list_users(self):
         print("\n*** List of Users ***\n")
         users = self.db_handler.load_users()
         if not users:

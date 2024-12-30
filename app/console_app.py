@@ -1,8 +1,9 @@
 import json
-from app.actions.admin_menu_handler import AdminMenuHandler
+from app.actions.admin_actions import AdminActions
 from app.database.database_handler import DatabaseHandler
 from app.auth.login_module import LoginModule
 from app.menu.menu import Menu
+# from app.menu.admin_menu import AdminMenu
 
 # from app.file_handler import FileHandler
 
@@ -24,13 +25,20 @@ class ConsoleApp:
             database=db_config["database"],
         )
         self.login_module = LoginModule(self.db_handler)
-        self.admin_menu_handler = AdminMenuHandler(self.db_handler)
+        self.admin_actions = AdminActions(self.db_handler)
+
+        # self.admin_menu = AdminMenu(self.admin_menu_handler)
 
     def run(self):
         print("*** SERVICE TRACK ***\n")
 
         while True:
-            choice = int(Menu.display_main_menu())
+            try:
+                choice = int(Menu.display_main_menu())
+            except ValueError:
+                Menu.handle_invalid_input()
+                continue
+            
             if choice == 1:
                 if self.login_module.login():
                     logged_in_user = self.login_module.logged_in_user
@@ -47,21 +55,34 @@ class ConsoleApp:
 
     def run_admin_menu(self):
         while True:
-            choice = int(Menu.display_admin_menu())
+            try:
+                choice = int(Menu.display_admin_menu())
+            except ValueError:
+                Menu.handle_invalid_input()
+                continue
+
             if choice == 1:
-                self.admin_menu_handler.handle_add_user()
+                self.admin_actions.add_user()
             elif choice == 2:
-                self.admin_menu_handler.handle_list_users()
+                self.admin_actions.list_users()
             elif choice == 3:
                 break
             else:
                 Menu.handle_invalid_input()
 
+    # def run_admin_menu(self):
+    #     self.admin_menu.display_admin_menu()
+
     def run_user_menu(self):
         while True:
-            choice = int(Menu.display_user_menu())
+            try:
+                choice = int(Menu.display_user_menu())
+            except ValueError:
+                Menu.handle_invalid_input()
+                continue
+
             if choice == 1:
-                self.admin_menu_handler.handle_list_users()
+                self.admin_actions.list_users()
             elif choice == 2:
                 break
             else:
