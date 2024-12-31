@@ -15,13 +15,6 @@ class Menu:
         return input("Enter your choice: ")
 
     @staticmethod
-    def display_user_menu():
-        print("\nUser Menu:")
-        print("1. List Users")
-        print("2. Logout\n")
-        return input("Enter your choice: ")
-
-    @staticmethod
     def handle_invalid_input():
         print("Invalid input, please enter a number.\n")
 

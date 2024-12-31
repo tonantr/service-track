@@ -35,7 +35,9 @@ class LoginModule:
 
             if self.authenticate(username, password):
                 self.logged_in_user = username
-                print(f"\nWelcome, {username}!\n")
+                user = self.users.get(username)
+                role = user.get("role")
+                print(f"\nLogged in as {username} ({role})!\n")
                 return True
             else:
                 attempts += 1

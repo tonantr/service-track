@@ -19,12 +19,18 @@ class DatabaseHandler:
         self.cursor.execute(query)
         return {
             row["username"]: {
+                "username": row["username"],
                 "email": row["email"],
                 "password": row["password"],
                 "role": row["role"],
             }
             for row in self.cursor.fetchall()
         }
+    
+    def load_user(self, username):
+        query = "SELECT * FROM users WHERE username = %s"
+        self.cursor.execute(query, (username,))
+        return self.cursor.fetchone()
 
     def add_user(self, username, password, email, role):
         try:

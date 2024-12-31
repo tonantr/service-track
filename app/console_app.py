@@ -1,9 +1,11 @@
 import json
 from app.actions.admin_actions import AdminActions
+from app.actions.user_actions import UserActions
 from app.database.database_handler import DatabaseHandler
 from app.auth.login_module import LoginModule
 from app.menu.menu import Menu
 from app.menu.admin_menu import AdminMenu
+from app.menu.user_menu import UserMenu
 
 # from app.file_handler import FileHandler
 
@@ -26,8 +28,12 @@ class ConsoleApp:
         )
         self.login_module = LoginModule(self.db_handler)
         self.admin_actions = AdminActions(self.db_handler)
-
         self.admin_menu = AdminMenu(self.admin_actions)
+
+        self.user_menu = None
+        self.user_actions = None
+
+        self.user_details = None
 
     def run(self):
         print("*** SERVICE TRACK ***\n")
@@ -42,33 +48,20 @@ class ConsoleApp:
             if choice == 1:
                 if self.login_module.login():
                     logged_in_user = self.login_module.logged_in_user
-                    user_details = self.login_module.users.get(logged_in_user)
+                    self.user_details = self.login_module.users.get(logged_in_user)
 
-                    if user_details and user_details.get("role") == "admin":
+                    if self.user_details.get("role") == "admin":
                         self.run_admin_menu()
                     else:
+                        self.user_actions = UserActions(
+                            self.db_handler, self.user_details.get("username")
+                        )
+                        self.user_menu = UserMenu(self.user_actions)
                         self.run_user_menu()
             elif choice == 2:
                 break
             else:
                 Menu.handle_invalid_input()
-
-    # def run_admin_menu(self):
-    #     while True:
-    #         try:
-    #             choice = int(Menu.display_admin_menu())
-    #         except ValueError:
-    #             Menu.handle_invalid_input()
-    #             continue
-
-    #         if choice == 1:
-    #             self.admin_actions.add_user()
-    #         elif choice == 2:
-    #             self.admin_actions.list_users()
-    #         elif choice == 3:
-    #             break
-    #         else:
-    #             Menu.handle_invalid_input()
 
     def run_admin_menu(self):
         while True:
@@ -80,15 +73,8 @@ class ConsoleApp:
 
     def run_user_menu(self):
         while True:
-            try:
-                choice = int(Menu.display_user_menu())
-            except ValueError:
-                Menu.handle_invalid_input()
-                continue
+            result = self.user_menu.display_user_menu()
 
-            if choice == 1:
-                self.admin_actions.list_users()
-            elif choice == 2:
+            if result == "logout":
+                print("\nLogging out...")
                 break
-            else:
-                Menu.handle_invalid_input()
