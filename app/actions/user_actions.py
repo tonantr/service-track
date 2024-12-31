@@ -18,22 +18,3 @@ class UserActions:
         print(f"Role: {user['role']}\n")
 
         input("Press Enter to go back to the Menu.\n")
-
-    def display_profile_menu(self):
-        options = {
-            "1": "View",
-            "2": "Update",
-            "3": "Back",
-        }
-        try:
-            choice = int(Menu.display_menu(options))
-        except ValueError:
-            Menu.handle_invalid_input()
-            return
-
-        if choice == 1:
-            self.view_profile()
-        elif choice == 2:
-            print("Update User coming soon.")
-        elif choice == 3:
-            return

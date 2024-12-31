@@ -18,7 +18,7 @@ class UserMenu:
             return
 
         if choice == 1:
-            self.user_actions.display_profile_menu()
+            self.display_profile_menu()
         elif choice == 2:
             print("Car Management coming soon.")
         elif choice == 3:
@@ -28,9 +28,10 @@ class UserMenu:
     
     def display_profile_menu(self):
         options = {
-            "1": "View",
-            "2": "Update",
-            "3": "Back",
+            "1": "View Profile",
+            "2": "Change Password",
+            "3": "Update Email",
+            "4": "Back",
         }
         try:
             choice = int(Menu.display_menu(options))
@@ -41,6 +42,8 @@ class UserMenu:
         if choice == 1:
             self.user_actions.view_profile()
         elif choice == 2:
-            print("Update User coming soon.")
+            print("Change password coming soon.")
         elif choice == 3:
+            print("Update email coming soon.")
+        elif choice == 4:
             return

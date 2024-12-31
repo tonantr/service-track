@@ -13,24 +13,44 @@ class DatabaseHandler:
             host=host, user=user, password=password, database=database
         )
         self.cursor = self.connection.cursor(dictionary=True)
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
 
     def load_users(self):
-        query = "SELECT * FROM users"
-        self.cursor.execute(query)
-        return {
-            row["username"]: {
-                "username": row["username"],
-                "email": row["email"],
-                "password": row["password"],
-                "role": row["role"],
+        try:
+            query = "SELECT * FROM users"
+            self.cursor.execute(query)
+            return {
+                row["username"]: {
+                    "username": row["username"],
+                    "email": row["email"],
+                    "password": row["password"],
+                    "role": row["role"],
+                }
+                for row in self.cursor.fetchall()
             }
-            for row in self.cursor.fetchall()
-        }
+        except mysql.connector.Error as e:
+            print(f"Error: {str(e)}")
+            return None
     
     def load_user(self, username):
-        query = "SELECT * FROM users WHERE username = %s"
-        self.cursor.execute(query, (username,))
-        return self.cursor.fetchone()
+        try:
+            query = "SELECT * FROM users WHERE username = %s"
+            self.cursor.execute(query, (username,))
+            user = self.cursor.fetchone()
+            if not user:
+                print("Error: User not found.")
+                return None
+            return user
+        except mysql.connector.Error as e:
+            print(f"Error: {str(e)}")
+            return None
+    
+    
 
     def add_user(self, username, password, email, role):
         try:
