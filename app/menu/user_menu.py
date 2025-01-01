@@ -18,7 +18,9 @@ class UserMenu:
             return
 
         if choice == 1:
-            self.display_profile_menu()
+            result = self.display_profile_menu()
+            if result == "logout":
+                return "logout"
         elif choice == 2:
             print("Car Management coming soon.")
         elif choice == 3:
@@ -42,7 +44,9 @@ class UserMenu:
         if choice == 1:
             self.user_actions.view_profile()
         elif choice == 2:
-            print("Change password coming soon.")
+            result = self.user_actions.change_password()
+            if result == "logout":
+                return "logout"
         elif choice == 3:
             print("Update email coming soon.")
         elif choice == 4:

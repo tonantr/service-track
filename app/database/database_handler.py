@@ -1,6 +1,7 @@
 import mysql.connector
 from app.auth.password_hashing import hash_password
 
+
 class DatabaseHandler:
     def __init__(
         self,
@@ -13,10 +14,10 @@ class DatabaseHandler:
             host=host, user=user, password=password, database=database
         )
         self.cursor = self.connection.cursor(dictionary=True)
-    
+
     def __enter__(self):
         return self
-    
+
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
 
@@ -36,7 +37,7 @@ class DatabaseHandler:
         except mysql.connector.Error as e:
             print(f"Error: {str(e)}")
             return None
-    
+
     def load_user(self, username):
         try:
             query = "SELECT * FROM users WHERE username = %s"
@@ -49,8 +50,14 @@ class DatabaseHandler:
         except mysql.connector.Error as e:
             print(f"Error: {str(e)}")
             return None
-    
-    
+
+    def update_password(self, username, hashed_password):
+        try:
+            query = "UPDATE users SET password = %s WHERE username = %s"
+            self.cursor.execute(query, (hashed_password, username))
+            self.connection.commit()
+        except mysql.connector.Error as e:
+            print(f"Error: {str(e)}")
 
     def add_user(self, username, password, email, role):
         try:

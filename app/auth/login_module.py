@@ -11,7 +11,6 @@ class LoginModule:
 
     def __init__(self, db_handler):
         self.db_handler = db_handler
-        self.users = self.db_handler.load_users()
         self.logged_in_user = None
 
     # def add_user(self, username, password):
@@ -19,7 +18,7 @@ class LoginModule:
     #     self.file_handler.save_users(self.users)
 
     def authenticate(self, username, password):
-        user = self.users.get(username)
+        user = self.db_handler.load_user(username)
         if user:
             stored_password = user["password"]
             return verify_password(password, stored_password)
@@ -30,12 +29,11 @@ class LoginModule:
         attempts = 0
         while attempts < max_attempts:
             username = input("\nEnter your username: ")
-            # password = input('Enter your password: ')
             password = getpass.getpass("Enter your password: ")
 
             if self.authenticate(username, password):
                 self.logged_in_user = username
-                user = self.users.get(username)
+                user = self.db_handler.load_user(username)
                 role = user.get("role")
                 print(f"\nLogged in as {username} ({role})!\n")
                 return True

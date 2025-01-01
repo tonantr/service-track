@@ -48,7 +48,7 @@ class ConsoleApp:
             if choice == 1:
                 if self.login_module.login():
                     logged_in_user = self.login_module.logged_in_user
-                    self.user_details = self.login_module.users.get(logged_in_user)
+                    self.user_details = self.db_handler.load_user(logged_in_user)
 
                     if self.user_details.get("role") == "admin":
                         self.run_admin_menu()
