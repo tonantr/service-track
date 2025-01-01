@@ -1,5 +1,6 @@
 from app.menu.menu import Menu
 
+
 class UserMenu:
     def __init__(self, user_actions):
         self.user_actions = user_actions
@@ -27,7 +28,7 @@ class UserMenu:
             print("Service Management coming soon.")
         elif choice == 4:
             return "logout"
-    
+
     def display_profile_menu(self):
         options = {
             "1": "View Profile",

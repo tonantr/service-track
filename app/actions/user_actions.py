@@ -2,6 +2,7 @@ from app.menu.menu import Menu
 from app.auth.password_hashing import hash_password
 from getpass import getpass
 
+
 class UserActions:
     def __init__(self, db_handler, username):
         self.db_handler = db_handler
@@ -20,7 +21,7 @@ class UserActions:
         print(f"Role: {user['role']}\n")
 
         input("Press Enter to go back to the Menu.\n")
-    
+
     def change_password(self):
         current_password = getpass("Enter current password: ")
 
@@ -34,7 +35,7 @@ class UserActions:
         if new_password != confirm_password:
             print("\nError: Passwords do not match.\n")
             return
-        
+
         hashed_password = hash_password(new_password)
 
         try:
@@ -46,4 +47,3 @@ class UserActions:
             print(f"Error: {str(e)}")
 
         input("Press Enter to go back to the Menu.\n")
-
