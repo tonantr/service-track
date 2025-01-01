@@ -26,6 +26,7 @@ class ConsoleApp:
             password=db_config["password"],
             database=db_config["database"],
         )
+        self.db_handler.connect()
         self.login_module = LoginModule(self.db_handler)
         self.admin_actions = AdminActions(self.db_handler)
         self.admin_menu = AdminMenu(self.admin_actions)
