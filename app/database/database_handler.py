@@ -68,11 +68,6 @@ class DatabaseHandler:
         except mysql.connector.IntegrityError as e:
             print(f"Error: {str(e)}")
 
-    # def update_password(self, username, hashed_password):
-    #     query = "UPDATE users SET password = %s WHERE username = %s"
-    #     self.cursor.execute(query, (hashed_password, username))
-    #     self.connection.commit()
-
     def close(self):
         self.cursor.close()
         self.connection.close()
