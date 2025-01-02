@@ -56,7 +56,7 @@ class DatabaseHandler:
             self.connection.commit()
         except mysql.connector.Error as e:
             print(f"Error: {str(e)}")
-    
+
     def fetch_one(self, query, params=None):
         # Fetch a single row from a query
         try:
@@ -81,27 +81,6 @@ class DatabaseHandler:
         except mysql.connector.Error as e:
             print(f"Error: {str(e)}")
             return None
-
-    # def load_user(self, username):
-    #     try:
-    #         query = "SELECT * FROM users WHERE username = %s"
-    #         self.cursor.execute(query, (username,))
-    #         user = self.cursor.fetchone()
-    #         if not user:
-    #             print("Error: User not found.")
-    #             return None
-    #         return user
-    #     except mysql.connector.Error as e:
-    #         print(f"Error: {str(e)}")
-    #         return None
-
-    def update_password(self, username, hashed_password):
-        try:
-            query = "UPDATE users SET password = %s WHERE username = %s"
-            self.cursor.execute(query, (hashed_password, username))
-            self.connection.commit()
-        except mysql.connector.Error as e:
-            print(f"Error: {str(e)}")
 
     def add_user(self, username, password, email, role):
         try:

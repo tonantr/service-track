@@ -41,7 +41,7 @@ class UserActions:
         try:
             self.db_handler.update_password(self.username, hashed_password)
             print("\nPassword updated successfully.\n")
-            print("For security reasons, you will be logged out.\n")
+            print("For security reasons, you will be logged out.")
             return "logout"
         except Exception as e:
             print(f"Error: {str(e)}")
