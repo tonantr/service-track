@@ -26,14 +26,13 @@ class ConsoleApp:
             password=db_config["password"],
             database=db_config["database"],
         )
-        self.db_handler.connect()
+
         self.login_module = LoginModule(self.db_handler)
         self.admin_actions = AdminActions(self.db_handler)
         self.admin_menu = AdminMenu(self.admin_actions)
 
         self.user_menu = None
         self.user_actions = None
-
         self.user_details = None
 
     def run(self):
@@ -47,18 +46,19 @@ class ConsoleApp:
                 continue
 
             if choice == 1:
-                if self.login_module.login():
-                    logged_in_user = self.login_module.logged_in_user
-                    self.user_details = self.db_handler.load_user(logged_in_user)
+                with self.db_handler:
+                    if self.login_module.login():
+                        logged_in_user = self.login_module.logged_in_user
+                        self.user_details = self.db_handler.load_user(logged_in_user)
 
-                    if self.user_details.get("role") == "admin":
-                        self.run_admin_menu()
-                    else:
-                        self.user_actions = UserActions(
-                            self.db_handler, self.user_details.get("username")
-                        )
-                        self.user_menu = UserMenu(self.user_actions)
-                        self.run_user_menu()
+                        if self.user_details.get("role") == "admin":
+                            self.run_admin_menu()
+                        else:
+                            self.user_actions = UserActions(
+                                self.db_handler, self.user_details.get("username")
+                            )
+                            self.user_menu = UserMenu(self.user_actions)
+                            self.run_user_menu()
             elif choice == 2:
                 break
             else:
