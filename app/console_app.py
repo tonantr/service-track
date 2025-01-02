@@ -26,6 +26,7 @@ class ConsoleApp:
             password=db_config["password"],
             database=db_config["database"],
         )
+        # self.db_handler.connect() # manually connect to the database
 
         self.login_module = LoginModule(self.db_handler)
         self.admin_actions = AdminActions(self.db_handler)
@@ -46,7 +47,7 @@ class ConsoleApp:
                 continue
 
             if choice == 1:
-                with self.db_handler:
+                with self.db_handler: # Automatically calls __enter__ and __exit__ methods
                     if self.login_module.login():
                         logged_in_user = self.login_module.logged_in_user
                         self.user_details = self.db_handler.load_user(logged_in_user)
