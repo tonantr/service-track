@@ -36,21 +36,21 @@ class DatabaseHandler:
             print(f"Error: {exc_value}")
         return True
     
-    def execute_query(self, query, params=None):
-        # Execute a query and return the result
-        try:
-            self.cursor.execute(query, params or ())
-            return self.cursor.fetchall()
-        except mysql.connector.Error as e:
-            print(f"Error: {str(e)}")
+    # def execute_query(self, query, params=None):
+    #     # Execute a query and return the result
+    #     try:
+    #         self.cursor.execute(query, params or ())
+    #         return self.cursor.fetchall()
+    #     except mysql.connector.Error as e:
+    #         print(f"Error: {str(e)}")
     
-    def execute_commit(self, query, params=None):
-        # Execute a query and commit the changes (e.g. INSERT, UPDATE, DELETE)
-        try:
-            self.cursor.execute(query, params or ())
-            self.connection.commit()
-        except mysql.connector.Error as e:
-            print(f"Error: {str(e)}")
+    # def execute_commit(self, query, params=None):
+    #     # Execute a query and commit the changes (e.g. INSERT, UPDATE, DELETE)
+    #     try:
+    #         self.cursor.execute(query, params or ())
+    #         self.connection.commit()
+    #     except mysql.connector.Error as e:
+    #         print(f"Error: {str(e)}")
 
     def load_users(self):
         try:
