@@ -2,5 +2,7 @@ from app.database.database_handler import DatabaseHandler
 
 
 class UserDatabaseHandler(DatabaseHandler):
-    def __init__(self):
-        pass
+    def load_user(self, username):
+        query = "SELECT * FROM users WHERE username = %s"
+        return self.fetch_one(query, (username,))
+        

@@ -41,21 +41,29 @@ class DatabaseHandler:
             print(f"Error: {exc_value}")
         return True
 
-    # def execute_query(self, query, params=None):
-    #     # Execute a query and return the result
-    #     try:
-    #         self.cursor.execute(query, params or ())
-    #         return self.cursor.fetchall()
-    #     except mysql.connector.Error as e:
-    #         print(f"Error: {str(e)}")
+    def execute_query(self, query, params=None):
+        # Execute a query and return the result
+        try:
+            self.cursor.execute(query, params or ())
+            return self.cursor.fetchall()
+        except mysql.connector.Error as e:
+            print(f"Error: {str(e)}")
 
-    # def execute_commit(self, query, params=None):
-    #     # Execute a query and commit the changes (e.g. INSERT, UPDATE, DELETE)
-    #     try:
-    #         self.cursor.execute(query, params or ())
-    #         self.connection.commit()
-    #     except mysql.connector.Error as e:
-    #         print(f"Error: {str(e)}")
+    def execute_commit(self, query, params=None):
+        # Execute a query and commit the changes (e.g. INSERT, UPDATE, DELETE)
+        try:
+            self.cursor.execute(query, params or ())
+            self.connection.commit()
+        except mysql.connector.Error as e:
+            print(f"Error: {str(e)}")
+    
+    def fetch_one(self, query, params=None):
+        # Fetch a single row from a query
+        try:
+            self.cursor.execute(query, params or ())
+            return self.cursor.fetchone()
+        except mysql.connector.Error as e:
+            print(f"Error: {str(e)}")
 
     def load_users(self):
         try:
@@ -74,18 +82,18 @@ class DatabaseHandler:
             print(f"Error: {str(e)}")
             return None
 
-    def load_user(self, username):
-        try:
-            query = "SELECT * FROM users WHERE username = %s"
-            self.cursor.execute(query, (username,))
-            user = self.cursor.fetchone()
-            if not user:
-                print("Error: User not found.")
-                return None
-            return user
-        except mysql.connector.Error as e:
-            print(f"Error: {str(e)}")
-            return None
+    # def load_user(self, username):
+    #     try:
+    #         query = "SELECT * FROM users WHERE username = %s"
+    #         self.cursor.execute(query, (username,))
+    #         user = self.cursor.fetchone()
+    #         if not user:
+    #             print("Error: User not found.")
+    #             return None
+    #         return user
+    #     except mysql.connector.Error as e:
+    #         print(f"Error: {str(e)}")
+    #         return None
 
     def update_password(self, username, hashed_password):
         try:

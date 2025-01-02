@@ -1,7 +1,7 @@
 import json
 from app.actions.admin_actions import AdminActions
 from app.actions.user_actions import UserActions
-from app.database.database_handler import DatabaseHandler
+from app.database.user_database_handler import UserDatabaseHandler
 from app.auth.login_module import LoginModule
 from app.menu.menu import Menu
 from app.menu.admin_menu import AdminMenu
@@ -20,7 +20,7 @@ class ConsoleApp:
         db_config = self.config[target_server]
 
         # self.login_module = LoginModule(FileHandler())
-        self.db_handler = DatabaseHandler(
+        self.db_handler = UserDatabaseHandler(
             host=db_config["host"],
             user=db_config["user"],
             password=db_config["password"],
