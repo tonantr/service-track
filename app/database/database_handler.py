@@ -82,15 +82,6 @@ class DatabaseHandler:
             print(f"Error: {str(e)}")
             return None
 
-    def add_user(self, username, password, email, role):
-        try:
-            hashed_password = hash_password(password)
-            query = "INSERT INTO users (username, password, email, role) VALUES (%s, %s, %s, %s)"
-            self.cursor.execute(query, (username, hashed_password, email, role))
-            self.connection.commit()
-        except mysql.connector.IntegrityError as e:
-            print(f"Error: {str(e)}")
-
 
 # The DatabaseHandler class is similar to the FileHandler class, but it interacts with a MySQL database
 # instead of a JSON file. The load_users method retrieves all users from the users table, while the save_users
