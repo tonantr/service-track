@@ -65,22 +65,22 @@ class DatabaseHandler:
         except mysql.connector.Error as e:
             print(f"Error: {str(e)}")
 
-    def load_users(self):
-        try:
-            query = "SELECT * FROM users"
-            self.cursor.execute(query)
-            return {
-                row["username"]: {
-                    "username": row["username"],
-                    "email": row["email"],
-                    "password": row["password"],
-                    "role": row["role"],
-                }
-                for row in self.cursor.fetchall()
-            }
-        except mysql.connector.Error as e:
-            print(f"Error: {str(e)}")
-            return None
+    # def load_users(self):
+    #     try:
+    #         query = "SELECT * FROM users"
+    #         self.cursor.execute(query)
+    #         return {
+    #             row["username"]: {
+    #                 "username": row["username"],
+    #                 "email": row["email"],
+    #                 "password": row["password"],
+    #                 "role": row["role"],
+    #             }
+    #             for row in self.cursor.fetchall()
+    #         }
+    #     except mysql.connector.Error as e:
+    #         print(f"Error: {str(e)}")
+    #         return None
 
 
 # The DatabaseHandler class is similar to the FileHandler class, but it interacts with a MySQL database

@@ -43,9 +43,9 @@ class AdminActions:
         print(f"{'Username':<15} {'Email':<25} {'Password':<15} {'Role':<10}")
         print("-" * 65)
 
-        for username, details in users.items():
+        for user in users:
             print(
-                f"{username:<15} {details['email']: <25} {"********":<15} {details['role']:<10}"
+                f"{user['username']:<15} {user['email']: <25} {"********":<15} {user['role']:<10}"
             )
 
         print()

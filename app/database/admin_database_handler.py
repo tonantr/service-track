@@ -7,4 +7,7 @@ class AdminDatabaseHandler(DatabaseHandler):
         hashed_password = hash_password(password)
         query = "INSERT INTO users (username, password, email, role) VALUES (%s, %s, %s, %s)"
         self.execute_commit(query, (username, hashed_password, email, role))
-       
+
+    def load_users(self):
+        query = "SELECT * FROM users"
+        return self.execute_query(query)
