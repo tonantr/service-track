@@ -39,7 +39,7 @@ class LoginModule:
                 return True
             else:
                 attempts += 1
-                print("Invalid username or password.\n")
+                print("\nInvalid username or password.\n")
                 if attempts < max_attempts:
                     print(f"Attempts remaining: {max_attempts - attempts}\n")
                 else:

@@ -36,19 +36,20 @@ class UserMenu:
             "3": "Update Email",
             "4": "Back",
         }
-        try:
-            choice = int(Menu.display_menu(options))
-        except ValueError:
-            Menu.handle_invalid_input()
-            return
+        while True:
+            try:
+                choice = int(Menu.display_menu(options))
+            except ValueError:
+                Menu.handle_invalid_input()
+                continue
 
-        if choice == 1:
-            self.user_actions.view_profile()
-        elif choice == 2:
-            result = self.user_actions.change_password()
-            if result == "logout":
-                return "logout"
-        elif choice == 3:
-            self.user_actions.update_email()
-        elif choice == 4:
-            return
+            if choice == 1:
+                self.user_actions.view_profile()
+            elif choice == 2:
+                result = self.user_actions.change_password()
+                if result == "logout":
+                    return "logout"
+            elif choice == 3:
+                self.user_actions.update_email()
+            elif choice == 4:
+                return

@@ -16,7 +16,7 @@ class Menu:
 
     @staticmethod
     def handle_invalid_input():
-        print("Invalid input, please enter a number.\n")
+        print("\nInvalid input, please enter a number.\n")
 
     @staticmethod
     def get_username():
