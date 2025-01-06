@@ -49,6 +49,6 @@ class UserMenu:
             if result == "logout":
                 return "logout"
         elif choice == 3:
-            print("Update email coming soon.")
+            self.user_actions.update_email()
         elif choice == 4:
             return

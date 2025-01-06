@@ -1,6 +1,7 @@
 from app.menu.menu import Menu
 from app.auth.password_hashing import hash_password
 from getpass import getpass
+from app.utils.validation import validate_email
 
 
 class UserActions:
@@ -43,6 +44,31 @@ class UserActions:
             print("\nPassword updated successfully.\n")
             print("For security reasons, you will be logged out.")
             return "logout"
+        except Exception as e:
+            print(f"Error: {str(e)}")
+
+        input("Press Enter to go back to the Menu.\n")
+
+    def update_email(self):
+        user = self.db_handler.load_user(self.username)
+        if not user:
+            print("\nError: User not found.\n")
+
+        print(f"Current email: {user['email']}")
+        new_email = input("Enter new email: ")
+
+        if not validate_email(new_email):
+            print("\nError: Invalid email.\n")
+            return
+        
+        existing_email = self.db_handler.load_user_by_email(new_email)
+        if existing_email:
+            print("\nError: Email already exists.\n")
+            return
+
+        try:
+            self.db_handler.update_email(self.username, new_email)
+            print("\nEmail updated successfully.\n")
         except Exception as e:
             print(f"Error: {str(e)}")
 
