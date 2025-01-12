@@ -12,7 +12,7 @@ from app.menu.user_menu import UserMenu
 
 
 class ConsoleApp:
-    def __init__(self, target_server="macos", config_path="config.json"):
+    def __init__(self, target_server="local", config_path="config.json"):
         with open(config_path, "r") as file:
             self.config = json.load(file)
 

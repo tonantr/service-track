@@ -23,7 +23,7 @@ class UserMenu:
             if result == "logout":
                 return "logout"
         elif choice == 2:
-            print("Car Management coming soon.")
+            self.display_car_menu()
         elif choice == 3:
             print("Service Management coming soon.")
         elif choice == 4:
@@ -52,4 +52,30 @@ class UserMenu:
             elif choice == 3:
                 self.user_actions.update_email()
             elif choice == 4:
+                return
+
+    def display_car_menu(self):
+        options = {
+            "1": "View Cars",
+            "2": "Add Car",
+            "3": "Edit Car",
+            "4": "Delete Car",
+            "5": "Back",
+        }
+        while True:
+            try:
+                choice = int(Menu.display_menu(options))
+            except ValueError:
+                Menu.handle_invalid_input()
+                continue
+
+            if choice == 1:
+                self.user_actions.view_cars()
+            elif choice == 2:
+                print("Add Car coming soon.")
+            elif choice == 3:
+                print("Edit Car coming soon.")
+            elif choice == 4:
+                print("Delete Car coming soon.")
+            elif choice == 5:
                 return

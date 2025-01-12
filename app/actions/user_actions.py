@@ -73,3 +73,31 @@ class UserActions:
             print(f"Error: {str(e)}")
 
         input("Press Enter to go back to the Menu.\n")
+
+    def view_cars(self):
+        user = self.db_handler.load_user(self.username)
+        if not user:
+            print("\nError: User not found.\n")
+            return
+        
+        cars = self.db_handler.load_cars(user["user_id"])
+        
+        if not cars:
+            print("\nNo cars found.\n")
+        else:
+            print("\n*** Cars ***\n")
+            for car in cars:
+                # print(f"Car ID: {car['car_id']}")
+                print(f"Name: {car['name']}")
+                print(f"Model: {car['model']}")
+                print(f"Year: {car['year']}")
+                print()
+                # if isinstance(car, dict):
+                #     print(f"ID: {car['id']}, Name: {car['name']},Model: {car['model']}, Year: {car['year']}")
+                # elif isinstance(car, tuple):
+                # # Access tuple values by index
+                #     car_id, name, model, year = car
+                #     print(f"ID: {car_id}, Name: {name}, Model: {model}, Year: {year}")
+            print()
+
+        input("Press Enter to go back to the Menu.\n")
