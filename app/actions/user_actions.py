@@ -60,7 +60,7 @@ class UserActions:
         if not validate_email(new_email):
             print("\nError: Invalid email.\n")
             return
-        
+
         existing_email = self.db_handler.load_user_by_email(new_email)
         if existing_email:
             print("\nError: Email already exists.\n")
@@ -79,9 +79,9 @@ class UserActions:
         if not user:
             print("\nError: User not found.\n")
             return
-        
+
         cars = self.db_handler.load_cars(user["user_id"])
-        
+
         if not cars:
             print("\nNo cars found.\n")
         else:
@@ -92,12 +92,7 @@ class UserActions:
                 print(f"Model: {car['model']}")
                 print(f"Year: {car['year']}")
                 print()
-                # if isinstance(car, dict):
-                #     print(f"ID: {car['id']}, Name: {car['name']},Model: {car['model']}, Year: {car['year']}")
-                # elif isinstance(car, tuple):
-                # # Access tuple values by index
-                #     car_id, name, model, year = car
-                #     print(f"ID: {car_id}, Name: {name}, Model: {model}, Year: {year}")
+
             print()
 
         input("Press Enter to go back to the Menu.\n")
