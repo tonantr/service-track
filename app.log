@@ -1,0 +1,4 @@
+2025-01-12 23:34:29,234 - ERROR - admin_actions - Line: 46 - Error in add_user: 'list' object has no attribute 'values'
+2025-01-12 23:36:00,502 - ERROR - admin_actions - Line: 46 - Error in add_user: 'list' object has no attribute 'values'
+2025-01-12 23:37:32,802 - ERROR - admin_actions - Line: 46 - Error in add_user: 'list' object has no attribute 'values'
+2025-01-12 23:39:13,868 - ERROR - admin_actions - Line: 46 - Error in add_user: 'list' object has no attribute 'values'
