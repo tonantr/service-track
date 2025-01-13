@@ -11,7 +11,26 @@ class AdminDatabaseHandler(DatabaseHandler):
     def load_users(self):
         query = "SELECT * FROM users"
         return self.execute_query(query)
-    
-    def update_user(self, username, email, role):
-        query = "UPDATE users SET email = %s, role = %s WHERE username = %s"
-        self.execute_commit(query, (email, role, username))
+
+    def update_user(self, user_id, username=None, role=None, email=None, password=None):
+        fields = []
+        values = []
+        
+        if username:
+            fields.append("username = %s")
+            values.append(username)
+        if email:
+            fields.append("email = %s")
+            values.append(email)
+        if role:
+            fields.append("role = %s")
+            values.append(role)
+        if password:
+            fields.append("password = %s")
+            values.append(hash_password(password))
+        if not fields:
+            raise ValueError("No fields to update.")
+
+        query = f"UPDATE users SET {', '.join(fields)} WHERE user_id = %s"
+        values.append(user_id)
+        self.execute_commit(query, tuple(values))

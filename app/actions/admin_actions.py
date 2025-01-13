@@ -72,3 +72,75 @@ class AdminActions:
         except Exception as e:
             logging.error("Error in list_users: %s", str(e))
             print("\nAn error occurred while listing the users.\n")
+
+    def update_user(self):
+        try:
+            users = self.db_handler.load_users()
+            if not users:
+                print("\nNo users found.\n")
+                return
+            print("\n*** List of Users ***\n")
+            print(f"{'ID':<5} {'Username':<15} {'Email':<25} {'Role':<10}")
+            print("-" * 55)
+            for user in users:
+                print(
+                    f"{user['user_id']:<5} {user['username']:<15} {user['email']: <25} {user['role']:<10}"
+                )
+            print()
+
+            user_id = input("Enter the ID of the user: ").strip()
+            if not user_id.isdigit():
+                print("\nError: Invalid ID.\n")
+                return
+            user_id = int(user_id)
+
+            selected_user = next(
+                (user for user in users if user["user_id"] == user_id), None
+            )
+            if not selected_user:
+                print("\nError: User not found.\n")
+                return
+            print(f"\nSelected User: {selected_user['username']} (ID: {user_id})\n")
+            print("Which fields would you like to update?")
+            print("1. Username")
+            print("2. Email")
+            print("3. Role")
+            print("4. Password")
+            print("5. Cancel\n")
+
+            choice = input("Enter your choice: ").strip()
+            if choice == "1":
+                username = Menu.get_username()
+                if not username:
+                    return
+                self.db_handler.update_user(user_id, username=username)
+                print("\nUsername updated successfully.\n")
+            elif choice == "2":
+                email = Menu.get_email()
+                if not email:
+                    return
+                if not validate_email(email):
+                    print("\nError: Invalid email.\n")
+                    return
+                self.db_handler.update_user(user_id, email=email)
+            elif choice == "3":
+                role = Menu.get_role()
+                if role:
+                    self.db_handler.update_user(user_id, role=role)
+                    print("\nRole updated successfully.\n")
+            elif choice == "4":
+                password = getpass("Enter new password: ").strip()
+                if not password:
+                    print("\nError: Password cannot be empty.\n")
+                else:
+                    self.db_handler.update_user(user_id, password=password)
+                    print("\nPassword updated successfully.\n")
+            elif choice == "5":
+                return
+            else:
+                print("\nError: Invalid choice.\n")
+                return
+
+        except Exception as e:
+            logging.error("Error in update_user: %s", str(e))
+            print("\nAn error occurred while updating the user.\n")

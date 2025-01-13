@@ -48,7 +48,7 @@ class AdminMenu:
         elif choice == 2:
             self.admin_actions.list_users()
         elif choice == 3:
-            print("Update User coming soon.")
+            self.admin_actions.update_user()
         elif choice == 4:
             print("Delete User coming soon.")
         elif choice == 5:
