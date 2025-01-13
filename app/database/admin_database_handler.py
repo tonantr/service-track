@@ -11,3 +11,7 @@ class AdminDatabaseHandler(DatabaseHandler):
     def load_users(self):
         query = "SELECT * FROM users"
         return self.execute_query(query)
+    
+    def update_user(self, username, email, role):
+        query = "UPDATE users SET email = %s, role = %s WHERE username = %s"
+        self.execute_commit(query, (email, role, username))

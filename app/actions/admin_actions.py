@@ -1,4 +1,5 @@
 import logging
+from getpass import getpass
 from app.menu.menu import Menu
 from app.utils.validation import validate_email
 
@@ -23,7 +24,7 @@ class AdminActions:
             if not username:
                 return
 
-            password = input("Enter new password: ").strip()
+            password = getpass("Enter new password: ").strip()
 
             email = Menu.get_email()
             if not email:
@@ -63,7 +64,7 @@ class AdminActions:
 
             for user in users:
                 print(
-                    f"{user['username']:<15} {user['email']: <25} {"********":<15} {user['role']:<10}"
+                    f"{user['username']:<15} {user['email']: <25} {'********':<15} {user['role']:<10}"
                 )
 
             print()
@@ -71,4 +72,3 @@ class AdminActions:
         except Exception as e:
             logging.error("Error in list_users: %s", str(e))
             print("\nAn error occurred while listing the users.\n")
-        
