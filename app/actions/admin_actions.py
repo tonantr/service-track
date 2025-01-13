@@ -1,5 +1,6 @@
 import logging
 from app.menu.menu import Menu
+from app.utils.validation import validate_email
 
 logging.basicConfig(
     filename="app.log",
@@ -26,6 +27,9 @@ class AdminActions:
 
             email = Menu.get_email()
             if not email:
+                return
+            if not validate_email(email):
+                print("\nError: Invalid email.\n")
                 return
 
             role = Menu.get_role()
