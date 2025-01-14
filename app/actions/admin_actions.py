@@ -96,7 +96,7 @@ class AdminActions:
 
             selected_user = None
             for user in users:
-                if user["id"] == user_id:
+                if user["user_id"] == user_id:
                     selected_user = user
                     break
 
@@ -147,3 +147,43 @@ class AdminActions:
         except Exception as e:
             logging.error("Error in update_user: %s", str(e))
             print("\nAn error occurred while updating the user.\n")
+    
+    def delete_user(self):
+        try:
+            users = self.db_handler.load_users()
+            if not users:
+                print("\nNo users found.\n")
+                return
+            print("\n*** List of Users ***\n")
+            print(f"{'ID':<5} {'Username':<15} {'Email':<25} {'Role':<10}")
+            print("-" * 55)
+            for user in users:
+                print(
+                    f"{user['user_id']:<5} {user['username']:<15} {user['email']: <25} {user['role']:<10}"
+                )
+            print()
+
+            user_id = input("Enter the ID of the user: ").strip()
+            if not user_id.isdigit():
+                print("\nError: Invalid ID.\n")
+                return
+            user_id = int(user_id)
+
+            selected_user = None
+            for user in users:
+                if user["user_id"] == user_id:
+                    selected_user = user
+                    break
+
+            if not selected_user:
+                print("\nError: User not found.\n")
+                return
+            print(f"\nSelected User: {selected_user['username']} (ID: {user_id})\n")
+            if not Menu.confirm_action("delete this user? (y/n): "):
+                return
+
+            self.db_handler.delete_user(user_id)
+            print("\nUser deleted successfully.\n")
+        except Exception as e:
+            logging.error("Error in delete_user: %s", str(e))
+            print("\nAn error occurred while deleting the user.\n")
