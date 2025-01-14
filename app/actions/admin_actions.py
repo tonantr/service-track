@@ -94,9 +94,12 @@ class AdminActions:
                 return
             user_id = int(user_id)
 
-            selected_user = next(
-                (user for user in users if user["user_id"] == user_id), None
-            )
+            selected_user = None
+            for user in users:
+                if user["id"] == user_id:
+                    selected_user = user
+                    break
+
             if not selected_user:
                 print("\nError: User not found.\n")
                 return

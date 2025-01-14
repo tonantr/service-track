@@ -15,7 +15,7 @@ class AdminDatabaseHandler(DatabaseHandler):
     def update_user(self, user_id, username=None, role=None, email=None, password=None):
         fields = []
         values = []
-        
+
         if username:
             fields.append("username = %s")
             values.append(username)

@@ -28,7 +28,6 @@ class AdminMenu:
         elif choice == 4:
             return "logout"
 
-
     def display_user_management_menu(self):
         options = {
             "1": "Add User",
@@ -99,4 +98,3 @@ class AdminMenu:
     #         AdminMenu.display_admin_menu()
     #     else:
     #         print("Invalid choice, please try again.\n")
-
