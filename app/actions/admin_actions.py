@@ -147,7 +147,7 @@ class AdminActions:
         except Exception as e:
             logging.error("Error in update_user: %s", str(e))
             print("\nAn error occurred while updating the user.\n")
-    
+
     def delete_user(self):
         try:
             users = self.db_handler.load_users()
@@ -187,3 +187,27 @@ class AdminActions:
         except Exception as e:
             logging.error("Error in delete_user: %s", str(e))
             print("\nAn error occurred while deleting the user.\n")
+
+    def list_cars(self):
+        try:
+            print("\n*** List of Cars ***\n")
+            cars = self.db_handler.load_cars()
+            if not cars:
+                print("No cars found.\n")
+                return
+
+            print(
+                f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10} {'Owner':<20} {'Services':<50}"
+            )
+            print("-" * 125)
+
+            for car in cars:
+                print(
+                    f"{car['car_id']:<5} {car['name']:<20} {car['model']:<20} {car['year']: <10} {car['owner']:<20} {car['services']:<50}"
+                )
+                
+            print()
+            input("\nPress Enter to go back to the Menu.\n")
+        except Exception as e:
+            logging.error("Error in list_cars: %s", str(e))
+            print("\nAn error occurred while listing the cars.\n")

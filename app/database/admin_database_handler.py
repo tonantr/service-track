@@ -44,3 +44,19 @@ class AdminDatabaseHandler(DatabaseHandler):
         
         query_user = "DELETE FROM users WHERE user_id = %s"
         self.execute_commit(query_user, (user_id,))
+    
+    def load_cars(self):
+        query = """
+        SELECT 
+            c.car_id, 
+            c.name, 
+            c.model, 
+            c.year, 
+            u.username AS owner,
+            GROUP_CONCAT(DISTINCT s.service_type ORDER BY s.service_date SEPARATOR ', ') AS services
+        FROM cars c
+        LEFT JOIN users u ON c.user_id = u.user_id
+        LEFT JOIN services s ON c.car_id = s.car_id
+        GROUP BY c.car_id, c.name, c.model, c.year, u.username;
+    """
+        return self.execute_query(query)
