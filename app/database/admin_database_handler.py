@@ -60,3 +60,7 @@ class AdminDatabaseHandler(DatabaseHandler):
         GROUP BY c.car_id, c.name, c.model, c.year, u.username;
     """
         return self.execute_query(query)
+    
+    def add_car(self, name, model, year, user_id):
+        query = "INSERT INTO cars (name, model, year, user_id) VALUES (%s, %s, %s, %s)"
+        self.execute_commit(query, (name, model, year, user_id))

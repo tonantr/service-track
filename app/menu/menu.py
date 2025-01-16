@@ -55,5 +55,33 @@ class Menu:
             return None
 
     @staticmethod
+    def get_name_car():
+        name = input("\nEnter car name: ").strip()
+        if not name:
+            print("Error: Name cannot be empty.\n")
+            return None
+        return name
+
+    @staticmethod
+    def get_model_car():
+        model = input("Enter car model: ").strip()
+        if not model:
+            print("Error: Model cannot be empty.\n")
+            return None
+        return model
+
+    @staticmethod
+    def get_year_car():
+        while True:
+            year = input("Enter car year (e.g., 2023): ").strip()
+            if not year.isdigit():
+                print("Error: Year must be a number.\n")
+                continue
+            if len(year) != 4:
+                print("Error: Year must have 4 digits.\n")
+                continue
+            return year
+
+    @staticmethod
     def confirm_action(message="Are you sure? (y/n): "):
         return input(message).strip().lower() == "y"

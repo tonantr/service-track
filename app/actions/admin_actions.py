@@ -202,12 +202,71 @@ class AdminActions:
             print("-" * 125)
 
             for car in cars:
+                car_id = str(car["car_id"])
+                name = str(car["name"])
+                model = str(car["model"])
+                year = str(car["year"])
+                owner = str(car["owner"])
+                services = str(car["services"])
                 print(
-                    f"{car['car_id']:<5} {car['name']:<20} {car['model']:<20} {car['year']: <10} {car['owner']:<20} {car['services']:<50}"
+                    f"{car_id:<5} {name:<20} {model:<20} {year:<10} {owner:<20} {services:<50}"
                 )
-                
+
             print()
             input("\nPress Enter to go back to the Menu.\n")
         except Exception as e:
             logging.error("Error in list_cars: %s", str(e))
             print("\nAn error occurred while listing the cars.\n")
+
+    def add_car(self):
+        try:
+            print("\n*** Add Car ***\n")
+
+            users = self.db_handler.load_users()
+            if not users:
+                print("\nNo users found.\n")
+                return
+            print("\n*** List of Users ***\n")
+            print(f"{'ID':<5} {'Username':<15} {'Email':<25} {'Role':<10}")
+            print("-" * 55)
+            for user in users:
+                print(
+                    f"{user['user_id']:<5} {user['username']:<15} {user['email']: <25} {user['role']:<10}"
+                )
+            print()
+
+            user_id = input("Enter the ID of the user: ").strip()
+            if not user_id.isdigit():
+                print("\nError: Invalid ID.\n")
+                return
+            user_id = int(user_id)
+
+            selected_user = None
+            for user in users:
+                if user["user_id"] == user_id:
+                    selected_user = user
+                    break
+            print(f"\nSelected User: {selected_user['username']} (ID: {user_id})\n")
+            print("Enter the details of the car:")
+            car_name = Menu.get_name_car()
+            if not car_name:
+                return
+
+            car_model = Menu.get_model_car()
+            if not car_model:
+                return
+
+            car_year = Menu.get_year_car()
+            if not car_year:
+                return
+
+            if not Menu.confirm_action("add this car? (y/n): "):
+                print("\nCancelled.\n")
+                return
+
+            self.db_handler.add_car(car_name, car_model, car_year, user_id)
+            print("\nCar added successfully.\n")
+
+        except Exception as e:
+            logging.error("Error in add_car: %s", str(e))
+            print("\nAn error occurred while adding the car.\n")

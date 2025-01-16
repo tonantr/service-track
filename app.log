@@ -5,3 +5,5 @@
 2025-01-13 22:00:29,518 - ERROR - admin_actions - Line: 188 - Error in delete_user: 'id'
 2025-01-13 22:01:26,902 - ERROR - admin_actions - Line: 188 - Error in delete_user: 'id'
 2025-01-13 22:09:55,033 - ERROR - admin_actions - Line: 148 - Error in update_user: 'id'
+2025-01-15 17:18:53,052 - ERROR - admin_actions - Line: 212 - Error in list_cars: unsupported format string passed to NoneType.__format__
+2025-01-15 17:21:47,242 - ERROR - admin_actions - Line: 212 - Error in list_cars: unsupported format string passed to NoneType.__format__
