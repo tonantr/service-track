@@ -65,25 +65,11 @@ class AdminDatabaseHandler(DatabaseHandler):
         query = "INSERT INTO cars (name, model, year, user_id) VALUES (%s, %s, %s, %s)"
         self.execute_commit(query, (name, model, year, user_id))
 
-    def update_car(self, car_id, name=None, model=None, year=None, user_id=None):
-        fields = []
-        values = []
-
-        if name:
-            fields.append("name = %s")
-            values.append(name)
-        if model:
-            fields.append("model = %s")
-            values.append(model)
-        if year:
-            fields.append("year = %s")
-            values.append(year)
-        if user_id:
-            fields.append("user_id = %s")
-            values.append(user_id)
-        if not fields:
+    def update_car(self, car_id, **kwargs):
+        if not kwargs:
             raise ValueError("No fields to update.")
-
-        query = f"UPDATE cars SET {', '.join(fields)} WHERE car_id = %s"
+        fields = [f"{key} = %s" for key in kwargs.keys()]
+        values = list(kwargs.values())
+        query = f"UPDATE cars SET {" , ".join(fields)} WHERE car_id = %s"
         values.append(car_id)
         self.execute_commit(query, tuple(values))
