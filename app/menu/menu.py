@@ -73,7 +73,7 @@ class Menu:
     @staticmethod
     def get_year_car():
         while True:
-            year = input("Enter car year (e.g., 2023): ").strip()
+            year = input("Enter car year (YYYY): ").strip()
             if not year.isdigit():
                 print("Error: Year must be a number.\n")
                 continue
@@ -81,6 +81,37 @@ class Menu:
                 print("Error: Year must have 4 digits.\n")
                 continue
             return year
+
+    @staticmethod
+    def get_service_type():
+        service_type = input("\nEnter service type: ").strip()
+        if not service_type:
+            print("Error: Service type cannot be empty.\n")
+            return None
+        return service_type
+    
+    @staticmethod
+    def get_service_date():
+        service_date = input("Enter service date (YYYY-MM-DD): ").strip()
+        if not service_date:
+            print("Error: Service date cannot be empty.\n")
+            return None
+        return service_date
+    
+    @staticmethod
+    def get_next_service_date():
+        next_service_date = input("Enter next service date (YYYY-MM-DD): ").strip()
+        if not next_service_date:
+            return None
+        return next_service_date
+    
+    @staticmethod
+    def get_notes():
+        notes = input("Enter notes: ").strip()
+        if not notes:
+            print("Error: Notes cannot be empty.\n")
+            return None
+        return notes
 
     @staticmethod
     def confirm_action(message="Are you sure? (y/n): "):

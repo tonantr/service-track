@@ -8,7 +8,7 @@ class UserMenu:
             "1": "Profile Management",
             "2": "Car Management",
             "3": "Service Management",
-            "4": "Logout",
+            "4": "Logout\n",
         }
 
     def display_user_menu(self):
@@ -34,7 +34,7 @@ class UserMenu:
             "1": "View Profile",
             "2": "Change Password",
             "3": "Update Email",
-            "4": "Back",
+            "4": "Back\n",
         }
         while True:
             try:
@@ -60,7 +60,7 @@ class UserMenu:
             "2": "Add Car",
             "3": "Edit Car",
             "4": "Delete Car",
-            "5": "Back",
+            "5": "Back\n",
         }
         while True:
             try:

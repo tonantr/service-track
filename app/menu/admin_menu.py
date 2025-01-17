@@ -9,7 +9,7 @@ class AdminMenu:
             "1": "User Management",
             "2": "Car Management",
             "3": "Service Management",
-            "4": "Logout",
+            "4": "Logout\n",
         }
 
     def display_admin_menu(self):
@@ -34,7 +34,7 @@ class AdminMenu:
             "2": "List Users",
             "3": "Update User",
             "4": "Delete User",
-            "5": "Back",
+            "5": "Back\n",
         }
         try:
             choice = int(Menu.display_menu(options))
@@ -59,7 +59,7 @@ class AdminMenu:
             "2": "Add Car",
             "3": "Update Car",
             "4": "Delete Car",
-            "5": "Back",
+            "5": "Back\n",
         }
         try:
             choice = Menu.display_menu(options)
@@ -84,7 +84,7 @@ class AdminMenu:
             "2": "Add Service",
             "3": "Update Service",
             "4": "Delete Service",
-            "5": "Back",
+            "5": "Back\n",
         }
         try:
             choice = Menu.display_menu(options)
@@ -95,7 +95,7 @@ class AdminMenu:
         if choice == "1":
             self.admin_actions.list_services()
         elif choice == "2":
-            print("Add Service coming soon.")
+            self.admin_actions.add_service()
         elif choice == "3":
             print("Update Service coming soon.")
         elif choice == "4":
