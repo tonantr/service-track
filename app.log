@@ -7,3 +7,4 @@
 2025-01-13 22:09:55,033 - ERROR - admin_actions - Line: 148 - Error in update_user: 'id'
 2025-01-15 17:18:53,052 - ERROR - admin_actions - Line: 212 - Error in list_cars: unsupported format string passed to NoneType.__format__
 2025-01-15 17:21:47,242 - ERROR - admin_actions - Line: 212 - Error in list_cars: unsupported format string passed to NoneType.__format__
+2025-01-17 11:36:50,541 - ERROR - admin_actions - Line: 358 - Error in update_car: AdminDatabaseHandler.update_car() got an unexpected keyword argument 'owner_id'. Did you mean 'user_id'?

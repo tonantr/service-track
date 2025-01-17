@@ -41,10 +41,10 @@ class AdminDatabaseHandler(DatabaseHandler):
 
         query_cars = "DELETE FROM cars WHERE user_id = %s"
         self.execute_commit(query_cars, (user_id,))
-        
+
         query_user = "DELETE FROM users WHERE user_id = %s"
         self.execute_commit(query_user, (user_id,))
-    
+
     def load_cars(self):
         query = """
         SELECT 
@@ -60,7 +60,30 @@ class AdminDatabaseHandler(DatabaseHandler):
         GROUP BY c.car_id, c.name, c.model, c.year, u.username;
     """
         return self.execute_query(query)
-    
+
     def add_car(self, name, model, year, user_id):
         query = "INSERT INTO cars (name, model, year, user_id) VALUES (%s, %s, %s, %s)"
         self.execute_commit(query, (name, model, year, user_id))
+
+    def update_car(self, car_id, name=None, model=None, year=None, user_id=None):
+        fields = []
+        values = []
+
+        if name:
+            fields.append("name = %s")
+            values.append(name)
+        if model:
+            fields.append("model = %s")
+            values.append(model)
+        if year:
+            fields.append("year = %s")
+            values.append(year)
+        if user_id:
+            fields.append("user_id = %s")
+            values.append(user_id)
+        if not fields:
+            raise ValueError("No fields to update.")
+
+        query = f"UPDATE cars SET {', '.join(fields)} WHERE car_id = %s"
+        values.append(car_id)
+        self.execute_commit(query, tuple(values))

@@ -72,7 +72,7 @@ class AdminMenu:
         elif choice == "2":
             self.admin_actions.add_car()
         elif choice == "3":
-            print("Update Car coming soon.")
+            self.admin_actions.update_car()
         elif choice == "4":
             print("Delete Car coming soon.")
         elif choice == "5":
