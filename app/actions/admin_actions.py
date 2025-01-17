@@ -459,26 +459,32 @@ class AdminActions:
             service_type = Menu.get_service_type()
             if not service_type:
                 return
-            
+
             service_date = Menu.get_service_date()
             if not service_date:
                 return
             if not validate_date(service_date):
                 print("\nError: Invalid date format. Please use YYYY-MM-DD.\n")
                 return
-            
+
             next_service_date = Menu.get_next_service_date()
             if not validate_date(next_service_date):
                 print("\nError: Invalid date format. Please use YYYY-MM-DD.\n")
                 return
-            
+
             notes = Menu.get_notes()
             if not notes:
                 return
             if not Menu.confirm_action("add this service? (y/n): "):
                 print("\nCancelled.\n")
                 return
-            self.db_handler.add_service(service_type=service_type, service_date=service_date, next_service_date=next_service_date, notes=notes, car_id=car_id)
+            self.db_handler.add_service(
+                service_type=service_type,
+                service_date=service_date,
+                next_service_date=next_service_date,
+                notes=notes,
+                car_id=car_id,
+            )
             print("\nService added successfully.\n")
         except Exception as e:
             logging.error("Error in add_service: %s", str(e))

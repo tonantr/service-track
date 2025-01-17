@@ -9,3 +9,5 @@
 2025-01-15 17:21:47,242 - ERROR - admin_actions - Line: 212 - Error in list_cars: unsupported format string passed to NoneType.__format__
 2025-01-17 11:36:50,541 - ERROR - admin_actions - Line: 358 - Error in update_car: AdminDatabaseHandler.update_car() got an unexpected keyword argument 'owner_id'. Did you mean 'user_id'?
 2025-01-17 15:59:48,024 - ERROR - admin_actions - Line: 484 - Error in add_service: expected string or bytes-like object, got 'NoneType'
+2025-01-17 16:22:37,534 - ERROR - login_module - Line: 61 - Error logging in: 'NoneType' object has no attribute 'get'
+2025-01-17 16:28:18,600 - INFO - login_module - Line: 51 - User testtest logged in successfully as user.
