@@ -74,7 +74,7 @@ class AdminMenu:
         elif choice == "3":
             self.admin_actions.update_car()
         elif choice == "4":
-            print("Delete Car coming soon.")
+            self.admin_actions.delete_car()
         elif choice == "5":
             return
 

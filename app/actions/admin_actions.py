@@ -357,3 +357,44 @@ class AdminActions:
         except Exception as e:
             logging.error("Error in update_car: %s", str(e))
             print("\nAn error occurred while updating the car.\n")
+
+    def delete_car(self):
+        try:
+            print("\n*** Delete Car ***\n")
+            cars = self.db_handler.load_cars()
+            if not cars:
+                print("\nNo cars found.\n")
+                return
+            print("\n*** List of Cars ***\n")
+            print(f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10} {'Owner':<20}")
+            print("-" * 75)
+            for car in cars:
+                car_id = str(car["car_id"])
+                name = str(car["name"])
+                model = str(car["model"])
+                year = str(car["year"])
+                owner = str(car["owner"])
+                print(f"{car_id:<5} {name:<20} {model:<20} {year:<10} {owner:<20}")
+            print()
+            car_id = input("Enter the ID of the car: ").strip()
+            if not car_id.isdigit():
+                print("\nError: Invalid ID.\n")
+                return
+            car_id = int(car_id)
+            selected_car = None
+            for car in cars:
+                if car["car_id"] == car_id:
+                    selected_car = car
+                    break
+            if not selected_car:
+                print("\nError: Car not found.\n")
+                return
+            print(f"\nSelected Car: {selected_car['name']} (ID: {car_id})\n")
+            if not Menu.confirm_action("delete this car? (y/n): "):
+                print("\nCancelled.\n")
+                return
+            self.db_handler.delete_car(car_id)
+            print("\nCar deleted successfully.\n")
+        except Exception as e:
+            logging.error("Error in delete_car: %s", str(e))
+            print("\nAn error occurred while deleting the car.\n")

@@ -70,6 +70,14 @@ class AdminDatabaseHandler(DatabaseHandler):
             raise ValueError("No fields to update.")
         fields = [f"{key} = %s" for key in kwargs.keys()]
         values = list(kwargs.values())
+
         query = f"UPDATE cars SET {" , ".join(fields)} WHERE car_id = %s"
         values.append(car_id)
         self.execute_commit(query, tuple(values))
+
+    def delete_car(self, car_id):
+        query_services = "DELETE FROM services WHERE car_id = %s"
+        self.execute_commit(query_services, (car_id,))
+
+        query_car = "DELETE FROM cars WHERE car_id = %s"
+        self.execute_commit(query_car, (car_id,))
