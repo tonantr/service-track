@@ -24,7 +24,7 @@ class AdminMenu:
         elif choice == 2:
             self.display_car_management_menu()
         elif choice == 3:
-            print("Service Management coming soon.")
+            self.display_service_management_menu()
         elif choice == 4:
             return "logout"
 
@@ -93,7 +93,7 @@ class AdminMenu:
             return
 
         if choice == "1":
-            print("List Services coming soon.")
+            self.admin_actions.list_services()
         elif choice == "2":
             print("Add Service coming soon.")
         elif choice == "3":

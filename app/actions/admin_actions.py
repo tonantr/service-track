@@ -398,3 +398,33 @@ class AdminActions:
         except Exception as e:
             logging.error("Error in delete_car: %s", str(e))
             print("\nAn error occurred while deleting the car.\n")
+
+    def list_services(self):
+        print("\n*** List of Services ***\n")
+        services = self.db_handler.load_services()
+        if not services:
+            print("No services found.\n")
+            return
+        print(
+            f"{'Car Name':<20} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
+        )
+        print("-" * 140)
+        for service in services:
+            car_name = str(service["car_name"])
+            service_type = (
+                str(service["service_type"] + "...")
+                if len(service["service_type"]) > 30
+                else str(service["service_type"])
+            )
+            service_date = str(service["service_date"])
+            next_service_date = str(service["next_service_date"])
+            notes = (
+                str(service["notes"] + "...")
+                if len(service["notes"]) > 50
+                else str(service["notes"])
+            )
+            print(
+                f"{car_name:<20} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
+            )
+        print()
+        input("\nPress Enter to go back to the Menu.\n")
