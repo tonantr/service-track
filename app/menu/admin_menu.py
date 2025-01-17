@@ -29,29 +29,30 @@ class AdminMenu:
             return "logout"
 
     def display_user_management_menu(self):
-        options = {
-            "1": "Add User",
-            "2": "List Users",
-            "3": "Update User",
-            "4": "Delete User",
-            "5": "Back\n",
-        }
-        try:
-            choice = int(Menu.display_menu(options))
-        except ValueError:
-            Menu.handle_invalid_input()
-            return
+        while True:
+            options = {
+                "1": "List User",
+                "2": "Add Users",
+                "3": "Update User",
+                "4": "Delete User",
+                "5": "Back\n",
+            }
+            try:
+                choice = int(Menu.display_menu(options))
+            except ValueError:
+                Menu.handle_invalid_input()
+                return
 
-        if choice == 1:
-            self.admin_actions.add_user()
-        elif choice == 2:
-            self.admin_actions.list_users()
-        elif choice == 3:
-            self.admin_actions.update_user()
-        elif choice == 4:
-            self.admin_actions.delete_user()
-        elif choice == 5:
-            return
+            if choice == 1:
+                self.admin_actions.list_users()
+            elif choice == 2:
+                self.admin_actions.add_user()
+            elif choice == 3:
+                self.admin_actions.update_user()
+            elif choice == 4:
+                self.admin_actions.delete_user()
+            elif choice == 5:
+                return
 
     def display_car_management_menu(self):
         options = {
@@ -61,44 +62,46 @@ class AdminMenu:
             "4": "Delete Car",
             "5": "Back\n",
         }
-        try:
-            choice = Menu.display_menu(options)
-        except ValueError:
-            Menu.handle_invalid_input()
-            return
+        while True:
+            try:
+                choice = Menu.display_menu(options)
+            except ValueError:
+                Menu.handle_invalid_input()
+                return
 
-        if choice == "1":
-            self.admin_actions.list_cars()
-        elif choice == "2":
-            self.admin_actions.add_car()
-        elif choice == "3":
-            self.admin_actions.update_car()
-        elif choice == "4":
-            self.admin_actions.delete_car()
-        elif choice == "5":
-            return
+            if choice == "1":
+                self.admin_actions.list_cars()
+            elif choice == "2":
+                self.admin_actions.add_car()
+            elif choice == "3":
+                self.admin_actions.update_car()
+            elif choice == "4":
+                self.admin_actions.delete_car()
+            elif choice == "5":
+                return
 
     def display_service_management_menu(self):
-        options = {
-            "1": "List Services",
-            "2": "Add Service",
-            "3": "Update Service",
-            "4": "Delete Service",
-            "5": "Back\n",
-        }
-        try:
-            choice = Menu.display_menu(options)
-        except ValueError:
-            Menu.handle_invalid_input()
-            return
+        while True:
+            options = {
+                "1": "List Services",
+                "2": "Add Service",
+                "3": "Update Service",
+                "4": "Delete Service",
+                "5": "Back\n",
+            }
+            try:
+                choice = Menu.display_menu(options)
+            except ValueError:
+                Menu.handle_invalid_input()
+                return
 
-        if choice == "1":
-            self.admin_actions.list_services()
-        elif choice == "2":
-            self.admin_actions.add_service()
-        elif choice == "3":
-            print("Update Service coming soon.")
-        elif choice == "4":
-            print("Delete Service coming soon.")
-        elif choice == "5":
-            return
+            if choice == "1":
+                self.admin_actions.list_services()
+            elif choice == "2":
+                self.admin_actions.add_service()
+            elif choice == "3":
+                print("Update Service coming soon.")
+            elif choice == "4":
+                print("Delete Service coming soon.")
+            elif choice == "5":
+                return

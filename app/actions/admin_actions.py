@@ -17,7 +17,6 @@ class AdminActions:
     def add_user(self):
         try:
             if not Menu.confirm_action("add a new user? (y/n): "):
-                self.list_users()
                 return
 
             username = Menu.get_username()
