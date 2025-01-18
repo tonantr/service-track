@@ -1,7 +1,6 @@
 from app.actions.admin_actions import AdminActions
 from app.menu.menu import Menu
 
-
 class AdminMenu:
     def __init__(self, admin_actions):
         self.admin_actions = admin_actions
@@ -11,60 +10,53 @@ class AdminMenu:
             "3": "Service Management",
             "4": "Logout\n",
         }
+        self.COMMON_OPTIONS = {
+            "1": "List",
+            "2": "Add",
+            "3": "Update",
+            "4": "Delete",
+            "5": "Back\n",
+        }
 
     def display_admin_menu(self):
         try:
-            choice = int(Menu.display_menu(self.menu_options))
+            choice = Menu.display_menu(self.menu_options)
         except ValueError:
             Menu.handle_invalid_input()
             return
 
-        if choice == 1:
+        if choice == "1":
             self.display_user_management_menu()
-        elif choice == 2:
+        elif choice == "2":
             self.display_car_management_menu()
-        elif choice == 3:
+        elif choice == "3":
             self.display_service_management_menu()
-        elif choice == 4:
+        elif choice == "4":
             return "logout"
 
     def display_user_management_menu(self):
         while True:
-            options = {
-                "1": "List User",
-                "2": "Add Users",
-                "3": "Update User",
-                "4": "Delete User",
-                "5": "Back\n",
-            }
             try:
-                choice = int(Menu.display_menu(options))
+                choice = Menu.display_menu(self.COMMON_OPTIONS)
             except ValueError:
                 Menu.handle_invalid_input()
                 return
 
-            if choice == 1:
+            if choice == "1":
                 self.admin_actions.list_users()
-            elif choice == 2:
+            elif choice == "2":
                 self.admin_actions.add_user()
-            elif choice == 3:
+            elif choice == "3":
                 self.admin_actions.update_user()
-            elif choice == 4:
+            elif choice == "4":
                 self.admin_actions.delete_user()
-            elif choice == 5:
+            elif choice == "5":
                 return
 
     def display_car_management_menu(self):
-        options = {
-            "1": "List Cars",
-            "2": "Add Car",
-            "3": "Update Car",
-            "4": "Delete Car",
-            "5": "Back\n",
-        }
         while True:
             try:
-                choice = int(Menu.display_menu(options))
+                choice = Menu.display_menu(self.COMMON_OPTIONS)
             except ValueError:
                 Menu.handle_invalid_input()
                 return
@@ -82,15 +74,8 @@ class AdminMenu:
 
     def display_service_management_menu(self):
         while True:
-            options = {
-                "1": "List Services",
-                "2": "Add Service",
-                "3": "Update Service",
-                "4": "Delete Service",
-                "5": "Back\n",
-            }
             try:
-                choice = int(Menu.display_menu(options))
+                choice = Menu.display_menu(self.COMMON_OPTIONS)
             except ValueError:
                 Menu.handle_invalid_input()
                 return
