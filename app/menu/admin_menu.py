@@ -64,7 +64,7 @@ class AdminMenu:
         }
         while True:
             try:
-                choice = Menu.display_menu(options)
+                choice = int(Menu.display_menu(options))
             except ValueError:
                 Menu.handle_invalid_input()
                 return
@@ -90,7 +90,7 @@ class AdminMenu:
                 "5": "Back\n",
             }
             try:
-                choice = Menu.display_menu(options)
+                choice = int(Menu.display_menu(options))
             except ValueError:
                 Menu.handle_invalid_input()
                 return
