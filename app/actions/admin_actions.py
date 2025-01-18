@@ -9,7 +9,6 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(module)s - Line: %(lineno)d - %(message)s",
 )
 
-
 class AdminActions:
     def __init__(self, db_handler):
         self.db_handler = db_handler

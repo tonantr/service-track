@@ -15,8 +15,8 @@ class Menu:
         return input("Enter your choice: ")
 
     @staticmethod
-    def handle_invalid_input():
-        print("\nInvalid input, please enter a number.\n")
+    def handle_invalid_input(message="Invalid input"):
+        print(f"\n{message}\n")
 
     @staticmethod
     def get_username():

@@ -1,5 +1,13 @@
 from app.actions.admin_actions import AdminActions
 from app.menu.menu import Menu
+import logging
+
+logging.basicConfig(
+    filename="app.log",
+    level=logging.DEBUG,
+    format="%(asctime)s - %(levelname)s - %(module)s - Line: %(lineno)d - %(message)s",
+)
+
 
 class AdminMenu:
     def __init__(self, admin_actions):
@@ -19,28 +27,31 @@ class AdminMenu:
         }
 
     def display_admin_menu(self):
-        try:
-            choice = Menu.display_menu(self.menu_options)
-        except ValueError:
-            Menu.handle_invalid_input()
-            return
+        while True:
+            try:
+                choice = Menu.display_menu(self.menu_options)
+            except ValueError as e:
+                logging.error(f"Error in display_admin_menu: {e}")
+                Menu.handle_invalid_input("Invalid option in Admin Menu.")
+                continue
 
-        if choice == "1":
-            self.display_user_management_menu()
-        elif choice == "2":
-            self.display_car_management_menu()
-        elif choice == "3":
-            self.display_service_management_menu()
-        elif choice == "4":
-            return "logout"
+            if choice == "1":
+                self.display_user_management_menu()
+            elif choice == "2":
+                self.display_car_management_menu()
+            elif choice == "3":
+                self.display_service_management_menu()
+            elif choice == "4":
+                return "logout"
 
     def display_user_management_menu(self):
         while True:
             try:
                 choice = Menu.display_menu(self.COMMON_OPTIONS)
-            except ValueError:
-                Menu.handle_invalid_input()
-                return
+            except ValueError as e:
+                logging.error(f"Error in display_user_management_menu: {e}")
+                Menu.handle_invalid_input("Invalid option in User Menu.")
+                continue
 
             if choice == "1":
                 self.admin_actions.list_users()
@@ -57,9 +68,10 @@ class AdminMenu:
         while True:
             try:
                 choice = Menu.display_menu(self.COMMON_OPTIONS)
-            except ValueError:
-                Menu.handle_invalid_input()
-                return
+            except ValueError as e:
+                logging.error(f"Error in display_car_management_menu: {e}")
+                Menu.handle_invalid_input("Invalid option in Car Menu")
+                continue
 
             if choice == "1":
                 self.admin_actions.list_cars()
@@ -76,9 +88,10 @@ class AdminMenu:
         while True:
             try:
                 choice = Menu.display_menu(self.COMMON_OPTIONS)
-            except ValueError:
-                Menu.handle_invalid_input()
-                return
+            except ValueError as e:
+                logging.error(f"Error in display_service_management_menu: {e}")
+                Menu.handle_invalid_input("Invalid option in Service Menu")
+                continue
 
             if choice == "1":
                 self.admin_actions.list_services()
