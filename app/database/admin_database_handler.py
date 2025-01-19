@@ -67,7 +67,7 @@ class AdminDatabaseHandler(DatabaseHandler):
 
     def update_car(self, car_id, **kwargs):
         if not kwargs:
-            raise ValueError("No fields to update.")
+            raise ValueError("\nNo fields to update.\n")
         fields = [f"{key} = %s" for key in kwargs.keys()]
         values = list(kwargs.values())
 
@@ -97,6 +97,21 @@ class AdminDatabaseHandler(DatabaseHandler):
     """
         return self.execute_query(query)
 
-    def add_service(self, service_type, service_date, notes, car_id, next_service_date=None):
+    def add_service(
+        self, service_type, service_date, notes, car_id, next_service_date=None
+    ):
         query = "INSERT INTO services (service_type, service_date, next_service_date, notes, car_id) VALUES (%s, %s, %s, %s, %s)"
-        self.execute_commit(query, (service_type, service_date, next_service_date, notes, car_id))
+        self.execute_commit(
+            query, (service_type, service_date, next_service_date, notes, car_id)
+        )
+
+    def update_service(self, service_id, **kwargs):
+        if not kwargs:
+            raise ValueError("\nNo fields to update.\n")
+
+        fields = [f"{key} = %s" for key in kwargs.keys()]
+        values = list(kwargs.values())
+
+        query = f"UPDATE services SET {" , ".join(fields)} WHERE service_id = %s"
+        values.append(service_id)
+        self.execute_commit(query, tuple(values))

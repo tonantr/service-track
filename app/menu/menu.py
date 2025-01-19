@@ -8,8 +8,8 @@ class Menu:
         return input("Enter your choice: ")
 
     @staticmethod
-    def display_menu(menu_options):
-        print("\nMenu:")
+    def display_menu(menu_options, menu_context="Menu"):
+        print(f"\n{menu_context}:")
         for key, value in menu_options.items():
             print(f"{key}. {value}")
         return input("Enter your choice: ")

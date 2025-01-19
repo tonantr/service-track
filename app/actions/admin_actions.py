@@ -9,6 +9,7 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(module)s - Line: %(lineno)d - %(message)s",
 )
 
+
 class AdminActions:
     def __init__(self, db_handler):
         self.db_handler = db_handler
@@ -398,34 +399,38 @@ class AdminActions:
             print("\nAn error occurred while deleting the car.\n")
 
     def list_services(self):
-        print("\n*** List of Services ***\n")
-        services = self.db_handler.load_services()
-        if not services:
-            print("No services found.\n")
-            return
-        print(
-            f"{'Car Name':<20} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
-        )
-        print("-" * 140)
-        for service in services:
-            car_name = str(service["car_name"])
-            service_type = (
-                str(service["service_type"] + "...")
-                if len(service["service_type"]) > 30
-                else str(service["service_type"])
-            )
-            service_date = str(service["service_date"])
-            next_service_date = str(service["next_service_date"])
-            notes = (
-                str(service["notes"] + "...")
-                if len(service["notes"]) > 50
-                else str(service["notes"])
-            )
+        try:
+            print("\n*** List of Services ***\n")
+            services = self.db_handler.load_services()
+            if not services:
+                print("No services found.\n")
+                return
             print(
-                f"{car_name:<20} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
+                f"{'Car Name':<20} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
             )
-        print()
-        input("\nPress Enter to go back to the Menu.\n")
+            print("-" * 140)
+            for service in services:
+                car_name = str(service["car_name"])
+                service_type = (
+                    str(service["service_type"] + "...")
+                    if len(service["service_type"]) > 30
+                    else str(service["service_type"])
+                )
+                service_date = str(service["service_date"])
+                next_service_date = str(service["next_service_date"])
+                notes = (
+                    str(service["notes"] + "...")
+                    if len(service["notes"]) > 50
+                    else str(service["notes"])
+                )
+                print(
+                    f"{car_name:<20} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
+                )
+            print()
+            input("\nPress Enter to go back to the Menu.\n")
+        except Exception as e:
+            logging.error("Error in list_services: %s", str(e))
+            print("\nAn error occurred while listing the services.\n")
 
     def add_service(self):
         try:
@@ -487,3 +492,83 @@ class AdminActions:
         except Exception as e:
             logging.error("Error in add_service: %s", str(e))
             print("\nAn error occurred while adding the service.\n")
+
+    def update_service(self):
+        try:
+            services = self.db_handler.load_services()
+            if not services:
+                print("\nNo services found\n")
+                return
+            print("\n*** List of Services ***\n")
+            print(
+                f"{'ID':<5} {'Car Name':<20} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
+            )
+            print("-" * 140)
+            for service in services:
+                service_id = str(service["service_id"])
+                car_name = str(service["car_name"])
+                service_type = str(service["service_type"][:30])
+                service_date = str(service["service_date"])
+                next_service_date = str(service["next_service_date"])
+                notes = str(service["notes"][:50])
+                print(
+                    f"{service_id:<5} {car_name:<20} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
+                )
+            service_id = input("\nEnter the ID of the service: ").strip()
+            if not service_id.isdigit():
+                print("\nError: Invalid ID.\n")
+                return
+            service_id = int(service_id)
+            selected_service = None
+            for service in services:
+                if service["service_id"] == service_id:
+                    selected_service = service
+                    break
+            if not selected_service:
+                print("\nService not found\n")
+                return
+            print(
+                f"\nSelected Service: {selected_service['service_type']} (ID: {service_id})\n"
+            )
+            print("Which fields would you like to update?\n")
+            print("1. Service Type")
+            print("2. Service Date")
+            print("3. Next Service Date")
+            print("4. Notes")
+            print("5. Cancel\n")
+            choice = input("Enter your choice: ").strip()
+            if choice == "1":
+                service_type = Menu.get_service_type()
+                if not service_type:
+                    return
+                self.db_handler.update_service(service_id, service_type=service_type)
+                print("\nService type updated successfully.\n")
+            elif choice == "2":
+                service_date = Menu.get_service_date()
+                if not service_date:
+                    return
+                self.db_handler.update_service(service_id, service_date=service_date)
+                print("\nService Date updated successfully.\n")
+            elif choice == "3":
+                next_service_date = Menu.get_next_service_date()
+                if not next_service_date:
+                    return
+                self.db_handler.update_service(
+                    service_id, next_service_date=next_service_date
+                )
+                print("\nNext service date updated successfully.\n")
+            elif choice == "4":
+                notes = Menu.get_notes()
+                if not notes:
+                    return
+                self.db_handler.update_service(service_id, notes=notes)
+                print("\nNotes updated successfully.\n")
+            elif choice == "5":
+                print("\nCancelled.\n")
+                return
+            else:
+                print("\nError: Invalid choice.\n")
+
+        except Exception as e:
+            logging.error("Error in update_service: %s", str(e))
+            print("\nAn error occurred while updating the service")

@@ -8,7 +8,6 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(module)s - Line: %(lineno)d - %(message)s",
 )
 
-
 class AdminMenu:
     def __init__(self, admin_actions):
         self.admin_actions = admin_actions
@@ -47,7 +46,7 @@ class AdminMenu:
     def display_user_management_menu(self):
         while True:
             try:
-                choice = Menu.display_menu(self.COMMON_OPTIONS)
+                choice = Menu.display_menu(self.COMMON_OPTIONS, "User Management")
             except ValueError as e:
                 logging.error(f"Error in display_user_management_menu: {e}")
                 Menu.handle_invalid_input("Invalid option in User Menu.")
@@ -67,7 +66,7 @@ class AdminMenu:
     def display_car_management_menu(self):
         while True:
             try:
-                choice = Menu.display_menu(self.COMMON_OPTIONS)
+                choice = Menu.display_menu(self.COMMON_OPTIONS, "Car Management")
             except ValueError as e:
                 logging.error(f"Error in display_car_management_menu: {e}")
                 Menu.handle_invalid_input("Invalid option in Car Menu")
@@ -87,7 +86,7 @@ class AdminMenu:
     def display_service_management_menu(self):
         while True:
             try:
-                choice = Menu.display_menu(self.COMMON_OPTIONS)
+                choice = Menu.display_menu(self.COMMON_OPTIONS, "Service Management")
             except ValueError as e:
                 logging.error(f"Error in display_service_management_menu: {e}")
                 Menu.handle_invalid_input("Invalid option in Service Menu")
@@ -98,7 +97,7 @@ class AdminMenu:
             elif choice == "2":
                 self.admin_actions.add_service()
             elif choice == "3":
-                print("Update Service coming soon.")
+                self.admin_actions.update_service()
             elif choice == "4":
                 print("Delete Service coming soon.")
             elif choice == "5":
