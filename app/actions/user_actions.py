@@ -3,6 +3,7 @@ from app.menu.menu import Menu
 from app.auth.password_hashing import hash_password
 from getpass import getpass
 from app.utils.validation import validate_email
+from app.utils.constants import ERROR_USER_NOT_FOUND, PRESS_ENTER_TO_GO_BACK
 
 logging.basicConfig(
     filename="app.log",
@@ -20,7 +21,7 @@ class UserActions:
         try:
             user = self.db_handler.load_user(self.username)
             if not user:
-                print("\nError: User not found.\n")
+                print(ERROR_USER_NOT_FOUND)
                 return
 
             print("\n*** User Details ***\n")
@@ -29,7 +30,7 @@ class UserActions:
             print(f"Email: {user['email']}")
             print(f"Role: {user['role']}\n")
 
-            input("Press Enter to go back to the Menu.\n")
+            input(PRESS_ENTER_TO_GO_BACK)
         except Exception as e:
             logging.error("Error in view_profile: %s", str(e))
             print("\nAn error occured while fetching your profile.\n")
@@ -40,7 +41,7 @@ class UserActions:
 
             user = self.db_handler.load_user(self.username)
             if not user:
-                print("\nError: User not found.\n")
+                print(ERROR_USER_NOT_FOUND)
                 return
 
             new_password = getpass("Enter new password: ")
@@ -63,7 +64,7 @@ class UserActions:
         try:
             user = self.db_handler.load_user(self.username)
             if not user:
-                print("\nError: User not found.\n")
+                print(ERROR_USER_NOT_FOUND)
                 return
 
             print(f"Current email: {user['email']}")
@@ -84,13 +85,13 @@ class UserActions:
             logging.error("Error in update_email: %s", str(e))
             print("\nAn error occurred while updating the email.\n")
         finally:
-            input("Press Enter to go back to the Menu.\n")
+            input(PRESS_ENTER_TO_GO_BACK)
 
     def view_cars(self):
         try:
             user = self.db_handler.load_user(self.username)
             if not user:
-                print("\nError: User not found.\n")
+                print(ERROR_USER_NOT_FOUND)
                 return
 
             cars = self.db_handler.load_cars(user["user_id"])
@@ -108,7 +109,7 @@ class UserActions:
             logging.error("Error in view_cars: %s", str(e))
             print("\nAn error occurred while fetching your cars.\n")
         finally:
-            input("Press Enter to go back to the Menu.\n")
+            input(PRESS_ENTER_TO_GO_BACK)
 
     def add_car(self):
         try:
@@ -127,10 +128,10 @@ class UserActions:
             if not car_year:
                 print("Error: Car year is invalid.")
                 return
-            
+
             user = self.db_handler.load_user(self.username)
             if not user:
-                print("\nError: User not found.\n")
+                print(ERROR_USER_NOT_FOUND)
                 return
 
             self.db_handler.add_car(car_name, car_model, car_year, user["user_id"])

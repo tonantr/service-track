@@ -2,6 +2,7 @@ import logging
 from getpass import getpass
 from app.menu.menu import Menu
 from app.utils.validation import validate_email, validate_date
+from app.utils.constants import ERROR_USER_NOT_FOUND, PRESS_ENTER_TO_GO_BACK
 
 logging.basicConfig(
     filename="app.log",
@@ -67,7 +68,7 @@ class AdminActions:
                 )
 
             print()
-            input("\nPress Enter to go back to the Menu.\n")
+            input(PRESS_ENTER_TO_GO_BACK)
         except Exception as e:
             logging.error("Error in list_users: %s", str(e))
             print("\nAn error occurred while listing the users.\n")
@@ -100,7 +101,7 @@ class AdminActions:
                     break
 
             if not selected_user:
-                print("\nError: User not found.\n")
+                print(ERROR_USER_NOT_FOUND)
                 return
             print(f"\nSelected User: {selected_user['username']} (ID: {user_id})\n")
             print("Which fields would you like to update?")
@@ -175,7 +176,7 @@ class AdminActions:
                     break
 
             if not selected_user:
-                print("\nError: User not found.\n")
+                print(ERROR_USER_NOT_FOUND)
                 return
             print(f"\nSelected User: {selected_user['username']} (ID: {user_id})\n")
             if not Menu.confirm_action("delete this user? (y/n): "):
@@ -212,7 +213,7 @@ class AdminActions:
                 )
 
             print()
-            input("\nPress Enter to go back to the Menu.\n")
+            input(PRESS_ENTER_TO_GO_BACK)
         except Exception as e:
             logging.error("Error in list_cars: %s", str(e))
             print("\nAn error occurred while listing the cars.\n")
@@ -346,7 +347,7 @@ class AdminActions:
                     self.db_handler.update_car(car_id, user_id=owner_id)
                     print("\nOwner updated successfully.\n")
                 else:
-                    print("\nError: User not found.\n")
+                    print(ERROR_USER_NOT_FOUND)
             elif choice == "5":
                 print("\nCancelled.\n")
                 return
@@ -427,7 +428,7 @@ class AdminActions:
                     f"{car_name:<20} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
                 )
             print()
-            input("\nPress Enter to go back to the Menu.\n")
+            input(PRESS_ENTER_TO_GO_BACK)
         except Exception as e:
             logging.error("Error in list_services: %s", str(e))
             print("\nAn error occurred while listing the services.\n")
