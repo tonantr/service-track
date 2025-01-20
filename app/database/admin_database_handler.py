@@ -71,7 +71,7 @@ class AdminDatabaseHandler(DatabaseHandler):
         fields = [f"{key} = %s" for key in kwargs.keys()]
         values = list(kwargs.values())
 
-        query = f"UPDATE cars SET {" , ".join(fields)} WHERE car_id = %s"
+        query = f"UPDATE cars SET {', '.join(fields)} WHERE car_id = %s"
         values.append(car_id)
         self.execute_commit(query, tuple(values))
 

@@ -18,7 +18,7 @@ class UserDatabaseHandler(DatabaseHandler):
         query = "SELECT COUNT(*) FROM users WHERE email = %s"
         result = self.fetch_one(query, (email,))
         return result["COUNT(*)"] > 0
-    
+
     def find_car_by_name_and_model(self, user_id, name, model):
         query = """
         SELECT COUNT(*)
@@ -35,3 +35,13 @@ class UserDatabaseHandler(DatabaseHandler):
     def add_car(self, name, model, year, user_id):
         query = "INSERT INTO cars (name, model, year, user_id) VALUES (%s, %s, %s, %s)"
         self.execute_commit(query, (name, model, year, user_id))
+
+    def update_car(self, car_id, **kwargs):
+        if not kwargs:
+            raise ValueError("\nNo fields to update.\n")
+        fields = [f"{key} = %s" for key in kwargs.keys()]
+        values = list(kwargs.values())
+
+        query = f"UPDATE cars SET {', '.join(fields)} WHERE car_id = %s"
+        values.append(car_id)
+        self.execute_commit(query, tuple(values))
