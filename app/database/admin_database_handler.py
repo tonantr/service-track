@@ -97,9 +97,7 @@ class AdminDatabaseHandler(DatabaseHandler):
     """
         return self.execute_query(query)
 
-    def add_service(
-        self, service_type, service_date, notes, car_id, next_service_date=None
-    ):
+    def add_service(self, service_type, service_date, notes, car_id, next_service_date=None):
         query = "INSERT INTO services (service_type, service_date, next_service_date, notes, car_id) VALUES (%s, %s, %s, %s, %s)"
         self.execute_commit(
             query, (service_type, service_date, next_service_date, notes, car_id)
