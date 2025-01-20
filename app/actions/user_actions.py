@@ -141,19 +141,30 @@ class UserActions:
                 print(ERROR_USER_NOT_FOUND)
                 return
 
-            existing_car = self.db_handler.load_cars(user["user_id"])
-            for car in existing_car:
-                if (
-                    car["name"].lower() == car_name.lower()
-                    and car["model"].lower() == car_model.lower()
-                ):
-                    print(
-                        f"\nError: The name '{car_name}' and model '{car_model}' already exists.\n"
-                    )
-                    return
+            # Option 1: Check for duplicates manually by loading all cars for the user
 
-            self.db_handler.add_car(car_name, car_model, car_year, user["user_id"])
-            print("\nCar added successfully.\n")
+            # existing_car = self.db_handler.load_cars(user["user_id"])
+            # for car in existing_car:
+            #     if (
+            #         car["name"].lower() == car_name.lower()
+            #         and car["model"].lower() == car_model.lower()
+            #     ):
+            #         print(
+            #             f"\nError: The name '{car_name}' and model '{car_model}' already exists.\n"
+            #         )
+            #         return
+
+            # self.db_handler.add_car(car_name, car_model, car_year, user["user_id"])
+            # print("\nCar added successfully.\n")
+
+            # Option 2: Check for duplicates using a database query
+            
+            duplicate_car = self.db_handler.find_car_by_name_and_model(user["user_id"], car_name, car_model)
+            if duplicate_car:
+                print(f"\nError: The name '{car_name}' and model '{car_model}' already exists.\n")
+            else:
+                self.db_handler.add_car(car_name, car_model, car_year, user["user_id"])
+                print("\nCar added successfully.\n")
 
         except Exception as e:
             logging.error("Error in add_car: %s", str(e))

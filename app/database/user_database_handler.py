@@ -18,6 +18,15 @@ class UserDatabaseHandler(DatabaseHandler):
         query = "SELECT COUNT(*) FROM users WHERE email = %s"
         result = self.fetch_one(query, (email,))
         return result["COUNT(*)"] > 0
+    
+    def find_car_by_name_and_model(self, user_id, name, model):
+        query = """
+        SELECT COUNT(*)
+        FROM cars
+        WHERE user_id = %s AND LOWER(name) = %s AND LOWER(model) = %s
+        """
+        result = self.fetch_one(query, (user_id, name.lower(), model.lower()))
+        return result["COUNT(*)"] > 0
 
     def load_cars(self, userid):
         query = "SELECT * FROM cars WHERE user_id = %s"
