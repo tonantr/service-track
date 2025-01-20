@@ -11,6 +11,14 @@ class UserMenu:
             "4": "Logout\n",
         }
 
+        self.COMMON_OPTIONS = {
+            "1": "List",
+            "2": "Add",
+            "3": "Update",
+            "4": "Delete",
+            "5": "Back\n",
+        }
+
     def display_user_menu(self):
         try:
             choice = int(Menu.display_menu(self.menu_options))
@@ -38,7 +46,7 @@ class UserMenu:
         }
         while True:
             try:
-                choice = int(Menu.display_menu(options))
+                choice = int(Menu.display_menu(options, "Profile Management"))
             except ValueError:
                 Menu.handle_invalid_input()
                 continue
@@ -55,16 +63,9 @@ class UserMenu:
                 return
 
     def display_car_menu(self):
-        options = {
-            "1": "View Cars",
-            "2": "Add Car",
-            "3": "Edit Car",
-            "4": "Delete Car",
-            "5": "Back\n",
-        }
         while True:
             try:
-                choice = int(Menu.display_menu(options))
+                choice = int(Menu.display_menu(self.COMMON_OPTIONS, "Car Management"))
             except ValueError:
                 Menu.handle_invalid_input()
                 continue
@@ -72,7 +73,7 @@ class UserMenu:
             if choice == 1:
                 self.user_actions.view_cars()
             elif choice == 2:
-                print("Add Car coming soon.")
+                self.user_actions.add_car()
             elif choice == 3:
                 print("Edit Car coming soon.")
             elif choice == 4:

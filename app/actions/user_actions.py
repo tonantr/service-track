@@ -109,3 +109,33 @@ class UserActions:
             print("\nAn error occurred while fetching your cars.\n")
         finally:
             input("Press Enter to go back to the Menu.\n")
+
+    def add_car(self):
+        try:
+            print("\n*** Add Car ***\n")
+            car_name = Menu.get_name_car()
+            if not car_name:
+                print("Error: Car name cannot be empty.")
+                return
+
+            car_model = Menu.get_model_car()
+            if not car_model:
+                print("Error: Car model cannot be empty.")
+                return
+
+            car_year = Menu.get_year_car()
+            if not car_year:
+                print("Error: Car year is invalid.")
+                return
+            
+            user = self.db_handler.load_user(self.username)
+            if not user:
+                print("\nError: User not found.\n")
+                return
+
+            self.db_handler.add_car(car_name, car_model, car_year, user["user_id"])
+            print("\nCar added successfully.\n")
+
+        except Exception as e:
+            logging.error("Error in add_car: %s", str(e))
+            print("\nAn error occurred while adding the car.\n")

@@ -22,3 +22,7 @@ class UserDatabaseHandler(DatabaseHandler):
     def load_cars(self, userid):
         query = "SELECT * FROM cars WHERE user_id = %s"
         return self.execute_query(query, (userid,))
+
+    def add_car(self, name, model, year, user_id):
+        query = "INSERT INTO cars (name, model, year, user_id) VALUES (%s, %s, %s, %s)"
+        self.execute_commit(query, (name, model, year, user_id))
