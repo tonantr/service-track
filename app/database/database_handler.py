@@ -1,5 +1,12 @@
 import mysql.connector
+import logging
 from app.auth.password_hashing import hash_password
+
+logging.basicConfig(
+    filename="app.log",
+    level=logging.DEBUG,
+    format="%(asctime)s - %(levelname)s - %(module)s - Line: %(lineno)d - %(message)s",
+)
 
 
 class DatabaseHandler:
@@ -23,13 +30,18 @@ class DatabaseHandler:
             )
             self.cursor = self.connection.cursor(dictionary=True)
         except mysql.connector.Error as e:
+            logging.error(f"Connection Error: {str(e)}")
             print(f"Error: {str(e)}")
 
     def close(self):
-        if self.cursor:
-            self.cursor.close()
-        if self.connection:
-            self.connection.close()
+        try:
+            if self.cursor:
+                self.cursor.close()
+            if self.connection:
+                self.connection.close()
+        except mysql.connector.Error as e:
+            logging.error(f"Close Error: {str(e)}")
+            print(f"Error: {str(e)}")
 
     def __enter__(self):
         self.connect()
@@ -38,7 +50,7 @@ class DatabaseHandler:
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
         if exc_type:
-            print(f"Error: {exc_value}")
+            logging.error(f"Error: {exc_value}")
         return True
 
     def execute_query(self, query, params=None):
@@ -47,6 +59,7 @@ class DatabaseHandler:
             self.cursor.execute(query, params or ())
             return self.cursor.fetchall()
         except mysql.connector.Error as e:
+            logging.error(f"Query Error: {str(e)} | Query: {query} | Params: {params}")
             print(f"Error: {str(e)}")
 
     def execute_commit(self, query, params=None):
@@ -55,6 +68,7 @@ class DatabaseHandler:
             self.cursor.execute(query, params or ())
             self.connection.commit()
         except mysql.connector.Error as e:
+            logging.error(f"Commit Error: {str(e)} | Query: {query} | Params: {params}")
             print(f"Error: {str(e)}")
 
     def fetch_one(self, query, params=None):
@@ -63,8 +77,8 @@ class DatabaseHandler:
             self.cursor.execute(query, params or ())
             return self.cursor.fetchone()
         except mysql.connector.Error as e:
+            logging.error(f"Fetch Error: {str(e)} | Query: {query} | Params: {params}")
             print(f"Error: {str(e)}")
-
 
 
 # The DatabaseHandler class is similar to the FileHandler class, but it interacts with a MySQL database
