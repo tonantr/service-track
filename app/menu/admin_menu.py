@@ -99,6 +99,6 @@ class AdminMenu:
             elif choice == "3":
                 self.admin_actions.update_service()
             elif choice == "4":
-                print("Delete Service coming soon.")
+                self.admin_actions.delete_service()
             elif choice == "5":
                 return

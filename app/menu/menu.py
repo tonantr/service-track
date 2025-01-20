@@ -89,7 +89,7 @@ class Menu:
             print("Error: Service type cannot be empty.\n")
             return None
         return service_type
-    
+
     @staticmethod
     def get_service_date():
         service_date = input("Enter service date (YYYY-MM-DD): ").strip()
@@ -97,14 +97,14 @@ class Menu:
             print("Error: Service date cannot be empty.\n")
             return None
         return service_date
-    
+
     @staticmethod
     def get_next_service_date():
         next_service_date = input("Enter next service date (YYYY-MM-DD): ").strip()
         if not next_service_date:
             return None
         return next_service_date
-    
+
     @staticmethod
     def get_notes():
         notes = input("Enter notes: ").strip()

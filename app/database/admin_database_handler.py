@@ -115,3 +115,7 @@ class AdminDatabaseHandler(DatabaseHandler):
         query = f"UPDATE services SET {" , ".join(fields)} WHERE service_id = %s"
         values.append(service_id)
         self.execute_commit(query, tuple(values))
+
+    def delete_service(self, service_id):
+        query = "DELETE FROM services WHERE service_id = %s"
+        self.execute_commit(query, (service_id,))

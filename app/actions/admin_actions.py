@@ -572,3 +572,54 @@ class AdminActions:
         except Exception as e:
             logging.error("Error in update_service: %s", str(e))
             print("\nAn error occurred while updating the service")
+
+    def delete_service(self):
+        try:
+            print("\n*** Delete Service ***\n")
+            services = self.db_handler.load_services()
+            if not services:
+                print("\nNo services found.\n")
+                return
+
+            print("\n*** List of Services ***\n")
+            print(
+                f"{'ID':<10} {'Car Name':<20} {'Service Type':<30} {'Service Date':<30}"
+            )
+            print("-" * 90)
+            for service in services:
+                id = str(service["service_id"])
+                car_name = str(service["car_name"])
+                service_type = (
+                    str(service["service_type"] + "...")
+                    if len(service["service_type"]) > 30
+                    else str(service["service_type"])
+                )
+                service_date = str(service["service_date"])
+                print(f"{id:<10} {car_name:<20} {service_type:<30} {service_date:<20}")
+            print()
+
+            service_id = input("\nEnter the ID of the service: ").strip()
+            if not service_id.isdigit():
+                print("\nError: Invalid ID\n")
+                return
+            service_id = int(service_id)
+            selected_service = None
+            for service in services:
+                if service["service_id"] == service_id:
+                    selected_service = service
+                    break
+            if not selected_service:
+                print("\nError: Service not found\n")
+                return
+            print(
+                f"\nSelected service: {selected_service["service_type"]} (ID: {service_id})\n"
+            )
+
+            if not Menu.confirm_action("delete this service? (y/n): "):
+                print("\nCancelled.\n")
+                return
+            self.db_handler.delete_service(service_id)
+            print("\nService deleted successfully.\n")
+        except Exception as e:
+            logging.error("Error in delete_service: %s", str(e))
+            print("\nAn error occurred while deleting the service")
