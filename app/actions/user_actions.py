@@ -35,19 +35,25 @@ class UserActions:
             logging.error("Error in view_profile: %s", str(e))
             print("\nAn error occured while fetching your profile.\n")
 
-    def change_password(self):
+    def change_password(self, current_password=None, new_password=None):
         try:
-            current_password = getpass("Enter current password: ")
+            if current_password is None:
+                current_password = getpass("Enter current password: ")
 
             user = self.db_handler.load_user(self.username)
             if not user:
                 print(ERROR_USER_NOT_FOUND)
                 return
 
-            new_password = getpass("Enter new password: ")
-            confirm_password = getpass("Confirm new password: ")
-            if new_password != confirm_password:
-                print("\nError: Passwords do not match.\n")
+            if new_password is None:
+                new_password = getpass("Enter new password: ")
+                confirm_password = getpass("Confirm new password: ")
+                if new_password != confirm_password:
+                    print("\nError: Passwords do not match.\n")
+                    return
+
+            if len(new_password) < 4:
+                print("\nError: Password must be at least 4 characters long.\n")
                 return
 
             hashed_password = hash_password(new_password)
@@ -60,7 +66,7 @@ class UserActions:
             logging.error("Error in change_password: %s", str(e))
             print("\nAn error occurred while updating the password.\n")
 
-    def update_email(self):
+    def update_email(self, new_email=None):
         try:
             user = self.db_handler.load_user(self.username)
             if not user:
@@ -68,7 +74,8 @@ class UserActions:
                 return
 
             print(f"Current email: {user['email']}")
-            new_email = input("Enter new email: ")
+            if new_email is None:
+                new_email = input("Enter new email: ")
 
             if not validate_email(new_email):
                 print("\nError: Invalid email.\n")
@@ -133,6 +140,17 @@ class UserActions:
             if not user:
                 print(ERROR_USER_NOT_FOUND)
                 return
+
+            existing_car = self.db_handler.load_cars(user["user_id"])
+            for car in existing_car:
+                if (
+                    car["name"].lower() == car_name.lower()
+                    and car["model"].lower() == car_model.lower()
+                ):
+                    print(
+                        f"\nError: The name '{car_name}' and model '{car_model}' already exists.\n"
+                    )
+                    return
 
             self.db_handler.add_car(car_name, car_model, car_year, user["user_id"])
             print("\nCar added successfully.\n")
