@@ -80,6 +80,27 @@ class DatabaseHandler:
             logging.error(f"Fetch Error: {str(e)} | Query: {query} | Params: {params}")
             print(f"Error: {str(e)}")
 
+    def start_transaction(self):
+        try:
+            self.connection.start_transaction()
+        except mysql.connector.Error as e:
+            logging.error(f"Transaction Error: {str(e)}")
+            print(f"Error: {str(e)}")
+
+    def commit_transaction(self):
+        try:
+            self.connection.commit()
+        except mysql.connector.Error as e:
+            logging.error(f"Commit Error: {str(e)}")
+            print(f"Error: {str(e)}")
+
+    def rollback_transaction(self):
+        try:
+            self.connection.rollback()
+        except mysql.connector.Error as e:
+            logging.error(f"Rollback Error: {str(e)}")
+            print(f"Error: {str(e)}")
+
 
 # The DatabaseHandler class is similar to the FileHandler class, but it interacts with a MySQL database
 # instead of a JSON file. The load_users method retrieves all users from the users table, while the save_users

@@ -77,6 +77,6 @@ class UserMenu:
             elif choice == 3:
                 self.user_actions.edit_car()
             elif choice == 4:
-                print("Delete Car coming soon.")
+                self.user_actions.delete_car()
             elif choice == 5:
                 return

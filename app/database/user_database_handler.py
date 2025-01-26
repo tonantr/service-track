@@ -1,4 +1,5 @@
 from app.database.database_handler import DatabaseHandler
+import logging
 
 
 class UserDatabaseHandler(DatabaseHandler):
@@ -45,3 +46,22 @@ class UserDatabaseHandler(DatabaseHandler):
         query = f"UPDATE cars SET {', '.join(fields)} WHERE car_id = %s"
         values.append(car_id)
         self.execute_commit(query, tuple(values))
+
+    def delete_car_and_related_services(self, car_id):
+        try:
+            self.start_transaction()
+
+            query_service = "DELETE FROM services WHERE car_id = %s"
+            self.execute_commit(query_service, (car_id,))
+
+            query_car = "DELETE FROM cars WHERE car_id = %s"
+            self.execute_commit(query_car, (car_id,))
+
+            self.commit_transaction()
+            logging.info(f"Successfully deleted car {car_id} and related services.")
+        except Exception as e:
+            self.rollback_transaction()
+            logging.error(
+                f"Failed to delete car {car_id} and related services: {str(e)}"
+            )
+            raise e
