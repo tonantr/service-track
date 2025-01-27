@@ -485,7 +485,7 @@ class AdminActions:
             self.db_handler.add_service(
                 service_type=service_type,
                 service_date=service_date,
-                next_service_date=next_service_date,
+                next_service_date=next_service_date or None,
                 notes=notes,
                 car_id=car_id,
             )

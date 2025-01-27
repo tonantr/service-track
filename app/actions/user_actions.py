@@ -2,7 +2,7 @@ import logging
 from app.menu.menu import Menu
 from app.auth.password_hashing import hash_password
 from getpass import getpass
-from app.utils.validation import validate_email
+from app.utils.validation import validate_email, validate_date
 from app.utils.constants import (
     ERROR_USER_NOT_FOUND,
     PRESS_ENTER_TO_GO_BACK,
@@ -387,3 +387,70 @@ class UserActions:
         except Exception as e:
             logging.error("Error in list_services: %s", str(e))
             print("\nAn error occurred while listing the services.\n")
+
+    def add_service(self):
+        try:
+            user = self.db_handler.load_user(self.username)
+            if not user:
+                print(ERROR_USER_NOT_FOUND)
+                return
+
+            cars = self.db_handler.load_cars(user["user_id"])
+            if not cars:
+                print(ERROR_NO_CARS_FOUND)
+                return
+
+            print("\n*** Select a Car to Add Services ***\n")
+            for car in cars:
+                print(f"ID: {car['car_id']}")
+                print(f"Name: {car['name']}")
+                print(f"Model: {car['model']}")
+                print(f"Year: {car['year']}")
+                print()
+
+            car_id = input("\nEnter the ID of the car: ").strip()
+            if not car_id.isdigit():
+                print("\nError: Invalid car ID\n")
+                return
+            car_id = int(car_id)
+            selected_car = None
+            for car in cars:
+                if car["car_id"] == car_id:
+                    selected_car = car
+            if not selected_car:
+                print(ERROR_CAR_NOT_FOUND)
+                return
+            print(f"\nSelected Car: {selected_car['name']} (ID: {car_id})\n")
+            service_type = Menu.get_service_type()
+            if not service_type:
+                return
+
+            service_date = Menu.get_service_date()
+            if not service_date:
+                return
+            if not validate_date(service_date):
+                print("\nError: Invalid date format. Please use YYYY-MM-DD.\n")
+                return
+
+            next_service_date = Menu.get_next_service_date()
+            if not validate_date(next_service_date):
+                print("\nError: Invalid date format. Please use YYYY-MM-DD.\n")
+                return
+
+            notes = Menu.get_notes()
+            if not notes:
+                return
+            if not Menu.confirm_action("add this service? (y/n): "):
+                print("\nCancelled.\n")
+                return
+            self.db_handler.add_service(
+                service_type=service_type,
+                service_date=service_date,
+                next_service_date=next_service_date or None,
+                notes=notes,
+                car_id=car_id,
+            )
+            print("\nService added successfully.\n")
+        except Exception as e:
+            logging.error("Error in add_service: %s", str(e))
+            print("\nAn error occurred while adding the service.\n")

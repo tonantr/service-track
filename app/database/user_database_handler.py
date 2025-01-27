@@ -81,3 +81,11 @@ class UserDatabaseHandler(DatabaseHandler):
             ORDER BY s.service_date ASC, s.next_service_date ASC;
         """
         return self.execute_query(query, (car_id,))
+
+    def add_service(
+        self, service_type, service_date, notes, car_id, next_service_date=None
+    ):
+        query = "INSERT INTO services (service_type, service_date, next_service_date, notes, car_id) VALUES (%s, %s, %s, %s, %s)"
+        self.execute_commit(
+            query, (service_type, service_date, next_service_date, notes, car_id)
+        )
