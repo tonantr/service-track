@@ -9,7 +9,7 @@ class Menu:
 
     @staticmethod
     def display_menu(menu_options, menu_context="Menu"):
-        print(f"\n{menu_context}:")
+        print(f"\n{menu_context}:\n")
         for key, value in menu_options.items():
             print(f"{key}. {value}")
         return input("Enter your choice: ")

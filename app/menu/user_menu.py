@@ -33,7 +33,7 @@ class UserMenu:
         elif choice == 2:
             self.display_car_menu()
         elif choice == 3:
-            print("Service Management coming soon.")
+            self.display_service_menu()
         elif choice == 4:
             return "logout"
 
@@ -78,5 +78,26 @@ class UserMenu:
                 self.user_actions.edit_car()
             elif choice == 4:
                 self.user_actions.delete_car()
+            elif choice == 5:
+                return
+
+    def display_service_menu(self):
+        while True:
+            try:
+                choice = int(
+                    Menu.display_menu(self.COMMON_OPTIONS, "Service Management")
+                )
+            except ValueError:
+                Menu.handle_invalid_input()
+                continue
+
+            if choice == 1:
+                print("List service is coming soon")
+            elif choice == 2:
+                print("Add service is coming soon")
+            elif choice == 3:
+                print("Update service is coming soon")
+            elif choice == 4:
+                print("Delete service is coming soon")
             elif choice == 5:
                 return
