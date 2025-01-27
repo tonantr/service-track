@@ -2,7 +2,7 @@ import logging
 from getpass import getpass
 from app.menu.menu import Menu
 from app.utils.validation import validate_email, validate_date
-from app.utils.constants import ERROR_USER_NOT_FOUND, PRESS_ENTER_TO_GO_BACK
+from app.utils.constants import ERROR_USER_NOT_FOUND, PRESS_ENTER_TO_GO_BACK, ERROR_NO_SERVICES_FOUND, ERROR_NO_CARS_FOUND, ERROR_NO_USERS_FOUND
 
 logging.basicConfig(
     filename="app.log",
@@ -56,7 +56,7 @@ class AdminActions:
             print("\n*** List of Users ***\n")
             users = self.db_handler.load_users()
             if not users:
-                print("No users found.\n")
+                print(ERROR_NO_USERS_FOUND)
                 return
 
             print(f"{'Username':<15} {'Email':<25} {'Password':<15} {'Role':<10}")
@@ -77,7 +77,7 @@ class AdminActions:
         try:
             users = self.db_handler.load_users()
             if not users:
-                print("\nNo users found.\n")
+                print(ERROR_NO_USERS_FOUND)
                 return
             print("\n*** List of Users ***\n")
             print(f"{'ID':<5} {'Username':<15} {'Email':<25} {'Role':<10}")
@@ -152,7 +152,7 @@ class AdminActions:
         try:
             users = self.db_handler.load_users()
             if not users:
-                print("\nNo users found.\n")
+                print(ERROR_NO_USERS_FOUND)
                 return
             print("\n*** List of Users ***\n")
             print(f"{'ID':<5} {'Username':<15} {'Email':<25} {'Role':<10}")
@@ -193,7 +193,7 @@ class AdminActions:
             print("\n*** List of Cars ***\n")
             cars = self.db_handler.load_cars()
             if not cars:
-                print("No cars found.\n")
+                print(ERROR_NO_CARS_FOUND)
                 return
 
             print(
@@ -224,7 +224,7 @@ class AdminActions:
 
             users = self.db_handler.load_users()
             if not users:
-                print("\nNo users found.\n")
+                print(ERROR_NO_USERS_FOUND)
                 return
             print("\n*** List of Users ***\n")
             print(f"{'ID':<5} {'Username':<15} {'Email':<25} {'Role':<10}")
@@ -275,7 +275,7 @@ class AdminActions:
         try:
             cars = self.db_handler.load_cars()
             if not cars:
-                print("\nNo cars found.\n")
+                print(ERROR_NO_CARS_FOUND)
                 return
             print("\n*** List of Cars ***\n")
             print(f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10} {'Owner':<20}")
@@ -330,7 +330,7 @@ class AdminActions:
             elif choice == "4":
                 users = self.db_handler.load_users()
                 if not users:
-                    print("\nNo users found.\n")
+                    print(ERROR_NO_USERS_FOUND)
                     return
                 print("\n*** List of Users ***\n")
                 print(f"{'ID':<5} {'Username':<15}")
@@ -363,7 +363,7 @@ class AdminActions:
             print("\n*** Delete Car ***\n")
             cars = self.db_handler.load_cars()
             if not cars:
-                print("\nNo cars found.\n")
+                print(ERROR_NO_CARS_FOUND)
                 return
             print("\n*** List of Cars ***\n")
             print(f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10} {'Owner':<20}")
@@ -404,7 +404,7 @@ class AdminActions:
             print("\n*** List of Services ***\n")
             services = self.db_handler.load_services()
             if not services:
-                print("No services found.\n")
+                print(ERROR_NO_SERVICES_FOUND)
                 return
             print(
                 f"{'Car Name':<20} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
@@ -438,7 +438,7 @@ class AdminActions:
             print("\n*** Add Service ***\n")
             cars = self.db_handler.load_cars()
             if not cars:
-                print("\nNo cars found.\n")
+                print(ERROR_NO_CARS_FOUND)
                 return
             print("\n*** List of Cars ***\n")
             print(f"{'ID':<5} {'Name':<20}")
@@ -498,7 +498,7 @@ class AdminActions:
         try:
             services = self.db_handler.load_services()
             if not services:
-                print("\nNo services found\n")
+                print(ERROR_NO_SERVICES_FOUND)
                 return
             print("\n*** List of Services ***\n")
             print(
@@ -579,7 +579,7 @@ class AdminActions:
             print("\n*** Delete Service ***\n")
             services = self.db_handler.load_services()
             if not services:
-                print("\nNo services found.\n")
+                print(ERROR_NO_SERVICES_FOUND)
                 return
 
             print("\n*** List of Services ***\n")

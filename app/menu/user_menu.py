@@ -92,7 +92,7 @@ class UserMenu:
                 continue
 
             if choice == 1:
-                print("List service is coming soon")
+                self.user_actions.list_services()
             elif choice == 2:
                 print("Add service is coming soon")
             elif choice == 3:

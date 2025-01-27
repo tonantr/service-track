@@ -65,3 +65,19 @@ class UserDatabaseHandler(DatabaseHandler):
                 f"Failed to delete car {car_id} and related services: {str(e)}"
             )
             raise e
+
+    def load_services(self, car_id):
+        query = """
+            SELECT 
+                s.service_id, 
+                c.name AS car_name,
+                s.service_type, 
+                s.service_date,
+                s.next_service_date,
+                s.notes
+            FROM services s
+            LEFT JOIN cars c ON s.car_id = c.car_id
+            WHERE s.car_id = %s
+            ORDER BY s.service_date ASC, s.next_service_date ASC;
+        """
+        return self.execute_query(query, (car_id,))

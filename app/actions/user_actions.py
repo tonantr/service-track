@@ -3,7 +3,13 @@ from app.menu.menu import Menu
 from app.auth.password_hashing import hash_password
 from getpass import getpass
 from app.utils.validation import validate_email
-from app.utils.constants import ERROR_USER_NOT_FOUND, PRESS_ENTER_TO_GO_BACK
+from app.utils.constants import (
+    ERROR_USER_NOT_FOUND,
+    PRESS_ENTER_TO_GO_BACK,
+    ERROR_NO_CARS_FOUND,
+    ERROR_CAR_NOT_FOUND,
+    ERROR_NO_SERVICES_FOUND,
+)
 
 logging.basicConfig(
     filename="app.log",
@@ -104,7 +110,7 @@ class UserActions:
             cars = self.db_handler.load_cars(user["user_id"])
 
             if not cars:
-                print("\nNo cars found.\n")
+                print(ERROR_NO_CARS_FOUND)
             else:
                 print("\n*** Cars ***\n")
                 for car in cars:
@@ -184,7 +190,7 @@ class UserActions:
             cars = self.db_handler.load_cars(user["user_id"])
 
             if not cars:
-                print("\nNo cars found.\n")
+                print(ERROR_NO_CARS_FOUND)
             else:
                 print("\n*** List of Cars ***\n")
                 print(f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10}")
@@ -278,7 +284,7 @@ class UserActions:
 
             cars = self.db_handler.load_cars(user["user_id"])
             if not cars:
-                print("\nNo cars found.\n")
+                print(ERROR_NO_CARS_FOUND)
             else:
                 print("\n*** List of Cars ***\n")
                 print(f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10}")
@@ -314,3 +320,70 @@ class UserActions:
         except Exception as e:
             logging.error("Error in delete_car: %s", str(e))
             print("\nAn error occurred while deleting the car.\n")
+
+    def list_services(self):
+        try:
+            user = self.db_handler.load_user(self.username)
+            if not user:
+                print(ERROR_USER_NOT_FOUND)
+                return
+
+            cars = self.db_handler.load_cars(user["user_id"])
+            if not cars:
+                print(ERROR_NO_CARS_FOUND)
+                return
+
+            print("\n*** Select a Car to View Services ***\n")
+            for car in cars:
+                print(f"ID: {car['car_id']}")
+                print(f"Name: {car['name']}")
+                print(f"Model: {car['model']}")
+                print(f"Year: {car['year']}")
+                print()
+
+            car_id = input("\nEnter the ID of the car: ").strip()
+            if not car_id.isdigit():
+                print("\nError: Invalid car ID\n")
+                return
+            car_id = int(car_id)
+            selected_car = None
+            for car in cars:
+                if car["car_id"] == car_id:
+                    selected_car = car
+            if not selected_car:
+                print(ERROR_CAR_NOT_FOUND)
+                return
+
+            services = self.db_handler.load_services(car_id)
+            if not services:
+                print(ERROR_NO_SERVICES_FOUND)
+                return
+
+            print("\n*** Services for Selected Car ***\n")
+            print(
+                f"{'Car Name':<20} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
+            )
+            print("-" * 140)
+            for service in services:
+                car_name = str(service["car_name"]) or "N/A"
+                service_type = (
+                    str(service["service_type"][:30] + "...")
+                    if len(service["service_type"]) > 30
+                    else str(service["service_type"])
+                )
+                service_date = str(service["service_date"]) or "N/A"
+                next_service_date = str(service["next_service_date"]) or "N/A"
+                notes = (
+                    str(service["notes"][:50]) + "..."
+                    if service["notes"] and len(service["notes"]) > 50
+                    else str(service["notes"]) or "N/A"
+                )
+                print(
+                    f"{car_name:<20} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
+                )
+            print()
+            input(PRESS_ENTER_TO_GO_BACK)
+
+        except Exception as e:
+            logging.error("Error in list_services: %s", str(e))
+            print("\nAn error occurred while listing the services.\n")
