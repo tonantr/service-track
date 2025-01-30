@@ -10,6 +10,7 @@ from app.utils.constants import (
     ERROR_CAR_NOT_FOUND,
     ERROR_NO_SERVICES_FOUND,
 )
+from app.utils.helpers import load_user_and_cars, select_car_by_id
 
 logging.basicConfig(
     filename="app.log",
@@ -102,27 +103,14 @@ class UserActions:
 
     def view_cars(self):
         try:
-            user = self.db_handler.load_user(self.username)
-            if not user:
-                print(ERROR_USER_NOT_FOUND)
-                return
-
-            cars = self.db_handler.load_cars(user["user_id"])
-
+            cars = load_user_and_cars(self.db_handler, self.username)
             if not cars:
-                print(ERROR_NO_CARS_FOUND)
-            else:
-                print("\n*** Cars ***\n")
-                for car in cars:
-                    print(f"Name: {car['name']}")
-                    print(f"Model: {car['model']}")
-                    print(f"Year: {car['year']}")
-                    print()
+                return
+            
+            input(PRESS_ENTER_TO_GO_BACK)
         except Exception as e:
             logging.error("Error in view_cars: %s", str(e))
             print("\nAn error occurred while fetching your cars.\n")
-        finally:
-            input(PRESS_ENTER_TO_GO_BACK)
 
     def add_car(self):
         try:
@@ -182,48 +170,25 @@ class UserActions:
 
     def edit_car(self):
         try:
-            user = self.db_handler.load_user(self.username)
-            if not user:
-                print(ERROR_USER_NOT_FOUND)
+            user, cars = load_user_and_cars(self.db_handler, self.username)
+            if not user or not cars:
                 return
 
-            cars = self.db_handler.load_cars(user["user_id"])
-
-            if not cars:
-                print(ERROR_NO_CARS_FOUND)
-            else:
-                print("\n*** List of Cars ***\n")
-                print(f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10}")
-                print("-" * 55)
-                for car in cars:
-                    car_id = str(car["car_id"])
-                    name = str(car["name"])
-                    model = str(car["model"])
-                    year = str(car["year"])
-                    print(f"{car_id:<5} {name:<20} {model:<20} {year:<10}")
-                print()
-
-            car_id = input("Enter the ID of the car: ").strip()
-
-            if not car_id.isdigit():
-                print("\nError: Invalid ID.\n")
-                return
-            car_id = int(car_id)
-            selected_car = None
-            for car in cars:
-                if car["car_id"] == car_id:
-                    selected_car = car
-                    break
+            selected_car = select_car_by_id(cars)
             if not selected_car:
-                print("\nError: Car not found.\n")
                 return
-            print(f"\nSelected Car: {selected_car['name']} (ID: {car_id})\n")
+
+            print(
+                f"\nSelected Car: {selected_car['name']} (ID: {selected_car["car_id"]})\n"
+            )
             print("Which fields would you like to update?")
             print("1. Name")
             print("2. Model")
             print("3. Year")
             print("4. Cancel\n")
+
             choice = input("Enter your choice: ").strip()
+
             if choice == "1":
                 name = Menu.get_name_car()
                 if not name:
@@ -238,7 +203,7 @@ class UserActions:
                     )
                     return
 
-                self.db_handler.update_car(car_id, name=name)
+                self.db_handler.update_car(selected_car["car_id"], name=name)
                 print("\nName updated successfully.\n")
             elif choice == "2":
                 model = Menu.get_model_car()
@@ -254,7 +219,7 @@ class UserActions:
                     )
                     return
 
-                self.db_handler.update_car(car_id, model=model)
+                self.db_handler.update_car(selected_car["car_id"], model=model)
                 print("\nModel updated successfully.\n")
             elif choice == "3":
                 year = Menu.get_year_car()
@@ -262,7 +227,7 @@ class UserActions:
                     print("\nError: Year cannot be empty or invalid.\n")
                     return
 
-                self.db_handler.update_car(car_id, year=year)
+                self.db_handler.update_car(selected_car["car_id"], year=year)
                 print("\nYear updated successfully.\n")
             elif choice == "4":
                 print("\nCancelled.\n")
@@ -454,3 +419,10 @@ class UserActions:
         except Exception as e:
             logging.error("Error in add_service: %s", str(e))
             print("\nAn error occurred while adding the service.\n")
+
+    def update_service(self):
+        try:
+            print()
+        except Exception as e:
+            logging.error("Error in update_service: %s", str(e))
+            print("\nAn error occurred while updating the service.\n")

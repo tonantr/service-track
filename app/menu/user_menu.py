@@ -96,7 +96,7 @@ class UserMenu:
             elif choice == 2:
                 self.user_actions.add_service()
             elif choice == 3:
-                print("Update service is coming soon")
+                self.user_actions.update_service()
             elif choice == 4:
                 print("Delete service is coming soon")
             elif choice == 5:
