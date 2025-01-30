@@ -1,8 +1,7 @@
 from app.utils.constants import (
     ERROR_USER_NOT_FOUND,
     ERROR_NO_CARS_FOUND,
-    ERROR_CAR_NOT_FOUND,
-    ERROR_NO_SERVICES_FOUND,
+    ERROR_CAR_NOT_FOUND
 )
 
 

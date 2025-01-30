@@ -103,10 +103,10 @@ class UserActions:
 
     def view_cars(self):
         try:
-            cars = load_user_and_cars(self.db_handler, self.username)
+            user, cars = load_user_and_cars(self.db_handler, self.username)
             if not cars:
                 return
-            
+
             input(PRESS_ENTER_TO_GO_BACK)
         except Exception as e:
             logging.error("Error in view_cars: %s", str(e))
@@ -242,45 +242,23 @@ class UserActions:
 
     def delete_car(self):
         try:
-            user = self.db_handler.load_user(self.username)
-            if not user:
-                print(ERROR_USER_NOT_FOUND)
-                return
-
-            cars = self.db_handler.load_cars(user["user_id"])
+            user, cars = load_user_and_cars(self.db_handler, self.username)
             if not cars:
-                print(ERROR_NO_CARS_FOUND)
-            else:
-                print("\n*** List of Cars ***\n")
-                print(f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10}")
-                print("-" * 55)
-                for car in cars:
-                    car_id = str(car["car_id"])
-                    name = str(car["name"])
-                    model = str(car["model"])
-                    year = str(car["year"])
-                    print(f"{car_id:<5} {name:<20} {model:<20} {year:<10}")
-                print()
-
-            car_id = input("Enter the ID of the car: ").strip()
-            if not car_id.isdigit():
-                print("\nError: Invalid ID.\n")
                 return
-            car_id = int(car_id)
-            selected_car = None
-            for car in cars:
-                if car["car_id"] == car_id:
-                    selected_car = car
-                    break
+
+            selected_car = select_car_by_id(cars)
             if not selected_car:
-                print("\nError: Car not found.\n")
                 return
 
-            print(f"\nSelected car: {selected_car["name"]} (ID: {car_id})\n")
+            print(
+                f"\nSelected Car: {selected_car['name']} (ID: {selected_car["car_id"]})\n"
+            )
+
             if not Menu.confirm_action("delete this car? (y/n): "):
                 print("\nCancelled.\n")
                 return
-            self.db_handler.delete_car_and_related_services(car_id)
+
+            self.db_handler.delete_car_and_related_services(selected_car["car_id"])
             print("\nCar deleted successfully.\n")
         except Exception as e:
             logging.error("Error in delete_car: %s", str(e))
@@ -288,38 +266,21 @@ class UserActions:
 
     def list_services(self):
         try:
-            user = self.db_handler.load_user(self.username)
-            if not user:
-                print(ERROR_USER_NOT_FOUND)
+            user, cars = load_user_and_cars(self.db_handler, self.username)
+            if not user or not cars:
                 return
 
-            cars = self.db_handler.load_cars(user["user_id"])
-            if not cars:
-                print(ERROR_NO_CARS_FOUND)
-                return
+            print("\nPlease select a car from your list to view its services:\n")
 
-            print("\n*** Select a Car to View Services ***\n")
-            for car in cars:
-                print(f"ID: {car['car_id']}")
-                print(f"Name: {car['name']}")
-                print(f"Model: {car['model']}")
-                print(f"Year: {car['year']}")
-                print()
-
-            car_id = input("\nEnter the ID of the car: ").strip()
-            if not car_id.isdigit():
-                print("\nError: Invalid car ID\n")
-                return
-            car_id = int(car_id)
-            selected_car = None
-            for car in cars:
-                if car["car_id"] == car_id:
-                    selected_car = car
+            selected_car = select_car_by_id(cars)
             if not selected_car:
-                print(ERROR_CAR_NOT_FOUND)
                 return
 
-            services = self.db_handler.load_services(car_id)
+            print(
+                f"\nSelected Car: {selected_car['name']} (ID: {selected_car['car_id']})\n"
+            )
+
+            services = self.db_handler.load_services(selected_car["car_id"])
             if not services:
                 print(ERROR_NO_SERVICES_FOUND)
                 return
@@ -355,37 +316,20 @@ class UserActions:
 
     def add_service(self):
         try:
-            user = self.db_handler.load_user(self.username)
-            if not user:
-                print(ERROR_USER_NOT_FOUND)
-                return
-
-            cars = self.db_handler.load_cars(user["user_id"])
-            if not cars:
-                print(ERROR_NO_CARS_FOUND)
+            user, cars = load_user_and_cars(self.db_handler, self.username)
+            if not user or not cars:
                 return
 
             print("\n*** Select a Car to Add Services ***\n")
-            for car in cars:
-                print(f"ID: {car['car_id']}")
-                print(f"Name: {car['name']}")
-                print(f"Model: {car['model']}")
-                print(f"Year: {car['year']}")
-                print()
 
-            car_id = input("\nEnter the ID of the car: ").strip()
-            if not car_id.isdigit():
-                print("\nError: Invalid car ID\n")
-                return
-            car_id = int(car_id)
-            selected_car = None
-            for car in cars:
-                if car["car_id"] == car_id:
-                    selected_car = car
+            selected_car = select_car_by_id(cars)
             if not selected_car:
-                print(ERROR_CAR_NOT_FOUND)
                 return
-            print(f"\nSelected Car: {selected_car['name']} (ID: {car_id})\n")
+
+            print(
+                f"\nSelected Car: {selected_car['name']} (ID: {selected_car['car_id']})"
+            )
+
             service_type = Menu.get_service_type()
             if not service_type:
                 return
@@ -413,7 +357,7 @@ class UserActions:
                 service_date=service_date,
                 next_service_date=next_service_date or None,
                 notes=notes,
-                car_id=car_id,
+                car_id=selected_car["car_id"],
             )
             print("\nService added successfully.\n")
         except Exception as e:
