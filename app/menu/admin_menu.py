@@ -116,14 +116,11 @@ class AdminMenu:
                 if choice == "1":
                     export_type_choice = Menu.display_menu(self.export_type)
                     if export_type_choice == "1":
-                        self.admin_actions.export_to_csv("users")
-                        break
+                        self.admin_actions.export_to_csv("users")    
                     elif export_type_choice == "2":
-                        self.admin_actions.export_to_csv("cars")
-                        break
+                        self.admin_actions.export_to_csv("cars")      
                     elif export_type_choice == "3":
-                        self.admin_actions.export_to_csv("services")
-                        break
+                        self.admin_actions.export_to_csv("services")      
                     elif export_type_choice == "4":
                         return
                     else:

@@ -4,6 +4,7 @@ import logging
 from getpass import getpass
 from app.menu.menu import Menu
 from app.utils.validation import validate_email, validate_date
+from app.utils.helpers import get_downloads_folder
 from app.utils.constants import (
     ERROR_USER_NOT_FOUND,
     PRESS_ENTER_TO_GO_BACK,
@@ -635,78 +636,41 @@ class AdminActions:
 
     def export_to_csv(self, export_type="users"):
         try:
+            downloads_folder = get_downloads_folder()
+            file_name = f"{export_type}_export.csv"
+            file_path = os.path.join(downloads_folder, file_name)
+
+            data = []
             if export_type == "users":
-                users = self.db_handler.load_users()
-                if not users:
-                    return
-
-                if not os.path.exists("exports"):
-                    os.makedirs("exports")
-
-                file_path = "exports/users_export.csv"
-                with open(file_path, "w", newline="") as file:
-                    writer = csv.writer(file)
-                    writer.writerow(["Username", "Role", "Email"])
-                    for user in users:
-                        writer.writerow([user["username"], user["role"], user["email"]])
-
-                print(f"\nFile saved at: {file_path}.")
-
+                data = self.db_handler.load_users()
+                headers = ["Username", "Role", "Email"]
             elif export_type == "cars":
-                cars = self.db_handler.load_cars()
-                if not cars:
-                    return
-
-                if not os.path.exists("exports"):
-                    os.makedirs("exports")
-
-                file_path = "exports/cars_export.csv"
-                with open(file_path, "w", newline="") as file:
-                    writer = csv.writer(file)
-                    writer.writerow(["Name", "Model", "Year", "Owner"])
-                    for car in cars:
-                        writer.writerow(
-                            [car["name"], car["model"], car["year"], car["owner"]]
-                        )
-
-                print(f"\nFile saved at: {file_path}")
-
+                data = self.db_handler.load_cars()
+                headers = ["Name", "Model", "Year", "Owner"]
             elif export_type == "services":
-                services = self.db_handler.load_services()
-                if not services:
-                    return
-
-                if not os.path.exists("exports"):
-                    os.makedirs("exports")
-
-                file_path = "exports/services_export.csv"
-                with open(file_path, "w", newline="") as file:
-                    writer = csv.writer(file)
-                    writer.writerow(
-                        [
-                            "Car Name",
-                            "Service Type",
-                            "Service Date",
-                            "Next Service Date",
-                            "Notes",
-                        ]
-                    )
-                    for service in services:
-                        writer.writerow(
-                            [
-                                service["car_name"],
-                                service["service_type"],
-                                service["service_date"],
-                                service["next_service_date"],
-                                service["notes"],
-                            ]
-                        )
-
-                print(f"\nFile saved at: {file_path}")
-
+                data = self.db_handler.load_services()
+                headers = [
+                    "Car Name",
+                    "Service Type",
+                    "Service Date",
+                    "Next Service Date",
+                    "Notes",
+                ]
             else:
                 print("Invalid export type selected.")
                 logging.error(f"Invalid export type selected: {export_type}")
+                return
+
+            if not data:
+                return
+
+            with open(file_path, "w", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow(headers)
+                for row in data:
+                    writer.writerow(row.values())
+
+            print(f"\nFile saved at: {file_path}")
         except Exception as e:
             logging.error("Error in export_to_csv: %s", str(e))
             print("\nAn error occurred while exporting to CSV.")

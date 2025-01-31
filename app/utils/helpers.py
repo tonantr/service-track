@@ -4,6 +4,7 @@ from app.utils.constants import (
     ERROR_CAR_NOT_FOUND,
     ERROR_SERVICE_NOT_FOUND,
 )
+import os
 
 
 def load_user_and_cars(db_handler, username):
@@ -83,3 +84,9 @@ def get_selected_service(services):
         return
 
     return selected_service
+
+def get_downloads_folder():
+        if os.name == "nt":  # Windows
+            return os.path.join(os.environ["USERPROFILE"], "Downloads")
+        else:  # macOS/Linux
+            return os.path.join(os.path.expanduser("~"), "Downloads")
