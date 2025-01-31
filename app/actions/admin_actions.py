@@ -671,6 +671,39 @@ class AdminActions:
 
                 print(f"\nFile saved at: {file_path}")
 
+            elif export_type == "services":
+                services = self.db_handler.load_services()
+                if not services:
+                    return
+
+                if not os.path.exists("exports"):
+                    os.makedirs("exports")
+
+                file_path = "exports/services_export.csv"
+                with open(file_path, "w", newline="") as file:
+                    writer = csv.writer(file)
+                    writer.writerow(
+                        [
+                            "Car Name",
+                            "Service Type",
+                            "Service Date",
+                            "Next Service Date",
+                            "Notes",
+                        ]
+                    )
+                    for service in services:
+                        writer.writerow(
+                            [
+                                service["car_name"],
+                                service["service_type"],
+                                service["service_date"],
+                                service["next_service_date"],
+                                service["notes"],
+                            ]
+                        )
+
+                print(f"\nFile saved at: {file_path}")
+
             else:
                 print("Invalid export type selected.")
                 logging.error(f"Invalid export type selected: {export_type}")

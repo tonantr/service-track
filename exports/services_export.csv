@@ -1,0 +1,8 @@
+Car Name,Service Type,Service Date,Next Service Date,Notes
+Ford,Oil Change,2024-06-15,2024-12-15,"Routine oil change at 10,000 km"
+Audi,Tire Rotation,2024-06-15,2025-06-15,"Tires rotated at 10,000 km"
+Honda Civic,Brake Inspection,2024-07-20,2025-07-20,Checked brake pads and rotors
+Ford,Brake Inspection,2024-07-20,2025-07-20,Checked brake pads and rotors
+Ford Focus,Battery Check,2024-08-01,2025-08-01,"Checked battery charge at 15,000 km"
+Audi,Battery Check,2024-08-01,2025-08-01,"Checked battery charge at 15,000 km"
+Chevrolet Malibu,Air Filter Replacement,2024-09-10,2025-09-10,Replaced cabin air filter

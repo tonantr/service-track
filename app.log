@@ -20,3 +20,4 @@
 2025-01-30 13:22:50,735 - INFO - user_database_handler - Line: 61 - Successfully deleted car 7 and related services.
 2025-01-31 14:15:08,145 - ERROR - admin_actions - Line: 676 - Error in export_to_csv: 'username'
 2025-01-31 14:17:16,308 - INFO - admin_actions - Line: 671 - Exported cars to CSV successfully. File saved at: exports/cars_export.csv.
+2025-01-31 14:23:12,997 - ERROR - admin_actions - Line: 711 - Error in export_to_csv: cannot access local variable 'cars' where it is not associated with a value

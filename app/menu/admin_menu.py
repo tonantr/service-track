@@ -122,7 +122,7 @@ class AdminMenu:
                         self.admin_actions.export_to_csv("cars")
                         break
                     elif export_type_choice == "3":
-                        print()
+                        self.admin_actions.export_to_csv("services")
                         break
                     elif export_type_choice == "4":
                         return
