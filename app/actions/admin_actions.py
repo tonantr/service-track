@@ -643,13 +643,14 @@ class AdminActions:
             data = []
             if export_type == "users":
                 data = self.db_handler.load_users()
-                headers = ["Username", "Role", "Email"]
+                headers = ["ID", "Username", "Role", "Email", "Password"]
             elif export_type == "cars":
                 data = self.db_handler.load_cars()
-                headers = ["Name", "Model", "Year", "Owner"]
+                headers = ["ID", "Name", "Model", "Year", "Owner", "Service"]
             elif export_type == "services":
                 data = self.db_handler.load_services()
                 headers = [
+                    "ID",
                     "Car Name",
                     "Service Type",
                     "Service Date",
