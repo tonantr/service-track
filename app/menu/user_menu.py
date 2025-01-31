@@ -98,6 +98,6 @@ class UserMenu:
             elif choice == 3:
                 self.user_actions.update_service()
             elif choice == 4:
-                print("Delete service is coming soon")
+                self.user_actions.delete_service()
             elif choice == 5:
                 return

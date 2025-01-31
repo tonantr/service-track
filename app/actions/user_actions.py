@@ -408,11 +408,8 @@ class UserActions:
                     f"{id:<5} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
                 )
             print()
-            service_id = input("Enter the ID of the service to update: ").strip()
-            if not service_id.isdigit():
-                print("\nError: Invalid ID.\n")
-                return
-            service_id = int(service_id)
+            service_id = int(input("Enter the ID of the service to update: ").strip())
+
             selected_service = None
             for s in services:
                 if s["service_id"] == service_id:
@@ -481,3 +478,64 @@ class UserActions:
         except Exception as e:
             logging.error("Error in update_service: %s", str(e))
             print("\nAn error occurred while updating the service.\n")
+
+    def delete_service(self):
+        try:
+            user, cars = load_user_and_cars(self.db_handler, self.username)
+            if not user or not cars:
+                return
+
+            print("\nPlease select a car from the list to view its services:\n")
+
+            selected_car = select_car_by_id(cars)
+            if not selected_car:
+                return
+
+            print(
+                f"\nSelected Car: {selected_car['name']} (ID: {selected_car['car_id']})\n"
+            )
+
+            services = self.db_handler.load_services(selected_car["car_id"])
+            if not services:
+                print(ERROR_NO_SERVICES_FOUND)
+                return
+
+            print("\n*** Services for Selected Car ***\n")
+            print(
+                f"{'ID':<5} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
+            )
+            print("-" * 125)
+            for service in services:
+                id = service["service_id"]
+                service_type = (
+                    str(service["service_type"][:30] + "...")
+                    if len(service["service_type"]) > 30
+                    else str(service["service_type"])
+                )
+                service_date = str(service["service_date"]) or "N/A"
+                next_service_date = str(service["next_service_date"]) or "N/A"
+                notes = (
+                    str(service["notes"][:50]) + "..."
+                    if service["notes"] and len(service["notes"]) > 50
+                    else str(service["notes"]) or "N/A"
+                )
+                print(
+                    f"{id:<5} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
+                )
+            print()
+            service_id = int(input("Enter the ID of the service to delete: ").strip())
+
+            selected_service = None
+            for s in services:
+                if s["service_id"] == service_id:
+                    selected_service = s
+            if not selected_service:
+                print(ERROR_SERVICE_NOT_FOUND)
+                return
+            if not Menu.confirm_action("delete this service? (y/n): "):
+                print("\nCancelled.\n")
+                return
+            self.db_handler.delete_service(service_id)
+        except Exception as e:
+            logging.error("Error in delete_service: %s", str(e))
+            print("\nAn error occurred while deleting the service.\n")
