@@ -1,8 +1,16 @@
+import csv
+import os
 import logging
 from getpass import getpass
 from app.menu.menu import Menu
 from app.utils.validation import validate_email, validate_date
-from app.utils.constants import ERROR_USER_NOT_FOUND, PRESS_ENTER_TO_GO_BACK, ERROR_NO_SERVICES_FOUND, ERROR_NO_CARS_FOUND, ERROR_NO_USERS_FOUND
+from app.utils.constants import (
+    ERROR_USER_NOT_FOUND,
+    PRESS_ENTER_TO_GO_BACK,
+    ERROR_NO_SERVICES_FOUND,
+    ERROR_NO_CARS_FOUND,
+    ERROR_NO_USERS_FOUND,
+)
 
 logging.basicConfig(
     filename="app.log",
@@ -624,3 +632,48 @@ class AdminActions:
         except Exception as e:
             logging.error("Error in delete_service: %s", str(e))
             print("\nAn error occurred while deleting the service")
+
+    def export_to_csv(self, export_type="users"):
+        try:
+            if export_type == "users":
+                users = self.db_handler.load_users()
+                if not users:
+                    return
+
+                if not os.path.exists("exports"):
+                    os.makedirs("exports")
+
+                file_path = "exports/users_export.csv"
+                with open(file_path, "w", newline="") as file:
+                    writer = csv.writer(file)
+                    writer.writerow(["Username", "Role", "Email"])
+                    for user in users:
+                        writer.writerow([user["username"], user["role"], user["email"]])
+
+                print(f"\nFile saved at: {file_path}.")
+
+            elif export_type == "cars":
+                cars = self.db_handler.load_cars()
+                if not cars:
+                    return
+
+                if not os.path.exists("exports"):
+                    os.makedirs("exports")
+
+                file_path = "exports/cars_export.csv"
+                with open(file_path, "w", newline="") as file:
+                    writer = csv.writer(file)
+                    writer.writerow(["Name", "Model", "Year", "Owner"])
+                    for car in cars:
+                        writer.writerow(
+                            [car["name"], car["model"], car["year"], car["owner"]]
+                        )
+
+                print(f"\nFile saved at: {file_path}")
+
+            else:
+                print("Invalid export type selected.")
+                logging.error(f"Invalid export type selected: {export_type}")
+        except Exception as e:
+            logging.error("Error in export_to_csv: %s", str(e))
+            print("\nAn error occurred while exporting to CSV.")

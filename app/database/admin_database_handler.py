@@ -53,12 +53,12 @@ class AdminDatabaseHandler(DatabaseHandler):
             c.model, 
             c.year, 
             u.username AS owner,
-            GROUP_CONCAT(DISTINCT s.service_type ORDER BY s.service_date SEPARATOR ', ') AS services
+            IFNULL(GROUP_CONCAT(DISTINCT s.service_type ORDER BY s.service_date SEPARATOR ', '), 'No services') AS services
         FROM cars c
         LEFT JOIN users u ON c.user_id = u.user_id
         LEFT JOIN services s ON c.car_id = s.car_id
         GROUP BY c.car_id, c.name, c.model, c.year, u.username;
-    """
+        """
         return self.execute_query(query)
 
     def add_car(self, name, model, year, user_id):
@@ -97,7 +97,9 @@ class AdminDatabaseHandler(DatabaseHandler):
     """
         return self.execute_query(query)
 
-    def add_service(self, service_type, service_date, notes, car_id, next_service_date=None):
+    def add_service(
+        self, service_type, service_date, notes, car_id, next_service_date=None
+    ):
         query = "INSERT INTO services (service_type, service_date, next_service_date, notes, car_id) VALUES (%s, %s, %s, %s, %s)"
         self.execute_commit(
             query, (service_type, service_date, next_service_date, notes, car_id)

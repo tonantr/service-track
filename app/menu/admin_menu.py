@@ -8,6 +8,7 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(module)s - Line: %(lineno)d - %(message)s",
 )
 
+
 class AdminMenu:
     def __init__(self, admin_actions):
         self.admin_actions = admin_actions
@@ -15,7 +16,8 @@ class AdminMenu:
             "1": "User Management",
             "2": "Car Management",
             "3": "Service Management",
-            "4": "Logout\n",
+            "4": "Export Data",
+            "5": "Logout\n",
         }
         self.COMMON_OPTIONS = {
             "1": "List",
@@ -24,6 +26,8 @@ class AdminMenu:
             "4": "Delete",
             "5": "Back\n",
         }
+        self.export_options = {"1": "CSV", "2": "PDF", "3": "Back\n"}
+        self.export_type = {"1": "Users", "2": "Cars", "3": "Services", "4": "Back\n"}
 
     def display_admin_menu(self):
         while True:
@@ -41,6 +45,8 @@ class AdminMenu:
             elif choice == "3":
                 self.display_service_management_menu()
             elif choice == "4":
+                self.export_data()
+            elif choice == "5":
                 return "logout"
 
     def display_user_management_menu(self):
@@ -102,3 +108,33 @@ class AdminMenu:
                 self.admin_actions.delete_service()
             elif choice == "5":
                 return
+
+    def export_data(self):
+        while True:
+            try:
+                choice = Menu.display_menu(self.export_options)
+                if choice == "1":
+                    export_type_choice = Menu.display_menu(self.export_type)
+                    if export_type_choice == "1":
+                        self.admin_actions.export_to_csv("users")
+                        break
+                    elif export_type_choice == "2":
+                        self.admin_actions.export_to_csv("cars")
+                        break
+                    elif export_type_choice == "3":
+                        print()
+                        break
+                    elif export_type_choice == "4":
+                        return
+                    else:
+                        Menu.handle_invalid_input("Invalid option.")
+
+                elif choice == "2":
+                    print("\nExport to PDF is coming soon.")
+                    break
+                elif choice == "3":
+                    return
+                else:
+                    Menu.handle_invalid_input("Invalid option.")
+            except ValueError as e:
+                logging.error(f"Error in export_data: {e}")
