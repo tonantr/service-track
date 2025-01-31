@@ -30,7 +30,6 @@ def load_user_and_cars(db_handler, username):
 
         return user, cars
 
-
 def select_car_by_id(cars):
     car_id = input("Enter the ID of the car: ").strip()
     if not car_id.isdigit():
@@ -43,7 +42,6 @@ def select_car_by_id(cars):
 
     print(ERROR_CAR_NOT_FOUND)
     return None
-
 
 def get_selected_service(services):
     print("\n*** Services for Selected Car ***\n")
