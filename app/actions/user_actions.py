@@ -9,7 +9,7 @@ from app.utils.constants import (
     ERROR_NO_SERVICES_FOUND,
     ERROR_SERVICE_NOT_FOUND,
 )
-from app.utils.helpers import load_user_and_cars, select_car_by_id
+from app.utils.helpers import load_user_and_cars, select_car_by_id, get_selected_service
 
 logging.basicConfig(
     filename="app.log",
@@ -385,37 +385,8 @@ class UserActions:
                 print(ERROR_NO_SERVICES_FOUND)
                 return
 
-            print("\n*** Services for Selected Car ***\n")
-            print(
-                f"{'ID':<5} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
-            )
-            print("-" * 125)
-            for service in services:
-                id = service["service_id"]
-                service_type = (
-                    str(service["service_type"][:30] + "...")
-                    if len(service["service_type"]) > 30
-                    else str(service["service_type"])
-                )
-                service_date = str(service["service_date"]) or "N/A"
-                next_service_date = str(service["next_service_date"]) or "N/A"
-                notes = (
-                    str(service["notes"][:50]) + "..."
-                    if service["notes"] and len(service["notes"]) > 50
-                    else str(service["notes"]) or "N/A"
-                )
-                print(
-                    f"{id:<5} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
-                )
-            print()
-            service_id = int(input("Enter the ID of the service to update: ").strip())
-
-            selected_service = None
-            for s in services:
-                if s["service_id"] == service_id:
-                    selected_service = s
+            selected_service = get_selected_service(services)
             if not selected_service:
-                print(ERROR_SERVICE_NOT_FOUND)
                 return
 
             updated_data = {}
@@ -500,42 +471,18 @@ class UserActions:
                 print(ERROR_NO_SERVICES_FOUND)
                 return
 
-            print("\n*** Services for Selected Car ***\n")
-            print(
-                f"{'ID':<5} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
-            )
-            print("-" * 125)
-            for service in services:
-                id = service["service_id"]
-                service_type = (
-                    str(service["service_type"][:30] + "...")
-                    if len(service["service_type"]) > 30
-                    else str(service["service_type"])
-                )
-                service_date = str(service["service_date"]) or "N/A"
-                next_service_date = str(service["next_service_date"]) or "N/A"
-                notes = (
-                    str(service["notes"][:50]) + "..."
-                    if service["notes"] and len(service["notes"]) > 50
-                    else str(service["notes"]) or "N/A"
-                )
-                print(
-                    f"{id:<5} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
-                )
-            print()
-            service_id = int(input("Enter the ID of the service to delete: ").strip())
-
-            selected_service = None
-            for s in services:
-                if s["service_id"] == service_id:
-                    selected_service = s
+            selected_service = get_selected_service(services)
             if not selected_service:
-                print(ERROR_SERVICE_NOT_FOUND)
                 return
+
+            print(
+                f"\nSelected service: {selected_service['service_type']} (ID: {selected_service['service_id']})\n"
+            )
+
             if not Menu.confirm_action("delete this service? (y/n): "):
                 print("\nCancelled.\n")
                 return
-            self.db_handler.delete_service(service_id)
+            self.db_handler.delete_service(selected_service["service_id"])
         except Exception as e:
             logging.error("Error in delete_service: %s", str(e))
             print("\nAn error occurred while deleting the service.\n")

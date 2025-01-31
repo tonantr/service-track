@@ -1,7 +1,8 @@
 from app.utils.constants import (
     ERROR_USER_NOT_FOUND,
     ERROR_NO_CARS_FOUND,
-    ERROR_CAR_NOT_FOUND
+    ERROR_CAR_NOT_FOUND,
+    ERROR_SERVICE_NOT_FOUND,
 )
 
 
@@ -29,6 +30,7 @@ def load_user_and_cars(db_handler, username):
 
         return user, cars
 
+
 def select_car_by_id(cars):
     car_id = input("Enter the ID of the car: ").strip()
     if not car_id.isdigit():
@@ -40,5 +42,46 @@ def select_car_by_id(cars):
             return car
 
     print(ERROR_CAR_NOT_FOUND)
-    return None  
+    return None
 
+
+def get_selected_service(services):
+    print("\n*** Services for Selected Car ***\n")
+    print(
+        f"{'ID':<5} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
+    )
+    print("-" * 125)
+
+    service_dict = {}
+
+    for service in services:
+        service_id = service["service_id"]
+        service_type = (
+            str(service["service_type"][:30] + "...")
+            if len(service["service_type"]) > 30
+            else str(service["service_type"])
+        )
+        service_date = str(service["service_date"]) or "N/A"
+        next_service_date = str(service["next_service_date"]) or "N/A"
+        notes = (
+            str(service["notes"][:50]) + "..."
+            if service["notes"] and len(service["notes"]) > 50
+            else str(service["notes"]) or "N/A"
+        )
+        print(
+            f"{service_id:<5} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
+        )
+
+        service_dict[service_id] = service
+
+    print()
+
+    service_id_input = int(input("Enter the ID of the service: ").strip())
+
+    selected_service = service_dict.get(service_id_input)
+
+    if not selected_service:
+        print(ERROR_SERVICE_NOT_FOUND)
+        return
+
+    return selected_service
