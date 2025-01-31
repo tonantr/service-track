@@ -89,3 +89,13 @@ class UserDatabaseHandler(DatabaseHandler):
         self.execute_commit(
             query, (service_type, service_date, next_service_date, notes, car_id)
         )
+
+    def update_service(self, service_id, **kwargs):
+        if not kwargs:
+            raise ValueError("\nNo fields to update.\n")
+        fields = [f"{key} = %s" for key in kwargs.keys()]
+        values = list(kwargs.values())
+
+        query = f"UPDATE services SET {', '.join(fields)} WHERE service_id = %s"
+        values.append(service_id)
+        self.execute_commit(query, tuple(values))
