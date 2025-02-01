@@ -1,4 +1,6 @@
 import json
+import sys
+import os
 from app.actions.admin_actions import AdminActions
 from app.actions.user_actions import UserActions
 from app.database.user_database_handler import UserDatabaseHandler
@@ -12,8 +14,13 @@ from app.menu.user_menu import UserMenu
 
 
 class ConsoleApp:
-    def __init__(self, target_server="local", config_path="config.json"):
-        with open(config_path, "r") as file:
+    def __init__(self, target_server="local", config_path=None):
+        if config_path is None:
+            self.config_path = self.get_config_path()
+        else:
+            self.config_path = config_path
+
+        with open(self.config_path, "r") as file:
             self.config = json.load(file)
 
         if target_server not in self.config:
@@ -44,6 +51,16 @@ class ConsoleApp:
         self.user_actions = None
         self.user_details = None
 
+    def get_config_path(self):
+        if getattr(sys, "frozen", False):
+            # Running as an executable
+            base_path = sys._MEIPASS
+        else:
+            # Running as a script
+            base_path = os.path.dirname(os.path.abspath(__file__))
+
+        return os.path.join(base_path, "config.json")
+
     def run(self):
         print("*** SERVICE TRACK ***\n")
 
@@ -58,7 +75,9 @@ class ConsoleApp:
                 with self.user_db_handler:  # Automatically calls __enter__ and __exit__ methods
                     if self.login_module.login():
                         logged_in_user = self.login_module.logged_in_user
-                        self.user_details = self.user_db_handler.load_user(logged_in_user)
+                        self.user_details = self.user_db_handler.load_user(
+                            logged_in_user
+                        )
 
                         if self.user_details.get("role") == "admin":
                             self.run_admin_menu()
