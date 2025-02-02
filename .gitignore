@@ -1,3 +1,11 @@
-# Ignore Python bytecode files
+# Ignore PyInstaller files
+/dist/
+/build/
+*.spec
+
+# Ignore system files
+.DS_Store
+
+# Ignore Python bytecode
 *.pyc
 __pycache__/
