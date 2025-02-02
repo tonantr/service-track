@@ -14,7 +14,7 @@ from app.menu.user_menu import UserMenu
 
 
 class ConsoleApp:
-    def __init__(self, target_server="local", config_path=None):
+    def __init__(self, target_server="macos", config_path=None):
         if getattr(sys, "_MEIPASS", False):
             base_path = sys._MEIPASS
             config_file_path = os.path.join(base_path, "config.json")
