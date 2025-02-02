@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from app.actions.admin_actions import AdminActions
 from app.actions.user_actions import UserActions
 from app.database.user_database_handler import UserDatabaseHandler
@@ -14,14 +15,19 @@ from app.menu.user_menu import UserMenu
 
 class ConsoleApp:
     def __init__(self, target_server="local", config_path=None):
-        default_config_path = (
-            "/etc/car_service_tracker/config.json"
-            if os.name != "nt" and os.path.exists("/etc/car_service_tracker/config.json")
-            else os.path.join(os.path.dirname(__file__), "../config.json")  # Use local file if available
-        )
+        if getattr(sys, "_MEIPASS", False):
+            base_path = sys._MEIPASS
+            config_file_path = os.path.join(
+                base_path, "config.json"
+            ) 
+        else:
+            base_path = os.path.dirname(__file__)
+            config_file_path = os.path.join(
+                base_path, "../config.json"
+            ) 
 
         self.config_path = config_path or os.getenv(
-            "CAR_SERVICE_CONFIG", default_config_path
+            "CAR_SERVICE_CONFIG", config_file_path
         )
 
         self.config = self.load_config()
