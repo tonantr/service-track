@@ -1,5 +1,4 @@
 import json
-import sys
 import os
 from app.actions.admin_actions import AdminActions
 from app.actions.user_actions import UserActions
@@ -15,31 +14,35 @@ from app.menu.user_menu import UserMenu
 
 class ConsoleApp:
     def __init__(self, target_server="local", config_path=None):
-        if config_path is None:
-            self.config_path = self.get_config_path()
-        else:
-            self.config_path = config_path
+        default_config_path = (
+            "/etc/car_service_tracker/config.json"
+            if os.name != "nt" and os.path.exists("/etc/car_service_tracker/config.json")
+            else os.path.join(os.path.dirname(__file__), "../config.json")  # Use local file if available
+        )
 
-        with open(self.config_path, "r") as file:
-            self.config = json.load(file)
+        self.config_path = config_path or os.getenv(
+            "CAR_SERVICE_CONFIG", default_config_path
+        )
+
+        self.config = self.load_config()
 
         if target_server not in self.config:
             raise ValueError("Invalid target server.")
+
         db_config = self.config[target_server]
 
+        db_params = {
+            "host": db_config["host"],
+            "user": db_config["user"],
+            "password": db_config["password"],
+            "database": db_config["database"],
+        }
+
+        self.user_db_handler = UserDatabaseHandler(**db_params)
+        self.admin_db_handler = AdminDatabaseHandler(**db_params)
+
         # self.login_module = LoginModule(FileHandler())
-        self.user_db_handler = UserDatabaseHandler(
-            host=db_config["host"],
-            user=db_config["user"],
-            password=db_config["password"],
-            database=db_config["database"],
-        )
-        self.admin_db_handler = AdminDatabaseHandler(
-            host=db_config["host"],
-            user=db_config["user"],
-            password=db_config["password"],
-            database=db_config["database"],
-        )
+
         # self.db_handler.connect() # manually connect to the database
 
         self.login_module = LoginModule(self.user_db_handler)
@@ -51,15 +54,16 @@ class ConsoleApp:
         self.user_actions = None
         self.user_details = None
 
-    def get_config_path(self):
-        if getattr(sys, "frozen", False):
-            # Running as an executable
-            base_path = sys._MEIPASS
-        else:
-            # Running as a script
-            base_path = os.path.dirname(os.path.abspath(__file__))
-
-        return os.path.join(base_path, "config.json")
+    def load_config(self):
+        try:
+            with open(self.config_path, "r") as file:
+                return json.load(file)
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Configuration file not found: {self.config_path}")
+        except json.JSONDecodeError:
+            raise ValueError(
+                f"Invalid JSON format in configuration file: {self.config_path}"
+            )
 
     def run(self):
         print("*** SERVICE TRACK ***\n")

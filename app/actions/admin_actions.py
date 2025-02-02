@@ -26,14 +26,18 @@ class AdminActions:
 
     def add_user(self):
         try:
-            if not Menu.confirm_action("add a new user? (y/n): "):
-                return
-
             username = Menu.get_username()
             if not username:
                 return
 
+            if len(username) < 3 or len(username) > 20:
+                print("\nError: Username must be between 3 and 20 characters long.\n")
+                return
+
             password = getpass("Enter new password: ").strip()
+            if len(password) < 6:
+                print("\nError: Password must be at least 6 characters long.\n")
+                return
 
             email = Menu.get_email()
             if not email:
@@ -48,9 +52,9 @@ class AdminActions:
 
             users = self.db_handler.load_users()
 
-            if any(user["username"] == username for user in users):
+            if any(user["username"].lower() == username.lower() for user in users):
                 print(f"\nError: username already exists.\n")
-            elif any(user["email"] == email for user in users):
+            elif any(user["email"].lower() == email.lower() for user in users):
                 print(f"\nError: email already exists.\n")
             else:
                 self.db_handler.add_user(username, password, email, role)
