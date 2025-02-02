@@ -17,14 +17,10 @@ class ConsoleApp:
     def __init__(self, target_server="local", config_path=None):
         if getattr(sys, "_MEIPASS", False):
             base_path = sys._MEIPASS
-            config_file_path = os.path.join(
-                base_path, "config.json"
-            ) 
+            config_file_path = os.path.join(base_path, "config.json")
         else:
             base_path = os.path.dirname(__file__)
-            config_file_path = os.path.join(
-                base_path, "../config.json"
-            ) 
+            config_file_path = os.path.join(base_path, "../config.json")
 
         self.config_path = config_path or os.getenv(
             "CAR_SERVICE_CONFIG", config_file_path
