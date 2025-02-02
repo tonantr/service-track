@@ -21,3 +21,8 @@
 2025-01-31 14:15:08,145 - ERROR - admin_actions - Line: 676 - Error in export_to_csv: 'username'
 2025-01-31 14:17:16,308 - INFO - admin_actions - Line: 671 - Exported cars to CSV successfully. File saved at: exports/cars_export.csv.
 2025-01-31 14:23:12,997 - ERROR - admin_actions - Line: 711 - Error in export_to_csv: cannot access local variable 'cars' where it is not associated with a value
+2025-02-02 12:21:56,759 - ERROR - database_handler - Line: 33 - Connection Error: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (111)
+2025-02-02 12:22:55,656 - ERROR - login_module - Line: 35 - Error authenticating user: 'NoneType' object has no attribute 'execute'
+2025-02-02 12:23:04,949 - ERROR - login_module - Line: 35 - Error authenticating user: 'NoneType' object has no attribute 'execute'
+2025-02-02 12:23:07,916 - ERROR - login_module - Line: 35 - Error authenticating user: 'NoneType' object has no attribute 'execute'
+2025-02-02 12:23:15,219 - ERROR - database_handler - Line: 33 - Connection Error: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (111)

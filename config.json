@@ -16,5 +16,11 @@
         "user":"root",
         "password": "P@ssw0rd123",
         "database": "service_track"
+    },
+    "local2": {
+        "host": "172.18.112.1",
+        "user": "root",
+        "password": "P@ssw0rd123",
+        "database": "service_track"
     }
 }
