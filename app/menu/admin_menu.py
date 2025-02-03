@@ -111,27 +111,25 @@ class AdminMenu:
 
     def export_data(self):
         while True:
-            try:
-                choice = Menu.display_menu(self.export_options)
-                if choice == "1":
-                    export_type_choice = Menu.display_menu(self.export_type)
-                    if export_type_choice == "1":
-                        self.admin_actions.export_to_csv("users")    
-                    elif export_type_choice == "2":
-                        self.admin_actions.export_to_csv("cars")      
-                    elif export_type_choice == "3":
-                        self.admin_actions.export_to_csv("services")      
-                    elif export_type_choice == "4":
-                        return
-                    else:
-                        Menu.handle_invalid_input("Invalid option.")
+            choice = Menu.display_menu(self.export_options)
 
-                elif choice == "2":
-                    print("\nExport to PDF is coming soon.")
-                    break
-                elif choice == "3":
+            if choice == "1":
+                user_choice = Menu.display_menu(self.export_type)
+
+                export_types = {"1": "users", "2": "cars", "3": "services", "4": "back"}
+
+                if user_choice in export_types:
+                    if export_types[user_choice] == "back":
+                        return
+                    self.admin_actions.export_to_csv(export_types[user_choice])
                     return
-                else:
-                    Menu.handle_invalid_input("Invalid option.")
-            except ValueError as e:
-                logging.error(f"Error in export_data: {e}")
+
+                Menu.handle_invalid_input()
+
+            elif choice == "2":
+                print("\nExport to PDF is coming soon.")
+                break
+            elif choice == "3":
+                return
+            else:
+                Menu.handle_invalid_input()

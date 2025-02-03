@@ -1,4 +1,6 @@
 import logging
+import csv
+import os
 from app.menu.menu import Menu
 from app.auth.password_hashing import hash_password
 from getpass import getpass
@@ -9,7 +11,12 @@ from app.utils.constants import (
     ERROR_NO_SERVICES_FOUND,
     ERROR_SERVICE_NOT_FOUND,
 )
-from app.utils.helpers import load_user_and_cars, select_car_by_id, get_selected_service
+from app.utils.helpers import (
+    load_user_and_cars,
+    select_car_by_id,
+    get_selected_service,
+    get_downloads_folder,
+)
 
 logging.basicConfig(
     filename="app.log",
@@ -32,8 +39,8 @@ class UserActions:
 
             print("\n*** User Details ***\n")
             print(f"Username: {user['username']}")
-            print(f"Password: {'*' * 8}")
-            print(f"Email: {user['email']}")
+            print(f"Password: [Hidden] (Stored securely)")
+            print(f"Email: {user['email']} (📋 Copyable)")
             print(f"Role: {user['role']}\n")
 
             input(PRESS_ENTER_TO_GO_BACK)
@@ -486,3 +493,61 @@ class UserActions:
         except Exception as e:
             logging.error("Error in delete_service: %s", str(e))
             print("\nAn error occurred while deleting the service.\n")
+
+    def export_to_csv(self, export_type="cars"):
+        try:
+            user, cars = load_user_and_cars(self.db_handler, self.username)
+            if not user or not cars:
+                return
+            
+            print("\nPlease select a car from your list to export its services:\n")
+
+            selected_car = select_car_by_id(cars)
+            if not selected_car:
+                return
+
+            print(
+                f"\nSelected Car: {selected_car['name']} (ID: {selected_car['car_id']})\n"
+            )
+
+            services = self.db_handler.load_services(selected_car["car_id"])
+            if not services:
+                print(ERROR_NO_SERVICES_FOUND)
+                return
+            
+            downloads_folder = get_downloads_folder()
+            file_name = f"{export_type}_usr.csv"
+            file_path = os.path.join(downloads_folder, file_name)
+
+            data, headers = [], []
+            if export_type == "cars":
+                data = cars
+                headers = ["ID", "Name", "Model", "Year", "Owner", "Service"]
+            elif export_type == "services":
+                data = services
+                headers = [
+                    "ID",
+                    "Car Name",
+                    "Service Type",
+                    "Service Date",
+                    "Next Service Date",
+                    "Notes",
+                ]
+            else:
+                print("Invalid export type selected.")
+                logging.error(f"Invalid export type selected: {export_type}")
+                return
+
+            if not data:
+                return
+
+            with open(file_path, "w", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow(headers)
+                for row in data:
+                    writer.writerow(row.values())
+
+            print(f"\nFile saved at: {file_path}")
+        except Exception as e:
+            logging.error("Error in export_to_csv: %s", str(e))
+            print("\nAn error occurred while exporting to CSV.")

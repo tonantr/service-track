@@ -9,7 +9,7 @@ class AdminDatabaseHandler(DatabaseHandler):
         self.execute_commit(query, (username, hashed_password, email, role))
 
     def load_users(self):
-        query = "SELECT * FROM users"
+        query = "SELECT user_id, username, role, email FROM users"
         return self.execute_query(query)
 
     def update_user(self, user_id, username=None, role=None, email=None, password=None):

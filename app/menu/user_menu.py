@@ -1,4 +1,11 @@
 from app.menu.menu import Menu
+import logging
+
+logging.basicConfig(
+    filename="app.log",
+    level=logging.DEBUG,
+    format="%(asctime)s - %(levelname)s - %(module)s - Line: %(lineno)d - %(message)s",
+)
 
 
 class UserMenu:
@@ -8,7 +15,8 @@ class UserMenu:
             "1": "Profile Management",
             "2": "Car Management",
             "3": "Service Management",
-            "4": "Logout\n",
+            "4": "Export Data",
+            "5": "Logout\n",
         }
 
         self.COMMON_OPTIONS = {
@@ -18,6 +26,9 @@ class UserMenu:
             "4": "Delete",
             "5": "Back\n",
         }
+
+        self.export_options = {"1": "CSV", "2": "PDF", "3": "Back\n"}
+        self.export_type = {"1": "Cars", "2": "Services", "3": "Back\n"}
 
     def display_user_menu(self):
         try:
@@ -35,6 +46,8 @@ class UserMenu:
         elif choice == 3:
             self.display_service_menu()
         elif choice == 4:
+            self.export_data()
+        elif choice == 5:
             return "logout"
 
     def display_profile_menu(self):
@@ -101,3 +114,28 @@ class UserMenu:
                 self.user_actions.delete_service()
             elif choice == 5:
                 return
+
+    def export_data(self):
+        while True:
+            choice = Menu.display_menu(self.export_options)
+
+            if choice == "1":
+                user_choice = Menu.display_menu(self.export_type)
+
+                export_types = {"1": "cars", "2": "services", "3": "back"}
+
+                if user_choice in export_types:
+                    if export_types[user_choice] == "back":
+                        return
+                    self.user_actions.export_to_csv(export_types[user_choice])
+                    return
+
+                Menu.handle_invalid_input()
+
+            elif choice == "2":
+                print("\nExport to PDF is coming soon.")
+                continue
+            elif choice == "3":
+                return
+            else:
+                Menu.handle_invalid_input()

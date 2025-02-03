@@ -641,13 +641,13 @@ class AdminActions:
     def export_to_csv(self, export_type="users"):
         try:
             downloads_folder = get_downloads_folder()
-            file_name = f"{export_type}_export.csv"
+            file_name = f"{export_type}_adm.csv"
             file_path = os.path.join(downloads_folder, file_name)
 
-            data = []
+            data, headers = [], []
             if export_type == "users":
                 data = self.db_handler.load_users()
-                headers = ["ID", "Username", "Role", "Email", "Password"]
+                headers = ["ID", "Username", "Role", "Email"]
             elif export_type == "cars":
                 data = self.db_handler.load_cars()
                 headers = ["ID", "Name", "Model", "Year", "Owner", "Service"]
