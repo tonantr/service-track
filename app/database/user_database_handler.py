@@ -30,7 +30,11 @@ class UserDatabaseHandler(DatabaseHandler):
         return result["COUNT(*)"] > 0
 
     def load_cars(self, userid):
-        query = "SELECT * FROM cars WHERE user_id = %s"
+        query = """
+        SELECT car_id, user_id, name, model, year 
+        FROM cars 
+        WHERE user_id = %s
+        """
         return self.execute_query(query, (userid,))
 
     def add_car(self, name, model, year, user_id):

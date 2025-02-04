@@ -517,8 +517,10 @@ class UserActions:
 
             data, headers = [], []
             if export_type == "cars":
-                data = cars
-                headers = ["ID", "Name", "Model", "Year", "Owner", "Service"]
+                for car in cars:
+                    car["owner"] = self.username
+                headers = ["ID", "User ID", "Name", "Model", "Year", "Owner"]
+                data = cars                
             elif export_type == "services":
                 data = services
                 headers = [
