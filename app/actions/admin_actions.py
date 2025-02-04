@@ -221,11 +221,15 @@ class AdminActions:
                 year = str(car["year"])
                 owner = str(car["owner"])
                 services = str(car["services"])
+
+                services = services[:50] + "..." if len(services) > 50 else services
+
                 print(
                     f"{car_id:<5} {name:<20} {model:<20} {year:<10} {owner:<20} {services:<50}"
                 )
 
             print()
+            print("\n*** FOR FULL DETAILS, EXPORT TO A CSV FILE! ***\n")
             input(PRESS_ENTER_TO_GO_BACK)
         except Exception as e:
             logging.error("Error in list_cars: %s", str(e))
