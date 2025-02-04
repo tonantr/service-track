@@ -420,9 +420,9 @@ class AdminActions:
                 print(ERROR_NO_SERVICES_FOUND)
                 return
             print(
-                f"{'Car Name':<20} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
+                f"{'Car Name':<10} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<30}"
             )
-            print("-" * 140)
+            print("-" * 110)
             for service in services:
                 car_name = str(service["car_name"])
                 service_type = (
@@ -434,13 +434,15 @@ class AdminActions:
                 next_service_date = str(service["next_service_date"])
                 notes = (
                     str(service["notes"] + "...")
-                    if len(service["notes"]) > 50
+                    if len(service["notes"]) > 30
                     else str(service["notes"])
                 )
                 print(
-                    f"{car_name:<20} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
+                    f"{car_name:<10} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<30}"
                 )
+
             print()
+            print("\n*** FOR FULL DETAILS, EXPORT TO A CSV FILE! ***\n")
             input(PRESS_ENTER_TO_GO_BACK)
         except Exception as e:
             logging.error("Error in list_services: %s", str(e))
@@ -515,18 +517,18 @@ class AdminActions:
                 return
             print("\n*** List of Services ***\n")
             print(
-                f"{'ID':<5} {'Car Name':<20} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
+                f"{'ID':<5} {'Car Name':<10} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<30}"
             )
-            print("-" * 140)
+            print("-" * 115)
             for service in services:
                 service_id = str(service["service_id"])
                 car_name = str(service["car_name"])
                 service_type = str(service["service_type"][:30])
                 service_date = str(service["service_date"])
                 next_service_date = str(service["next_service_date"])
-                notes = str(service["notes"][:50])
+                notes = str(service["notes"][:30])
                 print(
-                    f"{service_id:<5} {car_name:<20} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
+                    f"{service_id:<5} {car_name:<10} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<30}"
                 )
             service_id = input("\nEnter the ID of the service: ").strip()
             if not service_id.isdigit():
@@ -597,9 +599,9 @@ class AdminActions:
 
             print("\n*** List of Services ***\n")
             print(
-                f"{'ID':<10} {'Car Name':<20} {'Service Type':<30} {'Service Date':<30}"
+                f"{'ID':<10} {'Car Name':<10} {'Service Type':<30} {'Service Date':<20}"
             )
-            print("-" * 90)
+            print("-" * 70)
             for service in services:
                 id = str(service["service_id"])
                 car_name = str(service["car_name"])
@@ -609,7 +611,7 @@ class AdminActions:
                     else str(service["service_type"])
                 )
                 service_date = str(service["service_date"])
-                print(f"{id:<10} {car_name:<20} {service_type:<30} {service_date:<20}")
+                print(f"{id:<10} {car_name:<10} {service_type:<30} {service_date:<20}")
             print()
 
             service_id = input("\nEnter the ID of the service: ").strip()

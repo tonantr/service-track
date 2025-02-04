@@ -47,9 +47,9 @@ def select_car_by_id(cars):
 def get_selected_service(services):
     print("\n*** Services for Selected Car ***\n")
     print(
-        f"{'ID':<5} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
+        f"{'ID':<5} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<30}"
     )
-    print("-" * 125)
+    print("-" * 105)
 
     service_dict = {}
 
@@ -63,12 +63,12 @@ def get_selected_service(services):
         service_date = str(service["service_date"]) or "N/A"
         next_service_date = str(service["next_service_date"]) or "N/A"
         notes = (
-            str(service["notes"][:50]) + "..."
-            if service["notes"] and len(service["notes"]) > 50
+            str(service["notes"][:30]) + "..."
+            if service["notes"] and len(service["notes"]) > 30
             else str(service["notes"]) or "N/A"
         )
         print(
-            f"{service_id:<5} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
+            f"{service_id:<5} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<30}"
         )
 
         service_dict[service_id] = service

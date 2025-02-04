@@ -293,9 +293,9 @@ class UserActions:
 
             print("\n*** Services for Selected Car ***\n")
             print(
-                f"{'Car Name':<20} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<50}"
+                f"{'Car Name':<10} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<30}"
             )
-            print("-" * 140)
+            print("-" * 110)
             for service in services:
                 car_name = str(service["car_name"]) or "N/A"
                 service_type = (
@@ -307,15 +307,16 @@ class UserActions:
                 next_service_date = str(service["next_service_date"]) or "N/A"
                 notes = (
                     str(service["notes"][:50]) + "..."
-                    if service["notes"] and len(service["notes"]) > 50
+                    if service["notes"] and len(service["notes"]) > 30
                     else str(service["notes"]) or "N/A"
                 )
                 print(
                     f"{car_name:<20} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
                 )
-            print()
-            input(PRESS_ENTER_TO_GO_BACK)
 
+            print()
+            print("\n*** FOR FULL DETAILS, EXPORT TO A CSV FILE! ***\n")
+            input(PRESS_ENTER_TO_GO_BACK)
         except Exception as e:
             logging.error("Error in list_services: %s", str(e))
             print("\nAn error occurred while listing the services.\n")
