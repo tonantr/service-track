@@ -297,19 +297,14 @@ class UserActions:
             )
             print("-" * 110)
             for service in services:
-                car_name = str(service["car_name"]) or "N/A"
-                service_type = (
-                    str(service["service_type"][:30] + "...")
-                    if len(service["service_type"]) > 30
-                    else str(service["service_type"])
-                )
-                service_date = str(service["service_date"]) or "N/A"
-                next_service_date = str(service["next_service_date"]) or "N/A"
-                notes = (
-                    str(service["notes"][:50]) + "..."
-                    if service["notes"] and len(service["notes"]) > 30
-                    else str(service["notes"]) or "N/A"
-                )
+                car_name = str(service["car_name"])
+                service_type = str(service.get("service_type", "")).strip()  
+                service_date = str(service.get("service_date", "")).strip()  
+                next_service_date = str(service.get("next_service_date", "")).strip()  
+                notes = str(service.get("notes", "")).strip()  
+
+                service_type = service_type[:27] + "..." if len(service_type) > 30 else service_type
+                notes = notes[:27] + "..." if len(notes) > 30 else notes
                 print(
                     f"{car_name:<20} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<50}"
                 )

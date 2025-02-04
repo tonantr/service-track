@@ -26,3 +26,4 @@
 2025-02-02 12:23:04,949 - ERROR - login_module - Line: 35 - Error authenticating user: 'NoneType' object has no attribute 'execute'
 2025-02-02 12:23:07,916 - ERROR - login_module - Line: 35 - Error authenticating user: 'NoneType' object has no attribute 'execute'
 2025-02-02 12:23:15,219 - ERROR - database_handler - Line: 33 - Connection Error: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (111)
+2025-02-04 13:50:59,052 - ERROR - admin_actions - Line: 448 - Error in list_services: object of type 'NoneType' has no len()
