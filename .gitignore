@@ -11,4 +11,4 @@
 __pycache__/
 
 # .gitignore
-.env
+.env.DS_Store
