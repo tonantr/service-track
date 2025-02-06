@@ -122,17 +122,18 @@ class UserActions:
             print("\n*** Add Car ***\n")
             car_name = Menu.get_name_car()
             if not car_name:
-                print("Error: Car name cannot be empty.")
                 return
 
             car_model = Menu.get_model_car()
             if not car_model:
-                print("Error: Car model cannot be empty.")
                 return
 
             car_year = Menu.get_year_car()
             if not car_year:
-                print("Error: Car year is invalid.")
+                return
+            
+            car_vin = Menu.get_vin_car()
+            if not car_vin:
                 return
 
             user = self.db_handler.load_user(self.username)
@@ -166,7 +167,7 @@ class UserActions:
                     f"\nError: The name '{car_name}' and model '{car_model}' already exists.\n"
                 )
             else:
-                self.db_handler.add_car(car_name, car_model, car_year, user["user_id"])
+                self.db_handler.add_car(car_name, car_model, car_year, car_vin, user["user_id"])
                 print("\nCar added successfully.\n")
 
         except Exception as e:

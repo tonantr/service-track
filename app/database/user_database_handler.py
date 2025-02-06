@@ -37,9 +37,9 @@ class UserDatabaseHandler(DatabaseHandler):
         """
         return self.execute_query(query, (userid,))
 
-    def add_car(self, name, model, year, user_id):
-        query = "INSERT INTO cars (name, model, year, user_id) VALUES (%s, %s, %s, %s)"
-        self.execute_commit(query, (name, model, year, user_id))
+    def add_car(self, name, model, year, vin, user_id):
+        query = "INSERT INTO cars (name, model, year, vin, user_id) VALUES (%s, %s, %s, %s, %s)"
+        self.execute_commit(query, (name, model, year, vin, user_id))
 
     def update_car(self, car_id, **kwargs):
         if not kwargs:

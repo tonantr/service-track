@@ -276,12 +276,12 @@ class AdminActions:
             car_year = Menu.get_year_car()
             if not car_year:
                 return
-
-            if not Menu.confirm_action("add this car? (y/n): "):
-                print("\nCancelled.\n")
+            
+            car_vin = Menu.get_vin_car()
+            if not car_vin:
                 return
 
-            self.db_handler.add_car(car_name, car_model, car_year, user_id)
+            self.db_handler.add_car(car_name, car_model, car_year, car_vin, user_id)
             print("\nCar added successfully.\n")
 
         except Exception as e:

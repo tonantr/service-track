@@ -22,7 +22,7 @@ class Menu:
     def get_username():
         username = input("\nEnter new username: ").strip()
         if not username:
-            print("Username cannot be empty.\n")
+            print("\nUsername cannot be empty.\n")
             return None
         return username
 
@@ -30,7 +30,7 @@ class Menu:
     def get_email():
         email = input("Enter email: ").strip()
         if not email:
-            print("Error: Email cannot be empty.\n")
+            print("\nError: Email cannot be empty.\n")
             return None
         return email
 
@@ -43,7 +43,7 @@ class Menu:
         try:
             role = int(input("Enter role number: ").strip())
         except ValueError:
-            print("Invalid role number.\n")
+            print("\nInvalid role number.\n")
             return None
 
         if role == 1:
@@ -51,14 +51,14 @@ class Menu:
         elif role == 2:
             return "user"
         else:
-            print("Invalid role number.\n")
+            print("\nInvalid role number.\n")
             return None
 
     @staticmethod
     def get_name_car():
         name = input("\nEnter car name: ").strip()
         if not name:
-            print("Error: Name cannot be empty.\n")
+            print("\nError: Name cannot be empty.\n")
             return None
         return name
 
@@ -66,7 +66,7 @@ class Menu:
     def get_model_car():
         model = input("Enter car model: ").strip()
         if not model:
-            print("Error: Model cannot be empty.\n")
+            print("\nError: Model cannot be empty.\n")
             return None
         return model
 
@@ -75,18 +75,27 @@ class Menu:
         while True:
             year = input("Enter car year (YYYY): ").strip()
             if not year.isdigit():
-                print("Error: Year must be a number.\n")
+                print("\nError: Year must be a number.\n")
                 continue
             if len(year) != 4:
-                print("Error: Year must have 4 digits.\n")
+                print("\nError: Year must have 4 digits.\n")
                 continue
             return year
+
+    @staticmethod
+    def get_vin_car():
+        vin = input("Enter car vin: ").strip()
+        if not vin or len(vin) != 17:
+            print("\nError: VIN must be exactly 17 characters.\n")
+            return None
+        
+        return vin
 
     @staticmethod
     def get_service_type():
         service_type = input("\nEnter service type: ").strip()
         if not service_type:
-            print("Error: Service type cannot be empty.\n")
+            print("\nError: Service type cannot be empty.\n")
             return None
         return service_type
 
@@ -94,7 +103,7 @@ class Menu:
     def get_service_date():
         service_date = input("Enter service date (YYYY-MM-DD): ").strip()
         if not service_date:
-            print("Error: Service date cannot be empty.\n")
+            print("\nError: Service date cannot be empty.\n")
             return None
         return service_date
 
@@ -109,7 +118,7 @@ class Menu:
     def get_notes():
         notes = input("Enter notes: ").strip()
         if not notes:
-            print("Error: Notes cannot be empty.\n")
+            print("\nError: Notes cannot be empty.\n")
             return None
         return notes
 
