@@ -1,23 +1,23 @@
 {
-    "windows": {
+    "server_windows": {
         "host": "192.168.2.16",
         "user": "root",
         "password": "P@ssw0rd123",
         "database": "service_track"
     },
-    "macos": {
+    "server_mac": {
         "host": "192.168.2.234",
         "user": "root",
         "password": "P@ssw0rd123",
         "database": "service_track"
     },
-    "local": {
+    "local_mac": {
         "host": "localhost",
         "user":"root",
         "password": "P@ssw0rd123",
         "database": "service_track"
     },
-    "local2": {
+    "local_wsl2": {
         "host": "172.18.112.1",
         "user": "root",
         "password": "P@ssw0rd123",
