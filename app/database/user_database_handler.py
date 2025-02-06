@@ -31,7 +31,7 @@ class UserDatabaseHandler(DatabaseHandler):
 
     def load_cars(self, userid):
         query = """
-        SELECT car_id, user_id, name, model, year 
+        SELECT car_id, user_id, name, model, year, vin 
         FROM cars 
         WHERE user_id = %s
         """

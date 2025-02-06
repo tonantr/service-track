@@ -51,7 +51,8 @@ class AdminDatabaseHandler(DatabaseHandler):
             c.car_id, 
             c.name, 
             c.model, 
-            c.year, 
+            c.year,
+            c.vin, 
             u.username AS owner,
             IFNULL(GROUP_CONCAT(DISTINCT s.service_type ORDER BY s.service_date SEPARATOR ', '), 'No services') AS services
         FROM cars c

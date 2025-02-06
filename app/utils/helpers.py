@@ -19,14 +19,15 @@ def load_user_and_cars(db_handler, username):
         return user, None
     else:
         print("\n*** List of Cars ***\n")
-        print(f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10}")
-        print("-" * 55)
+        print(f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10} {'VIN':<20}")
+        print("-" * 80)
         for car in cars:
             car_id = str(car["car_id"])
             name = str(car["name"])
             model = str(car["model"])
             year = str(car["year"])
-            print(f"{car_id:<5} {name:<20} {model:<20} {year:<10}")
+            vin = str(car["vin"])
+            print(f"{car_id:<5} {name:<20} {model:<20} {year:<10} {vin:<20}")
         print()
 
         return user, cars
