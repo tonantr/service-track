@@ -17,10 +17,10 @@ class ConsoleApp:
     def __init__(self):
         if getattr(sys, "_MEIPASS", False):
             base_path = sys._MEIPASS
-            env_file_path = os.path.join(base_path, ".env")  
+            env_file_path = os.path.join(base_path, ".env")
         else:
             base_path = os.path.dirname(__file__)
-            env_file_path = os.path.join(base_path, "../.env") 
+            env_file_path = os.path.join(base_path, "../.env")
 
         load_dotenv(env_file_path)
 
