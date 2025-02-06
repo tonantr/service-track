@@ -1,6 +1,6 @@
-import json
 import os
 import sys
+from dotenv import load_dotenv
 from app.actions.admin_actions import AdminActions
 from app.actions.user_actions import UserActions
 from app.database.user_database_handler import UserDatabaseHandler
@@ -14,34 +14,28 @@ from app.menu.user_menu import UserMenu
 
 
 class ConsoleApp:
-    def __init__(self, target_server="server_windows", config_path=None):
+    def __init__(self):
         if getattr(sys, "_MEIPASS", False):
             base_path = sys._MEIPASS
-            config_file_path = os.path.join(base_path, "config.json")
+            env_file_path = os.path.join(base_path, ".env")  
         else:
             base_path = os.path.dirname(__file__)
-            config_file_path = os.path.join(base_path, "../config.json")
+            env_file_path = os.path.join(base_path, "../.env") 
 
-        self.config_path = config_path or os.getenv(
-            "CAR_SERVICE_CONFIG", config_file_path
-        )
+        load_dotenv(env_file_path)
 
-        self.config = self.load_config()
-
-        if target_server not in self.config:
-            raise ValueError("Invalid target server.")
-
-        db_config = self.config[target_server]
-
-        db_params = {
-            "host": db_config["host"],
-            "user": db_config["user"],
-            "password": db_config["password"],
-            "database": db_config["database"],
+        db_config = {
+            "host": os.getenv("MYSQL_HOST_WINDOWS"),
+            "user": os.getenv("MYSQL_USER"),
+            "password": os.getenv("MYSQL_PASSWORD"),
+            "database": os.getenv("MYSQL_DATABASE"),
         }
 
-        self.user_db_handler = UserDatabaseHandler(**db_params)
-        self.admin_db_handler = AdminDatabaseHandler(**db_params)
+        if not all(db_config.values()):
+            raise ValueError("Missing database configuration in environment variables.")
+
+        self.user_db_handler = UserDatabaseHandler(**db_config)
+        self.admin_db_handler = AdminDatabaseHandler(**db_config)
 
         # self.login_module = LoginModule(FileHandler())
 
@@ -55,17 +49,6 @@ class ConsoleApp:
         self.user_menu = None
         self.user_actions = None
         self.user_details = None
-
-    def load_config(self):
-        try:
-            with open(self.config_path, "r") as file:
-                return json.load(file)
-        except FileNotFoundError:
-            raise FileNotFoundError(f"Configuration file not found: {self.config_path}")
-        except json.JSONDecodeError:
-            raise ValueError(
-                f"Invalid JSON format in configuration file: {self.config_path}"
-            )
 
     def run(self):
         print("*** SERVICE TRACK ***\n")

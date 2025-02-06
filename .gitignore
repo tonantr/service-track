@@ -9,3 +9,6 @@
 # Ignore Python bytecode
 *.pyc
 __pycache__/
+
+# .gitignore
+.env
