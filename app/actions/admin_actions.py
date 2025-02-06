@@ -212,7 +212,7 @@ class AdminActions:
             print(
                 f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10} {'Owner':<20} {'Services':<30}"
             )
-            print("-" * 125)
+            print("-" * 120)
 
             for car in cars:
                 car_id = str(car["car_id"])
