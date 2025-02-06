@@ -210,7 +210,7 @@ class AdminActions:
                 return
 
             print(
-                f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10} {'Owner':<20} {'Services':<50}"
+                f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10} {'Owner':<20} {'Services':<30}"
             )
             print("-" * 125)
 
@@ -222,10 +222,10 @@ class AdminActions:
                 owner = str(car["owner"])
                 services = str(car["services"])
 
-                services = services[:50] + "..." if len(services) > 50 else services
+                services = services[:30] + "..." if len(services) > 30 else services
 
                 print(
-                    f"{car_id:<5} {name:<20} {model:<20} {year:<10} {owner:<20} {services:<50}"
+                    f"{car_id:<5} {name:<20} {model:<20} {year:<10} {owner:<20} {services:<30}"
                 )
 
             print()

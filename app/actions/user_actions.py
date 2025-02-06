@@ -38,10 +38,9 @@ class UserActions:
                 return
 
             print("\n*** User Details ***\n")
-            print(f"Username: {user['username']}")
-            print(f"Password: [Hidden] (Stored securely)")
-            print(f"Email: {user['email']} (📋 Copyable)")
-            print(f"Role: {user['role']}\n")
+            print(f"Username: {user.get('username', 'Not available')}")
+            print(f"Email: {user.get('email', 'Not available')}")
+            print(f"Role: {user.get('role', 'Not available')}\n")
 
             input(PRESS_ENTER_TO_GO_BACK)
         except Exception as e:
