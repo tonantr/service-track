@@ -11,7 +11,7 @@ logging.basicConfig(
 
 class DatabaseHandler:
     def __init__(
-        self, host="localhost", user="root", password="", database="service_track"
+        self, host="MYSQL_HOST_LOCAL_MAC", user="user", password="", database="service_track"
     ):
         self.host = host
         self.user = user
