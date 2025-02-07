@@ -693,45 +693,7 @@ class AdminActions:
             if not vin:
                 return
 
-            car = get_car_by_vin(self.db_handler, vin)
-
-            if car:
-                user_input = input("\nPress Enter to view services or type 'back': ")
-                if user_input == "back":
-                    return
-
-                services = self.db_handler.load_services_by_car_id(car["car_id"])
-
-                if not services:
-                    print(ERROR_NO_SERVICES_FOUND)
-                else:
-                    print("\n*** Service History ***\n")
-                    print(
-                        f"{'ID':<5} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<30}"
-                    )
-                    print("-" * 110)
-                    for service in services:
-                        ID = service["service_id"]
-                        service_type = str(service.get("service_type", "")).strip()
-                        service_date = str(service.get("service_date", "")).strip()
-                        next_service_date = str(
-                            service.get("next_service_date", "")
-                        ).strip()
-                        notes = str(service.get("notes", "")).strip()
-
-                        service_type = (
-                            service_type[:27] + "..."
-                            if len(service_type) > 30
-                            else service_type
-                        )
-                        notes = notes[:27] + "..." if len(notes) > 30 else notes
-                        print(
-                            f"{ID:<5} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<30}"
-                        )
-
-                    print("\n*** FOR FULL DETAILS, EXPORT TO A CSV FILE! ***\n")
-
-            input(PRESS_ENTER_TO_GO_BACK)
+            get_car_by_vin(self.db_handler, vin)
 
         except Exception as e:
             logging.error("Error in vehicle_lookup: %s", str(e))

@@ -9,13 +9,13 @@ from app.utils.constants import (
     ERROR_USER_NOT_FOUND,
     PRESS_ENTER_TO_GO_BACK,
     ERROR_NO_SERVICES_FOUND,
-    ERROR_SERVICE_NOT_FOUND,
 )
 from app.utils.helpers import (
     load_user_and_cars,
     select_car_by_id,
     get_selected_service,
     get_downloads_folder,
+    get_car_by_vin
 )
 
 logging.basicConfig(
@@ -549,3 +549,21 @@ class UserActions:
         except Exception as e:
             logging.error("Error in export_to_csv: %s", str(e))
             print("\nAn error occurred while exporting to CSV.")
+
+    def vehicle_lookup(self):
+        try:
+            print("\n*** Vehicle Lookup  ***\n")
+            vin = Menu.get_vin_car()
+            if not vin:
+                return
+
+            user = self.db_handler.load_user(self.username)
+            if not user:
+                print(ERROR_USER_NOT_FOUND)
+                return
+
+            get_car_by_vin(self.db_handler, vin, user["user_id"])
+
+        except Exception as e:
+            logging.error("Error in vehicle_lookup: %s", str(e))
+            print("\nAn error occurred while looking up the vehicle.")

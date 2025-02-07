@@ -37,6 +37,10 @@ class UserDatabaseHandler(DatabaseHandler):
         """
         return self.execute_query(query, (userid,))
 
+    def load_user_car_by_vin(self, user_id, vin):
+        query = "SELECT car_id, name, model, year FROM cars WHERE vin = %s AND user_id = %s"
+        return self.fetch_one(query, (vin, user_id))
+
     def add_car(self, name, model, year, vin, user_id):
         query = "INSERT INTO cars (name, model, year, vin, user_id) VALUES (%s, %s, %s, %s, %s)"
         self.execute_commit(query, (name, model, year, vin, user_id))
@@ -84,6 +88,10 @@ class UserDatabaseHandler(DatabaseHandler):
             WHERE s.car_id = %s
             ORDER BY s.service_date ASC, s.next_service_date ASC;
         """
+        return self.execute_query(query, (car_id,))
+
+    def load_services_by_car_id(self, car_id):
+        query = "SELECT service_id, service_type, service_date, next_service_date, notes FROM services WHERE car_id = %s"
         return self.execute_query(query, (car_id,))
 
     def add_service(
