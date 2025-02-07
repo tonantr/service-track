@@ -84,7 +84,9 @@ class Menu:
 
     @staticmethod
     def get_vin_car():
-        vin = input("Enter car vin: ").strip()
+        vin = input("Enter the VIN to look up (or type 'exit'): ").strip()
+        if vin.lower() == "exit":
+            return
         if not vin or len(vin) != 17:
             print("\nError: VIN must be exactly 17 characters.\n")
             return None

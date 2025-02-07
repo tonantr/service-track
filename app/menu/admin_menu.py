@@ -17,7 +17,8 @@ class AdminMenu:
             "2": "Car Management",
             "3": "Service Management",
             "4": "Export Data",
-            "5": "Logout\n",
+            "5": "Vehicle Lookup",
+            "6": "Logout\n",
         }
         self.COMMON_OPTIONS = {
             "1": "List",
@@ -47,6 +48,8 @@ class AdminMenu:
             elif choice == "4":
                 self.export_data()
             elif choice == "5":
+                self.display_vehicle_lookup_menu()
+            elif choice == "6":
                 return "logout"
 
     def display_user_management_menu(self):
@@ -133,3 +136,6 @@ class AdminMenu:
                 return
             else:
                 Menu.handle_invalid_input()
+
+    def display_vehicle_lookup_menu(self):
+        self.admin_actions.vehicle_lookup()

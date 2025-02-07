@@ -5,32 +5,38 @@ from app.utils.constants import (
     ERROR_SERVICE_NOT_FOUND,
 )
 import os
+import requests
 
 
 def load_user_and_cars(db_handler, username):
-    user = db_handler.load_user(username)
-    if not user:
-        print(ERROR_USER_NOT_FOUND)
+    try:
+        user = db_handler.load_user(username)
+        if not user:
+            print(ERROR_USER_NOT_FOUND)
+            return None, None
+
+        cars = db_handler.load_cars(user["user_id"])
+        if not cars:
+            print(ERROR_NO_CARS_FOUND)
+            return user, None
+        else:
+            print("\n*** List of Cars ***\n")
+            print(f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10} {'VIN':<20}")
+            print("-" * 80)
+            for car in cars:
+                car_id = str(car["car_id"])
+                name = str(car["name"])
+                model = str(car["model"])
+                year = str(car["year"])
+                vin = str(car["vin"])
+                print(f"{car_id:<5} {name:<20} {model:<20} {year:<10} {vin:<20}")
+            print()
+
+            return user, cars
+    except Exception as e:
+        print(f"\nError loading user or cars: {e}\n")
         return None, None
 
-    cars = db_handler.load_cars(user["user_id"])
-    if not cars:
-        print(ERROR_NO_CARS_FOUND)
-        return user, None
-    else:
-        print("\n*** List of Cars ***\n")
-        print(f"{'ID':<5} {'Name':<20} {'Model':<20} {'Year':<10} {'VIN':<20}")
-        print("-" * 80)
-        for car in cars:
-            car_id = str(car["car_id"])
-            name = str(car["name"])
-            model = str(car["model"])
-            year = str(car["year"])
-            vin = str(car["vin"])
-            print(f"{car_id:<5} {name:<20} {model:<20} {year:<10} {vin:<20}")
-        print()
-
-        return user, cars
 
 def select_car_by_id(cars):
     car_id = input("Enter the ID of the car: ").strip()
@@ -44,6 +50,7 @@ def select_car_by_id(cars):
 
     print(ERROR_CAR_NOT_FOUND)
     return None
+
 
 def get_selected_service(services):
     print("\n*** Services for Selected Car ***\n")
@@ -86,8 +93,29 @@ def get_selected_service(services):
 
     return selected_service
 
+
 def get_downloads_folder():
-        if os.name == "nt":  # Windows
-            return os.path.join(os.environ["USERPROFILE"], "Downloads")
-        else:  # macOS/Linux
-            return os.path.join(os.path.expanduser("~"), "Downloads")
+    if os.name == "nt":  # Windows
+        return os.path.join(os.environ["USERPROFILE"], "Downloads")
+    else:  # macOS/Linux
+        return os.path.join(os.path.expanduser("~"), "Downloads")
+
+
+def get_car_by_vin(db_handler, vin):
+    try:
+        vin = vin.upper()
+        car = db_handler.load_cars_by_vin(vin)
+
+        if not car:
+            print(ERROR_CAR_NOT_FOUND)
+            return
+        
+        print(f"\nID: {car['car_id']}")
+        print(f"Name: {car['name']}")
+        print(f"Model: {car['model']}")
+        print(f"Year: {car['year']}")
+        print()
+        return car
+    except Exception as e:
+        print(f"\nError loading car: {e}\n")
+        return None
