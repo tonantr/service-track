@@ -24,18 +24,8 @@ class ConsoleApp:
 
         load_dotenv(env_file_path)
 
-        db_config = {
-            "host": os.getenv("MYSQL_HOST_WINDOWS"),
-            "user": os.getenv("MYSQL_USER"),
-            "password": os.getenv("MYSQL_PASSWORD"),
-            "database": os.getenv("MYSQL_DATABASE"),
-        }
-
-        if not all(db_config.values()):
-            raise ValueError("Missing database configuration in environment variables.")
-
-        self.user_db_handler = UserDatabaseHandler(**db_config)
-        self.admin_db_handler = AdminDatabaseHandler(**db_config)
+        self.user_db_handler = UserDatabaseHandler()
+        self.admin_db_handler = AdminDatabaseHandler()
 
         # self.login_module = LoginModule(FileHandler())
 

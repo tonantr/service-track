@@ -1,4 +1,5 @@
 import mysql.connector
+import os
 import logging
 from app.auth.password_hashing import hash_password
 
@@ -10,13 +11,11 @@ logging.basicConfig(
 
 
 class DatabaseHandler:
-    def __init__(
-        self, host="MYSQL_HOST_LOCAL_MAC", user="user", password="", database="service_track"
-    ):
-        self.host = host
-        self.user = user
-        self.password = password
-        self.database = database
+    def __init__(self, host=None, user=None, password=None, database=None):
+        self.host = host or os.getenv("MYSQL_HOST_WINDOWS")
+        self.user = user or os.getenv("MYSQL_USER")
+        self.password = password or os.getenv("MYSQL_PASSWORD")
+        self.database = database or os.getenv("MYSQL_DATABASE")
         self.connection = None
         self.cursor = None
 
