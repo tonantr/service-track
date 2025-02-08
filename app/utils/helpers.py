@@ -57,29 +57,33 @@ def select_car_by_id(cars):
 def get_selected_service(services):
     print("\n*** Services for Selected Car ***\n")
     print(
-        f"{'ID':<5} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<30}"
+        f"{'ID':<5} {'Mileage':<10} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Cost':<10} {'Notes':<30}"
     )
-    print("-" * 105)
+    print("-" * 130)
 
     service_dict = {}
 
     for service in services:
         service_id = service["service_id"]
+        mileage = str(service.get("mileage", "N/A")).strip()
         service_type = (
-            str(service["service_type"][:30] + "...")
-            if len(service["service_type"]) > 30
-            else str(service["service_type"])
+            str(service["service_type"][:27] + "...")
+            if service["service_type"] and len(service["service_type"]) > 30
+            else str(service["service_type"] or "N/A")
         )
-        service_date = str(service["service_date"]) or "N/A"
-        next_service_date = str(service["next_service_date"]) or "N/A"
+        service_date = str(service.get("service_date", "N/A"))
+        next_service_date = str(service.get("next_service_date", "N/A"))
+        cost = str(service.get("cost", "N/A"))
         notes = (
-            str(service["notes"][:30]) + "..."
-            if service["notes"] and len(service["notes"]) > 30
-            else str(service["notes"]) or "N/A"
+            str(service["notes"][:27]) + "..."
+            if service.get("notes") and len(service["notes"]) > 30
+            else str(service["notes"] or "N/A")
         )
+
         print(
-            f"{service_id:<5} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<30}"
+            f"{service_id:<5} {mileage:<10} {service_type:<30} {service_date:<20} {next_service_date:<20} {cost:<10} {notes:<30}"
         )
+
 
         service_dict[service_id] = service
 

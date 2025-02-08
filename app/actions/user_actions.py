@@ -404,54 +404,65 @@ class UserActions:
 
             while True:
                 print("\nWhich fields would you like to update?")
-                print("1. Service Type")
-                print("2. Service Date")
-                print("3. Next Service Date")
-                print("4. Notes")
-                print("5. Done (Save Changes)")
-                print("6. Cancel\n")
+                print("1. Mileage")
+                print("2. Service Type")
+                print("3. Service Date")
+                print("4. Next Service Date")
+                print("5. Cost")
+                print("6. Notes")
+                print("7. Done (Save Changes)")
+                print("8. Cancel\n")
 
                 choice = input("Enter your choice: ").strip()
 
                 if choice == "1":
+                    mileage = Menu.get_service_mileage()
+                    if mileage:
+                        updated_data["mileage"] = mileage
+
+                elif choice == "2":
                     service_type = Menu.get_service_type()
                     if service_type:
                         updated_data["service_type"] = service_type
-                    else:
-                        print("\nError: Service type cannot be empty.\n")
 
-                elif choice == "2":
+                elif choice == "3":
                     service_date = Menu.get_service_date()
                     if service_date and validate_date(service_date):
                         updated_data["service_date"] = service_date
                     else:
                         print("\nError: Invalid date format. Please use YYYY-MM-DD.\n")
 
-                elif choice == "3":
+                elif choice == "4":
                     next_service_date = Menu.get_next_service_date()
                     if next_service_date and validate_date(next_service_date):
                         updated_data["next_service_date"] = next_service_date
                     else:
                         print("\nError: Invalid date format. Please use YYYY-MM-DD.\n")
+                
+                elif choice == "5":
+                    cost = Menu.get_service_cost()
+                    if cost:
+                        updated_data["cost"] = cost
 
-                elif choice == "4":
+                elif choice == "6":
                     notes = Menu.get_notes()
                     if notes:
                         updated_data["notes"] = notes
 
-                elif choice == "5":
+                elif choice == "7":
                     if updated_data:
-                        if not Menu.confirm_action("update this service? (y/n): "):
+                        if not Menu.confirm_action("\nupdate this service? (y/n): "):
                             print("\nCancelled.\n")
                             return
                         self.db_handler.update_service(
                             selected_service["service_id"], **updated_data
                         )
+                        print("\nService updated successfully.\n")
                     else:
                         print("\nNo changes were made.\n")
                     return
 
-                elif choice == "6":
+                elif choice == "8":
                     print("\nCancelled.\n")
                     return
                 else:

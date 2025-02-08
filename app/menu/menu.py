@@ -20,7 +20,7 @@ class Menu:
 
     @staticmethod
     def get_username():
-        username = input("Enter new username: ").strip()
+        username = input("\nEnter new username: ").strip()
         if not username:
             print("\nUsername cannot be empty.\n")
             return None
@@ -56,7 +56,7 @@ class Menu:
 
     @staticmethod
     def get_name_car():
-        name = input("Enter car name: ").strip()
+        name = input("\nEnter car name: ").strip()
         if not name:
             print("\nError: Name cannot be empty.\n")
             return None
@@ -95,7 +95,7 @@ class Menu:
 
     @staticmethod
     def get_service_mileage():
-        service_mileage = input("Enter service mileage: ").strip()
+        service_mileage = input("\nEnter service mileage: ").strip()
             
         if not service_mileage:
             print("\nError: Service mileage cannot be empty.\n")

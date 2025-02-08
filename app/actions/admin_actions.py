@@ -529,18 +529,23 @@ class AdminActions:
                 return
             print("\n*** List of Services ***\n")
             print(
-                f"{'ID':<5} {'Car Name':<10} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<30}"
+                f"{'ID':<5} {'Mileage':<10} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Cost':<10} {'Notes':<30}"
             )
-            print("-" * 115)
+            print("-" * 130)
             for service in services:
                 service_id = str(service["service_id"])
-                car_name = str(service["car_name"])
-                service_type = str(service["service_type"][:30])
-                service_date = str(service["service_date"])
-                next_service_date = str(service["next_service_date"])
-                notes = str(service["notes"][:30])
+                mileage = str(service.get("mileage", "N/A")).strip()
+                service_type = str(service.get("service_type", "N/A")).strip()
+                service_date = str(service.get("service_date", "N/A")).strip()
+                next_service_date = str(service.get("next_service_date", "N/A")).strip()
+                cost = str(service.get("cost", "N/A")).strip()
+                notes = str(service.get("notes", "N/A")).strip()
+
+                service_type = service_type[:27] + "..." if len(service_type) > 30 else service_type
+                notes = notes[:27] + "..." if len(notes) > 30 else notes
+
                 print(
-                    f"{service_id:<5} {car_name:<10} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<30}"
+                    f"{service_id:<5} {mileage:<10} {service_type:<30} {service_date:<20} {next_service_date:<20} {cost:<10} {notes:<30}"
                 )
             service_id = input("\nEnter the ID of the service: ").strip()
             if not service_id.isdigit():
@@ -558,44 +563,74 @@ class AdminActions:
             print(
                 f"\nSelected Service: {selected_service['service_type']} (ID: {service_id})\n"
             )
-            print("Which fields would you like to update?\n")
-            print("1. Service Type")
-            print("2. Service Date")
-            print("3. Next Service Date")
-            print("4. Notes")
-            print("5. Cancel\n")
-            choice = input("Enter your choice: ").strip()
-            if choice == "1":
-                service_type = Menu.get_service_type()
-                if not service_type:
+
+            updated_data = {}
+
+            while True:
+                print("Which fields would you like to update?\n")
+                print("1. Mileage")
+                print("2. Service Type")
+                print("3. Service Date")
+                print("4. Next Service Date")
+                print("5. Cost")
+                print("6. Notes")
+                print("7. Done (Save Changes)")
+                print("8. Cancel\n")
+
+                choice = input("Enter your choice: ").strip()
+
+                if choice == "1":
+                    mileage = Menu.get_service_mileage()
+                    if mileage:
+                        updated_data["mileage"] = mileage
+
+                elif choice == "2":
+                    service_type = Menu.get_service_type()
+                    if service_type:
+                        updated_data["service_type"] = service_type
+
+                elif choice == "3":
+                    service_date = Menu.get_service_date()
+                    if service_date and validate_date(service_date):
+                        updated_data["service_date"] = service_date
+                    else:
+                        print("\nError: Invalid date format. Please use YYYY-MM-DD.\n")
+
+                elif choice == "4":
+                    next_service_date = Menu.get_next_service_date()
+                    if next_service_date and validate_date(next_service_date):
+                        updated_data["next_service_date"] = next_service_date
+                    else:
+                        print("\nError: Invalid date format. Please use YYYY-MM-DD.\n")
+
+                elif choice == "5":
+                    cost = Menu.get_service_cost()
+                    if cost:
+                        updated_data["cost"] = cost
+
+                elif choice == "6":
+                    notes = Menu.get_notes()
+                    if notes:
+                        updated_data["notes"] = notes
+
+                elif choice == "7":
+                    if updated_data:
+                        if not Menu.confirm_action("\nupdate this service? (y/n): "):
+                            print("\nCancelled.\n")
+                            return
+                        self.db_handler.update_service(
+                            selected_service["service_id"], **updated_data
+                        )
+                        print("\nService updated successfully.\n")
+                    else:
+                        print("\nNo changes were made.\n")
                     return
-                self.db_handler.update_service(service_id, service_type=service_type)
-                print("\nService type updated successfully.\n")
-            elif choice == "2":
-                service_date = Menu.get_service_date()
-                if not service_date:
+
+                elif choice == "8":
+                    print("\nCancelled.\n")
                     return
-                self.db_handler.update_service(service_id, service_date=service_date)
-                print("\nService Date updated successfully.\n")
-            elif choice == "3":
-                next_service_date = Menu.get_next_service_date()
-                if not next_service_date:
-                    return
-                self.db_handler.update_service(
-                    service_id, next_service_date=next_service_date
-                )
-                print("\nNext service date updated successfully.\n")
-            elif choice == "4":
-                notes = Menu.get_notes()
-                if not notes:
-                    return
-                self.db_handler.update_service(service_id, notes=notes)
-                print("\nNotes updated successfully.\n")
-            elif choice == "5":
-                print("\nCancelled.\n")
-                return
-            else:
-                print("\nError: Invalid choice.\n")
+                else:
+                    print("\nInvalid choice.\n")
 
         except Exception as e:
             logging.error("Error in update_service: %s", str(e))
