@@ -94,6 +94,21 @@ class Menu:
         return vin
 
     @staticmethod
+    def get_service_mileage():
+        while True:
+            service_mileage = input("\nEnter service mileage: ").strip()
+            
+            if not service_mileage:
+                print("\nError: Service mileage cannot be empty.\n")
+                continue
+            
+            if not service_mileage.isdigit():
+                print("\nError: Service mileage must be a positive number.\n")
+                continue
+        
+            return int(service_mileage)  
+
+    @staticmethod
     def get_service_type():
         service_type = input("\nEnter service type: ").strip()
         if not service_type:
@@ -115,6 +130,24 @@ class Menu:
         if not next_service_date:
             return None
         return next_service_date
+
+    @staticmethod
+    def get_service_cost():
+        while True:
+            service_cost = input("\nEnter service cost: ").strip()
+
+            if not service_cost:
+                print("\nError: Service cost cannot be empty.\n")
+                continue
+
+            try:
+                cost = float(service_cost)
+                if cost < 0:
+                    print("\nError: Service cost cannot be negative.\n")
+                    continue
+                return cost
+            except ValueError:
+                print("\nError: Please enter a valid number for service cost.\n")
 
     @staticmethod
     def get_notes():
