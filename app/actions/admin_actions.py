@@ -533,7 +533,7 @@ class AdminActions:
             )
             print("-" * 130)
             for service in services:
-                service_id = str(service["service_id"])
+                service_id = service["service_id"]
                 mileage = str(service.get("mileage", "N/A")).strip()
                 service_type = str(service.get("service_type", "N/A")).strip()
                 service_date = str(service.get("service_date", "N/A")).strip()

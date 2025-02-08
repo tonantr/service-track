@@ -84,7 +84,6 @@ def get_selected_service(services):
             f"{service_id:<5} {mileage:<10} {service_type:<30} {service_date:<20} {next_service_date:<20} {cost:<10} {notes:<30}"
         )
 
-
         service_dict[service_id] = service
 
     print()
