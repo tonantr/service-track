@@ -20,7 +20,7 @@ class Menu:
 
     @staticmethod
     def get_username():
-        username = input("\nEnter new username: ").strip()
+        username = input("Enter new username: ").strip()
         if not username:
             print("\nUsername cannot be empty.\n")
             return None
@@ -56,7 +56,7 @@ class Menu:
 
     @staticmethod
     def get_name_car():
-        name = input("\nEnter car name: ").strip()
+        name = input("Enter car name: ").strip()
         if not name:
             print("\nError: Name cannot be empty.\n")
             return None
@@ -148,7 +148,6 @@ class Menu:
             print("\nError: Service cost must be a valid number.\n")
             return None
            
-
     @staticmethod
     def get_notes():
         notes = input("Enter notes: ").strip()
