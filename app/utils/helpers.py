@@ -131,15 +131,17 @@ def get_car_by_vin(db_handler, vin, user_id=None):
         else:
             print("\n*** Service History ***\n")
             print(
-                f"{'ID':<5} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Notes':<30}"
+                f"{'ID':<10} {'Mileage':<10} {'Service Type':<30} {'Service Date':<20} {'Next Service Date':<20} {'Cost':<10} {'Notes':<30}"
             )
-            print("-" * 110)
+            print("-" * 140)
             for service in services:
-                ID = service["service_id"]
-                service_type = str(service.get("service_type", "")).strip()
-                service_date = str(service.get("service_date", "")).strip()
-                next_service_date = str(service.get("next_service_date", "")).strip()
-                notes = str(service.get("notes", "")).strip()
+                service_id = service["service_id"]
+                mileage = str(service.get("mileage", "N/A")).strip()
+                service_type = str(service.get("service_type", "N/A")).strip()
+                service_date = str(service.get("service_date", "N/A")).strip()
+                next_service_date = str(service.get("next_service_date", "N/A")).strip()
+                cost = str(service.get("cost", "N/A")).strip()
+                notes = str(service.get("notes", "N/A")).strip()
 
                 service_type = (
                     service_type[:27] + "..."
@@ -147,8 +149,9 @@ def get_car_by_vin(db_handler, vin, user_id=None):
                     else service_type
                 )
                 notes = notes[:27] + "..." if len(notes) > 30 else notes
+
                 print(
-                    f"{ID:<5} {service_type:<30} {service_date:<20} {next_service_date:<20} {notes:<30}"
+                    f"{service_id:<10} {mileage:<10} {service_type:<30} {service_date:<20} {next_service_date:<20} {cost:<10} {notes:<30}"
                 )
 
             print("\n*** FOR FULL DETAILS, EXPORT TO A CSV FILE! ***\n")

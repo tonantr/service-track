@@ -92,9 +92,11 @@ class AdminDatabaseHandler(DatabaseHandler):
         SELECT 
             s.service_id, 
             c.name AS car_name,
+            s.mileage,
             s.service_type, 
             s.service_date,
             s.next_service_date,
+            s.cost,
             s.notes
         FROM services s
         LEFT JOIN cars c ON s.car_id = c.car_id
@@ -103,7 +105,7 @@ class AdminDatabaseHandler(DatabaseHandler):
         return self.execute_query(query)
 
     def load_services_by_car_id(self, car_id):
-        query = "SELECT service_id, service_type, service_date, next_service_date, notes FROM services WHERE car_id = %s"
+        query = "SELECT service_id, mileage, service_type, service_date, next_service_date, cost, notes FROM services WHERE car_id = %s"
         return self.execute_query(query, (car_id,))
 
     def add_service(
