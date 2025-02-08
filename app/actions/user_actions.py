@@ -332,8 +332,12 @@ class UserActions:
                 return
 
             print(
-                f"\nSelected Car: {selected_car['name']} (ID: {selected_car['car_id']})"
+                f"\nSelected Car: {selected_car['name']} (ID: {selected_car['car_id']})\n"
             )
+
+            service_mileage = Menu.get_service_mileage()
+            if not service_mileage:
+                return
 
             service_type = Menu.get_service_type()
             if not service_type:
@@ -343,25 +347,26 @@ class UserActions:
             if not service_date:
                 return
             if not validate_date(service_date):
-                print("\nError: Invalid date format. Please use YYYY-MM-DD.\n")
+                print("\nError: Invalid date format.\n")
                 return
 
             next_service_date = Menu.get_next_service_date()
             if not validate_date(next_service_date):
-                print("\nError: Invalid date format. Please use YYYY-MM-DD.\n")
+                print("\nError: Invalid date format.\n")
+                return
+            
+            cost = Menu.get_service_cost()
+            if cost is None:
                 return
 
             notes = Menu.get_notes()
-            if not notes:
-                return
 
-            if not Menu.confirm_action("add this service? (y/n): "):
-                print("\nCancelled.\n")
-                return
             self.db_handler.add_service(
+                service_mileage=service_mileage,
                 service_type=service_type,
                 service_date=service_date,
                 next_service_date=next_service_date or None,
+                cost=cost,
                 notes=notes,
                 car_id=selected_car["car_id"],
             )

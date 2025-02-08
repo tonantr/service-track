@@ -95,22 +95,21 @@ class Menu:
 
     @staticmethod
     def get_service_mileage():
-        while True:
-            service_mileage = input("\nEnter service mileage: ").strip()
+        service_mileage = input("Enter service mileage: ").strip()
             
-            if not service_mileage:
-                print("\nError: Service mileage cannot be empty.\n")
-                continue
+        if not service_mileage:
+            print("\nError: Service mileage cannot be empty.\n")
+            return None
             
-            if not service_mileage.isdigit():
-                print("\nError: Service mileage must be a positive number.\n")
-                continue
+        if not service_mileage.isdigit():
+            print("\nError: Service mileage must be a positive number.\n")
+            return None
         
-            return int(service_mileage)  
+        return int(service_mileage)  
 
     @staticmethod
     def get_service_type():
-        service_type = input("\nEnter service type: ").strip()
+        service_type = input("Enter service type: ").strip()
         if not service_type:
             print("\nError: Service type cannot be empty.\n")
             return None
@@ -133,28 +132,26 @@ class Menu:
 
     @staticmethod
     def get_service_cost():
-        while True:
-            service_cost = input("\nEnter service cost: ").strip()
+        service_cost = input("Enter service cost: ").strip()
 
-            if not service_cost:
-                print("\nError: Service cost cannot be empty.\n")
-                continue
+        if not service_cost:
+            print("\nError: Service cost cannot be empty.\n")
+            return None
 
-            try:
-                cost = float(service_cost)
-                if cost < 0:
-                    print("\nError: Service cost cannot be negative.\n")
-                    continue
-                return cost
-            except ValueError:
-                print("\nError: Please enter a valid number for service cost.\n")
+        try:
+            cost = float(service_cost)
+            if cost < 0:
+                print("\nError: Service cost cannot be negative.\n")
+                return None
+            return cost
+        except ValueError:
+            print("\nError: Service cost must be a valid number.\n")
+            return None
+           
 
     @staticmethod
     def get_notes():
         notes = input("Enter notes: ").strip()
-        if not notes:
-            print("\nError: Notes cannot be empty.\n")
-            return None
         return notes
 
     @staticmethod

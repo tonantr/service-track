@@ -97,11 +97,11 @@ class UserDatabaseHandler(DatabaseHandler):
         return self.execute_query(query, (car_id,))
 
     def add_service(
-        self, service_type, service_date, notes, car_id, next_service_date=None
+        self, service_mileage, service_type, service_date, cost, notes, car_id, next_service_date=None
     ):
-        query = "INSERT INTO services (service_type, service_date, next_service_date, notes, car_id) VALUES (%s, %s, %s, %s, %s)"
+        query = "INSERT INTO services (mileage, service_type, service_date, next_service_date, cost, notes, car_id) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         self.execute_commit(
-            query, (service_type, service_date, next_service_date, notes, car_id)
+            query, (service_mileage, service_type, service_date, next_service_date, cost, notes, car_id)
         )
 
     def update_service(self, service_id, **kwargs):
