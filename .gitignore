@@ -10,5 +10,16 @@
 *.pyc
 __pycache__/
 
-# Ignore environment files
-.env
+# Ignore logs
+*.log
+logs/
+
+# Ignore virtual environment
+venv/
+.env/
+.envrc
+*.env
+
+# Ignore database files
+*.sqlite3
+*.db
